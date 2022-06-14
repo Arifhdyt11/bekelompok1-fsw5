@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Pasya/12042001",
+    "database": "binar_project",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Pasya/12042001",
+    "database": "binar_project",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Pasya/12042001",
+    "database": "binar_project",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
