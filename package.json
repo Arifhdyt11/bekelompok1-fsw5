@@ -6,11 +6,11 @@
   "scripts": {
     "start": "bin/www",
     "develop": "nodemon -q bin/www",
-    "db:create": "./node_modules/.bin/sequelize-cli db:create",
-    "db:drop": "./node_modules/.bin/sequelize-cli db:drop",
-    "db:migrate": "./node_modules/.bin/sequelize-cli db:migrate",
-    "db:rollback": "./node_modules/.bin/sequelize-cli db:migrate:undo",
-    "db:seed": "./node_modules/.bin/sequelize-cli db:seed:all"
+    "db:seed": "npm run _db -- db:seed:all",
+    "db:create": "npm run _db -- db:create",
+    "db:migrate": "npm run _db -- db:migrate",
+    "db:init": "./scripts/create_and_seed_db.sh",
+    "_db": "node ./node_modules/sequelize-cli/lib/sequelize"
   },
   "dependencies": {
     "dotenv": "^16.0.1",
