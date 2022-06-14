@@ -5,7 +5,7 @@ const apiRouter = express.Router();
 
 /**
  * TODO: Implement your own API
- *       implementations
+ *       implementations coba
  */
 apiRouter.get("/api/v1/posts", controllers.api.v1.postController.list);
 apiRouter.post("/api/v1/posts", controllers.api.v1.postController.create);
