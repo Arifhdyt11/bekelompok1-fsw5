@@ -1,11 +1,10 @@
 {
   "name": "bekelompok1-fsw5",
-  "version": "1.0.0",
-  "main": "app/index.js",
-  "license": "MIT",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "bin/www",
-    "develop": "nodemon -q bin/www",
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
     "db:seed": "npm run _db -- db:seed:all",
     "db:create": "npm run _db -- db:create",
     "db:migrate": "npm run _db -- db:migrate",
@@ -13,14 +12,16 @@
     "_db": "node ./node_modules/sequelize-cli/lib/sequelize"
   },
   "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
     "dotenv": "^16.0.1",
-    "express": "^4.17.3",
-    "morgan": "^1.10.0",
+    "express": "~4.16.1",
+    "gitignore": "^0.7.0",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
     "pg": "^8.7.3",
-    "sequelize": "^6.18.0",
+    "sequelize": "^6.20.1",
     "sequelize-cli": "^6.4.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
   }
 }
