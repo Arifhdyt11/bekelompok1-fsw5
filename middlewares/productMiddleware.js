@@ -38,4 +38,23 @@ module.exports = {
       });
     }
   },
+
+  async getByProductId(req, res, next) {
+    try {
+      const data = await productService.get(req.params.productId);
+      if (data !== null) {
+        next();
+      } else {
+        res.status(404).json({
+          status: false,
+          message: "Product not found",
+        });
+      }
+    } catch (error) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
 };

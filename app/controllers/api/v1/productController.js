@@ -21,7 +21,12 @@ module.exports = {
     try {
       // create car
       const data = await productService.create({
+        userId: req.body.userId,
+        categoryId: req.body.categoryId,
         name: req.body.name,
+        price: req.body.price,
+        description: req.body.description,
+        image: req.body.image,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
