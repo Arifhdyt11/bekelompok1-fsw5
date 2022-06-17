@@ -8,11 +8,13 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 // define routes file here
 const testRouter = require("./testRouter");
 const categoryRouter = require("./categoryRouter");
+const userRouter = require("./userRouter");
 
 /* ========= Main Routes ========= */
 // definisikan router yang akan anda buat disini
 router.use("/", testRouter);
 router.use("/api/v1/category", categoryRouter);
+router.use("/api/v1", userRouter);
 
 /* ========= Open API Routes ========= */
 // show open api format .json
