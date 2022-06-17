@@ -17,9 +17,17 @@ module.exports = {
     }
   },
 
-  async create(requestBody) {
+  async getProductByUser(userId, productId) {
     try {
-      return await wishlistRepository.create(requestBody);
+      return await wishlistRepository.findProductByUser(userId, productId);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async create(createArgs) {
+    try {
+      return await wishlistRepository.create(createArgs);
     } catch (err) {
       throw err;
     }

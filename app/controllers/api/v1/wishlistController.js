@@ -19,18 +19,9 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // validate product
-      const productId = await productService.get(req.body.productId);
-      if (productId === null) {
-        res.status(404).json({
-          status: false,
-          message: "Product not found",
-        });
-      }
-
       const data = await wishlistService.create({
         productId: req.body.productId,
-        userId: req.body.userId,
+        userId: req.user.id,
         createdAt: new Date(),
         updatedAt: new Date(),
       });

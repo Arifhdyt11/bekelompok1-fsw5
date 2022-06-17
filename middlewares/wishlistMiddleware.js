@@ -1,28 +1,9 @@
-const categoryService = require("../app/services/categoryService");
+const wishlistService = require("../app/services/wishlistService");
 
 module.exports = {
-  async nameValidate(req, res, next) {
-    try {
-      const data = await req.body.name;
-      if (data == null || data == "") {
-        res.status(400).json({
-          status: false,
-          message: "Name are required!",
-        });
-        return;
-      }
-      next();
-    } catch (err) {
-      res.status(400).json({
-        status: false,
-        message: err.message,
-      });
-    }
-  },
-
   async getById(req, res, next) {
     try {
-      const data = await categoryService.get(req.params.id);
+      const data = await wishlistService.get(req.params.id);
       if (data !== null) {
         next();
       } else {
@@ -35,6 +16,29 @@ module.exports = {
       res.status(400).json({
         status: false,
         message: err.message,
+      });
+    }
+  },
+
+  async getProductByUser(req, res, next) {
+    try {
+      const productId = await wishlistService.getProductByUser(
+        req.user.id,
+        req.body.productId
+      );
+
+      if (productId) {
+        res.status(422).json({
+          status: false,
+          message: "Product already in wishlist",
+        });
+      } else {
+        next();
+      }
+    } catch (error) {
+      res.status(400).json({
+        status: false,
+        message: error.message,
       });
     }
   },
