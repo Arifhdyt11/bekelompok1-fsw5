@@ -1,12 +1,12 @@
 const userService = require("../../../../services/userService");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
   async register(req, res) {
     try {
       // registrasi user
-      const hashPassword = await bcrypt.hashSync(req.body.password, 10)
+      const hashPassword = await bcrypt.hashSync(req.body.password, 10);
       const data = await userService.create({
         role: req.body.role,
         name: req.body.name,
@@ -23,7 +23,6 @@ module.exports = {
         message: "User successfully registered!",
         data: data,
       });
-
     } catch (err) {
       res.status(422).json({
         status: false,
@@ -35,33 +34,37 @@ module.exports = {
   async login(req, res) {
     try {
       // login user
-      const mail = req.body.email
+      const mail = req.body.email;
       const user = await userService.getByEmail(mail);
-      if(!user) return res.status(404).send({ message: "Email Not Found" })
+      if (!user) return res.status(404).send({ message: "Email Not Found" });
 
       const match = await bcrypt.compare(req.body.password, user.password);
-      if(!match) return res.status(400).json({ message: "Wrong Password" });
+      if (!match) return res.status(400).json({ message: "Wrong Password" });
 
       const id = user.id;
       const role = user.role;
       const name = user.name;
       const email = user.email;
-      const accessToken = jwt.sign({id, role, name, email}, process.env.ACCESS_TOKEN, {
-        expiresIn: '1h'
-      });
+      const accessToken = jwt.sign(
+        { id, role, name, email },
+        process.env.ACCESS_TOKEN || "secret",
+        {
+          expiresIn: "1h",
+        }
+      );
 
-      res.status(201).json({ 
+      res.status(201).json({
         status: true,
         message: "Login Success!",
-        accessToken: accessToken });
+        accessToken: accessToken,
+      });
     } catch (err) {
       res.status(404).json({
         status: false,
-        message: (err.message)
+        message: err.message,
       });
     }
   },
-
 };
 
 // async whoami(req, res) {

@@ -1,12 +1,12 @@
-const productService = require("../../../services/productService");
+const wishlistService = require("../../../services/wishlistService");
 
 module.exports = {
   async list(req, res) {
     try {
-      const data = await productService.list();
+      const data = await wishlistService.list();
       res.status(200).json({
         status: true,
-        message: "Show all data category successfully!",
+        message: "Show all data wishlist successfully!",
         data: data,
       });
     } catch (err) {
@@ -19,20 +19,15 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create car
-      const data = await productService.create({
-        userId: req.body.userId,
-        categoryId: req.body.categoryId,
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description,
-        image: req.body.image,
+      const data = await wishlistService.create({
+        productId: req.body.productId,
+        userId: req.user.id,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
       res.status(201).json({
         status: true,
-        message: "Product has been created!",
+        message: "Wishlist has been added!",
         data: data,
       });
     } catch (err) {
@@ -45,7 +40,7 @@ module.exports = {
 
   async show(req, res) {
     try {
-      const data = await productService.get(req.params.id);
+      const data = await wishlistService.get(req.params.id);
       if (data !== null) {
         res.status(200).json({
           status: true,
@@ -68,14 +63,14 @@ module.exports = {
 
   async update(req, res) {
     try {
-      await productService.update(req.params.id, req.body);
+      await wishlistService.update(req.params.id, req.body);
 
-      const data = await productService.get(req.params.id);
+      const data = await wishlistService.get(req.params.id);
 
       // get Log info
       res.status(200).json({
         status: true,
-        message: "Car has been updated!",
+        message: "Wishlist has been updated!",
         data: data,
       });
     } catch (err) {
@@ -88,10 +83,10 @@ module.exports = {
 
   async destroy(req, res) {
     try {
-      await productService.delete(req.params.id);
+      await wishlistService.delete(req.params.id);
       res.status(200).json({
         status: true,
-        message: "Car has been deleted!",
+        message: "Wishlist has been deleted!",
       });
     } catch (err) {
       res.status(422).json({
