@@ -70,7 +70,7 @@ module.exports = {
       // get Log info
       res.status(200).json({
         status: true,
-        message: "Car has been updated!",
+        message: "Category has been updated!",
         data: data,
       });
     } catch (err) {
@@ -86,7 +86,7 @@ module.exports = {
       await categoryService.delete(req.params.id);
       res.status(200).json({
         status: true,
-        message: "Car has been deleted!",
+        message: "Category has been deleted!",
       });
     } catch (err) {
       res.status(422).json({

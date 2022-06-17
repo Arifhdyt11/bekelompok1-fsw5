@@ -8,6 +8,7 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 // define routes file here
 const testRouter = require("./testRouter");
 const categoryRouter = require("./categoryRouter");
+const userRouter = require("./userRouter");
 const productRouter = require("./productRouter");
 const transactionRouter = require("./transactionRouter");
 
@@ -15,6 +16,7 @@ const transactionRouter = require("./transactionRouter");
 // definisikan router yang akan anda buat disini
 router.use("/", testRouter);
 router.use("/api/v1/category", categoryRouter);
+router.use("/api/v1", userRouter);
 router.use("/api/v1/product", productRouter);
 router.use("/api/v1/transaction", transactionRouter);
 
