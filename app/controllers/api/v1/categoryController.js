@@ -19,7 +19,7 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create car
+      // create category
       const data = await categoryService.create({
         name: req.body.name,
         createdAt: new Date(),
@@ -67,7 +67,6 @@ module.exports = {
 
       const data = await categoryService.get(req.params.id);
 
-      // get Log info
       res.status(200).json({
         status: true,
         message: "Category has been updated!",

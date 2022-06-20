@@ -6,7 +6,7 @@ module.exports = {
       const data = await productService.list();
       res.status(200).json({
         status: true,
-        message: "Show all data category successfully!",
+        message: "Show all data product successfully!",
         data: data,
       });
     } catch (err) {
@@ -19,7 +19,7 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create car
+      // create product
       const data = await productService.create({
         userId: req.body.userId,
         categoryId: req.body.categoryId,
@@ -72,10 +72,9 @@ module.exports = {
 
       const data = await productService.get(req.params.id);
 
-      // get Log info
       res.status(200).json({
         status: true,
-        message: "Car has been updated!",
+        message: "Product has been updated!",
         data: data,
       });
     } catch (err) {
@@ -91,7 +90,7 @@ module.exports = {
       await productService.delete(req.params.id);
       res.status(200).json({
         status: true,
-        message: "Car has been deleted!",
+        message: "Product has been deleted!",
       });
     } catch (err) {
       res.status(422).json({
