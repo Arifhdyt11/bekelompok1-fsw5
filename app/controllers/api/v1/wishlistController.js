@@ -84,7 +84,6 @@ module.exports = {
 
       const data = await wishlistService.get(req.params.id);
 
-      // get Log info
       res.status(200).json({
         status: true,
         message: "Wishlist has been updated!",

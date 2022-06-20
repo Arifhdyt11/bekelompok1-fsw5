@@ -11,6 +11,15 @@ module.exports = {
       },
     });
   },
+
+  findWhoami(accessToken) {
+    return User.findOne({
+      where: {
+        accessToken: accessToken,
+      },
+    });
+  },
+
   findByEmail(email){
     return User.findOne({
       where: {

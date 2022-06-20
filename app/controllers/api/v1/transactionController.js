@@ -1,4 +1,4 @@
-const transactionRepository = require("../../../services/transactionService.js");
+const transactionService = require("../../../services/transactionService.js");
 
 module.exports = {
   async list(req, res) {
@@ -6,7 +6,7 @@ module.exports = {
       const data = await transactionService.list();
       res.status(200).json({
         status: true,
-        message: "Show all data category successfully!",
+        message: "Show all data transaction successfully!",
         data: data,
       });
     } catch (err) {
@@ -27,7 +27,7 @@ module.exports = {
       });
       res.status(201).json({
         status: true,
-        message: "transaction has been created!",
+        message: "Transaction has been created!",
         data: data,
       });
     } catch (err) {
@@ -67,10 +67,9 @@ module.exports = {
 
       const data = await transactionService.get(req.params.id);
 
-      // get Log info
       res.status(200).json({
         status: true,
-        message: "Car has been updated!",
+        message: "Transaction has been updated!",
         data: data,
       });
     } catch (err) {
@@ -86,7 +85,7 @@ module.exports = {
       await transactionService.delete(req.params.id);
       res.status(200).json({
         status: true,
-        message: "Car has been deleted!",
+        message: "Transaction has been deleted!",
       });
     } catch (err) {
       res.status(422).json({
