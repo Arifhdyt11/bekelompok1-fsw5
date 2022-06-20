@@ -52,19 +52,6 @@ module.exports = {
           expiresIn: "1h",
         }
       );
-
-      await userService.update({
-        accessToken: accessToken
-      }, {
-          where: {
-              id: id
-          }
-      })
-      res.cookie('accessToken', accessToken, {
-          httpOnly: true,
-          maxAge: 24 * 60 * 60 * 1000,
-      })
-
       res.status(201).json({
         status: true,
         message: "Login Success!",
@@ -80,21 +67,17 @@ module.exports = {
 
   async whoami(req, res) {
     try {
-      const accessToken = req.cookies.accessToken
-      const data = await userService.getCurrentUser(accessToken);
+      const userTokenId = req.user.id
+      const data = await userService.getCurrentUser(userTokenId);
         res.status(200).json({
           status: true,
-          message: "Successfully find data",
-          data: [data],
+          message: "Successfully find data user",
+          data: data,
         });
-        res.status(404).json({
-          status: false,
-          message: "Data not found",
-        });
-    } catch (error) {
+    } catch (err) {
       res.status(422).json({
         status: false,
-        message: error.message,
+        message: err.message,
       });
     }
   },

@@ -35,6 +35,8 @@ module.exports = {
     }
   },
 
+  
+
   async isBuyyer(req, res, next) {
     try {
       // add token role
