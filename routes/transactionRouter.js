@@ -1,25 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const transactionController = require("../app/controllers/api/v1/transactionController");
-// const productMiddleware = require("../middlewares/getProductId");
 const transactionMiddleware = require("../middlewares/transactionMiddleware");
+const userMiddleware = require("../middlewares/userMiddleware");
 
-router.get("/", transactionController.list);
-router.get("/:id", transactionController.show);
+router.get("/", userMiddleware.authorize, transactionMiddleware.getByRole);
+// router.get("/:id", userMiddleware.authorize, transactionController.show);
 router.post(
   "/",
-  transactionMiddleware.nameValidate,
+  userMiddleware.authorize,
+  userMiddleware.isBuyyer,
+  transactionMiddleware.getProductByUser,
   transactionController.create
-);
-router.put(
-  "/:id",
-  transactionMiddleware.getById,
-  transactionMiddleware.nameValidate,
-  transactionController.update
 );
 router.delete(
   "/:id",
-  transactionMiddleware.getById,
+  userMiddleware.authorize,
+  userMiddleware.isBuyyer,
+  // transactionMiddleware.getById,
   transactionController.destroy
 );
 
