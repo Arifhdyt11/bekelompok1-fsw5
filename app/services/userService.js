@@ -1,3 +1,4 @@
+const { updateToken } = require("../repositories/userRepository");
 const userRepository = require("../repositories/userRepository");
 
 module.exports = {
@@ -20,6 +21,14 @@ module.exports = {
   async getByEmail(email) {
     try {
       return await userRepository.findByEmail(email);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getCurrentUser(accessToken) {
+    try {
+      return await userRepository.findWhoami(accessToken);
     } catch (err) {
       throw err;
     }

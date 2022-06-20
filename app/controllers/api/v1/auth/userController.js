@@ -53,6 +53,18 @@ module.exports = {
         }
       );
 
+      await userService.update({
+        accessToken: accessToken
+      }, {
+          where: {
+              id: id
+          }
+      })
+      res.cookie('accessToken', accessToken, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+      })
+
       res.status(201).json({
         status: true,
         message: "Login Success!",
@@ -65,59 +77,25 @@ module.exports = {
       });
     }
   },
+
+  async whoami(req, res) {
+    try {
+      const accessToken = req.cookies.accessToken
+      const data = await userService.getCurrentUser(accessToken);
+        res.status(200).json({
+          status: true,
+          message: "Successfully find data",
+          data: [data],
+        });
+        res.status(404).json({
+          status: false,
+          message: "Data not found",
+        });
+    } catch (error) {
+      res.status(422).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  },
 };
-
-// async whoami(req, res) {
-//   try {
-//     const data = await userService.list();
-//       res.status(200).json({
-//         status: true,
-//         message: "Successfully find data",
-//         data: data,
-//       });
-//       res.status(404).json({
-//         status: false,
-//         message: "Data not found",
-//       });
-//   } catch (error) {
-//     res.status(422).json({
-//       status: false,
-//       message: error.message,
-//     });
-//   }
-// },
-
-//   async update(req, res) {
-//     try {
-//       await userService.update(req.params.id, req.body);
-
-//       const data = await userService.get(req.params.id);
-
-//       // get Log info
-//       res.status(200).json({
-//         status: true,
-//         message: "Car has been updated!",
-//         data: data,
-//       });
-//     } catch (err) {
-//       res.status(422).json({
-//         status: false,
-//         message: err.message,
-//       });
-//     }
-//   },
-
-//   async destroy(req, res) {
-//     try {
-//       await categoryService.delete(req.params.id);
-//       res.status(200).json({
-//         status: true,
-//         message: "Car has been deleted!",
-//       });
-//     } catch (err) {
-//       res.status(422).json({
-//         status: false,
-//         message: err.message,
-//       });
-//     }
-//   },
