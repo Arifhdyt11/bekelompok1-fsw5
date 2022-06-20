@@ -3,8 +3,9 @@ const router = express.Router();
 const productController = require("../app/controllers/api/v1/productController");
 // const productMiddleware = require("../middlewares/getProductId");
 const productMiddleware = require("../middlewares/productMiddleware");
+const userMiddleware = require("../middlewares/userMiddleware");
 
-router.get("/", productController.list);
+router.get("/", userMiddleware.authorize, productController.list);
 router.get("/:id", productController.show);
 router.post("/", productMiddleware.nameValidate, productController.create);
 router.put(

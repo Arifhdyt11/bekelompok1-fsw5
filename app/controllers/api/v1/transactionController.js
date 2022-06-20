@@ -1,9 +1,26 @@
-const transactionService = require("../../../services/transactionService.js");
+const product = require("../../../models/product");
+const transactionService = require("../../../services/transactionService");
 
 module.exports = {
-  async list(req, res) {
+  async listByBuyer(req, res, buyerId) {
     try {
-      const data = await transactionService.list();
+      const data = await transactionService.getByBuyer(buyerId);
+      res.status(200).json({
+        status: true,
+        message: "Show all data transaction successfully!",
+        data: data,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
+  async listBySeller(req, res, sellerId) {
+    try {
+      const data = await transactionService.getBySeller(sellerId);
       res.status(200).json({
         status: true,
         message: "Show all data transaction successfully!",
@@ -19,15 +36,15 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create transaction
       const data = await transactionService.create({
-        name: req.body.name,
+        productId: req.body.productId,
+        userId: req.user.id,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
       res.status(201).json({
         status: true,
-        message: "Transaction has been created!",
+        message: "transaction has been added!",
         data: data,
       });
     } catch (err) {
@@ -69,7 +86,7 @@ module.exports = {
 
       res.status(200).json({
         status: true,
-        message: "Transaction has been updated!",
+        message: "Wishlist has been updated!",
         data: data,
       });
     } catch (err) {
@@ -85,7 +102,7 @@ module.exports = {
       await transactionService.delete(req.params.id);
       res.status(200).json({
         status: true,
-        message: "Transaction has been deleted!",
+        message: "transaction has been deleted!",
       });
     } catch (err) {
       res.status(422).json({

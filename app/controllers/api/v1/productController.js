@@ -1,9 +1,14 @@
 const productService = require("../../../services/productService");
+// const { User, Product } = require("../../../models");
 
 module.exports = {
   async list(req, res) {
+    // const tokenUser = req.user;
     try {
       const data = await productService.list();
+      // let data = await Product.findAll({ where: { userId: tokenUser.id } });
+      // data = JSON.parse(JSON.stringify(data));
+      // console.log(data);
       res.status(200).json({
         status: true,
         message: "Show all data product successfully!",

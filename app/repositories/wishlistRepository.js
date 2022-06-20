@@ -1,16 +1,43 @@
-const { Wishlist } = require("../models");
+const { Wishlist, Product } = require("../models");
 
 module.exports = {
-  findAll() {
-    return Wishlist.findAll();
+  findByBuyer(buyerId) {
+    try {
+      const data = Wishlist.findAll({
+        include: [{ model: Product }],
+        where: {
+          userId: buyerId,
+        },
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
   },
 
-  find(id) {
-    return Wishlist.findOne({
-      where: {
-        id: id,
-      },
-    });
+  findBySeller(sellerId) {
+    try {
+      const data = Wishlist.findAll({
+        include: [
+          {
+            model: Product,
+            as: "product",
+            where: {
+              userId: sellerId,
+            },
+          },
+        ],
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
   },
 
   findProductByUser(userId, productId) {
@@ -24,16 +51,16 @@ module.exports = {
 
       if (data) {
         return data;
-      } else {
-        return;
       }
     } catch (error) {
       return error;
     }
   },
+
   create(createArgs) {
     return Wishlist.create(createArgs);
   },
+
   update(id, updateArgs) {
     return Wishlist.update(updateArgs, {
       where: {

@@ -1,25 +1,33 @@
 const transactionRepository = require("../repositories/transactionRepository");
 
 module.exports = {
-  async list() {
+  async getByBuyer(buyerId) {
     try {
-      return await transactionRepository.findAll();
+      return await transactionRepository.findByBuyer(buyerId);
     } catch (err) {
       throw err;
     }
   },
 
-  async get(id) {
+  async getBySeller(sellerId) {
     try {
-      return await transactionRepository.find(id);
+      return await transactionRepository.findBySeller(sellerId);
     } catch (err) {
       throw err;
     }
   },
 
-  async create(requestBody) {
+  async getProductByUser(userId, productId) {
     try {
-      return await transactionRepository.create(requestBody);
+      return await transactionRepository.findProductByUser(userId, productId);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async create(createArgs) {
+    try {
+      return await transactionRepository.create(createArgs);
     } catch (err) {
       throw err;
     }
