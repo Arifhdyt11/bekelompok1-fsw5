@@ -13,7 +13,6 @@ module.exports = {
       );
 
       req.user = await userService.get(tokenPayload.id);
-
       if (!req.user) {
         res.status(401).json({
           status: false,
@@ -50,7 +49,6 @@ module.exports = {
         res.status(401).json({ message: "Anda bukan buyer" });
         return;
       }
-      req.role = req.user.role;
       next();
     } catch (error) {
       if (error.message.includes("jwt expired")) {
