@@ -34,9 +34,6 @@ module.exports = {
       phone: {
         type: Sequelize.STRING
       },
-      accessToken:{
-        type: Sequelize.TEXT
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
