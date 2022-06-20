@@ -28,21 +28,10 @@ module.exports = {
             where: {
               userId: sellerId,
             },
-            // through: { attributes: [] },
           },
         ],
-        // },
-        // include: [{ model: Product }],
-        // where: {
-        //   productId: {
-        //     userId: sellerId,
-        //   },
-        // },
       });
 
-      //     userId: sellerId,
-      //   },
-      // });
       if (data) {
         return data;
       }
