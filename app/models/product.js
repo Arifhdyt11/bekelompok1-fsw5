@@ -16,15 +16,17 @@ module.exports = (sequelize, DataTypes) => {
       
       this.belongsTo(models.User, { foreignKey: 'userId' })
       this.belongsTo(models.Category, { foreignKey: 'categoryId' })
+      this.belongsTo(models.Size, { foreignKey: 'sizeId' })
     }
   }
   Product.init({
     userId: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
+    sizeId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     price: DataTypes.STRING,
     description: DataTypes.TEXT,
-    image: DataTypes.STRING
+    image: DataTypes.ARRAY(DataTypes.STRING)
   }, {
     sequelize,
     modelName: 'Product',
