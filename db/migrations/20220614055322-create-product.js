@@ -24,6 +24,14 @@ module.exports = {
           key: 'id'
         }
       },
+      sizeId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Sizes',
+          key: 'id'
+        }
+      },
       name: {
         allowNull: false,
         type: Sequelize.STRING
@@ -36,7 +44,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
       createdAt: {
         allowNull: false,
