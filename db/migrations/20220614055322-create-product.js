@@ -24,14 +24,14 @@ module.exports = {
           key: 'id'
         }
       },
-      sizeId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Sizes',
-          key: 'id'
-        }
-      },
+      // sizeId: {
+      //   allowNull: false,
+      //   type: Sequelize.INTEGER,
+      //   references: {
+      //     model: 'Sizes',
+      //     key: 'id'
+      //   }
+      // },
       name: {
         allowNull: false,
         type: Sequelize.STRING
