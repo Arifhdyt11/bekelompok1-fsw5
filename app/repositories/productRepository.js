@@ -23,7 +23,7 @@ module.exports = {
       }
     } catch (error) {
       return error;
-    } 
+    }
   },
 
   findBySeller(sellerId) {
@@ -47,11 +47,31 @@ module.exports = {
   },
 
   find(id) {
-    return Product.findOne({
-      where: {
-        id: id,
-      },
+    try {
+      const data = Product.findOne({
+        include: [{ 
+          model: Category, 
+          attributes: ["name"] 
+        }, 
+        { 
+          model: User,
+          attributes: ["role", "name", "email", "city", "address", "phone"] 
+        },
+        {
+          model: Size,
+          attributes: ["size", "stock"]
+        }],
+        where: {
+          id: id,
+        }
     });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
   },
 
   create(createArgs) {
