@@ -1,8 +1,10 @@
-const { Product } = require("../models");
+const { Product, Size } = require("../models");
 
 module.exports = {
   findAll() {
-    return Product.findAll();
+    return Product.findAll({
+      include: [{ model: Size }],
+    });
   },
   find(id) {
     return Product.findOne({
