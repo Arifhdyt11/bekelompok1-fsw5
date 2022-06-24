@@ -12,6 +12,7 @@ const userRouter = require("./userRouter");
 const productRouter = require("./productRouter");
 const wishlistRouter = require("./wishlistRouter");
 const transactionRouter = require("./transactionRouter");
+const sizeRouter = require("./sizeRouter");
 
 /* ========= Main Routes ========= */
 // definisikan router yang akan anda buat disini
@@ -21,6 +22,7 @@ router.use("/api/v1", userRouter);
 router.use("/api/v1/product", productRouter);
 router.use("/api/v1/wishlist", wishlistRouter);
 router.use("/api/v1/transaction", transactionRouter);
+router.use("/api/v1/size", sizeRouter);
 
 /* ========= Open API Routes ========= */
 // show open api format .json

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Size.init(
     {
-      size: DataTypes.ARRAY(DataTypes.INTEGER),
+      size: DataTypes.ARRAY(DataTypes.STRING),
       stock: DataTypes.INTEGER,
     },
     {

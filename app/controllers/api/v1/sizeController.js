@@ -1,28 +1,12 @@
-const productService = require("../../../services/productService");
+const sizeService = require("../../../services/sizeService");
 
 module.exports = {
   async list(req, res) {
     try {
-      const data = await productService.list();
+      const data = await sizeService.list();
       res.status(200).json({
         status: true,
-        message: "Show all data product successfully!",
-        data: data,
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: false,
-        message: err.message,
-      });
-    }
-  },
-
-  async listSeller(req, res, sellerId) {
-    try {
-      const data = await productService.listBySeller(sellerId);
-      res.status(200).json({
-        status: true,
-        message: "Show all data product successfully!",
+        message: "Show all data size successfully!",
         data: data,
       });
     } catch (err) {
@@ -35,21 +19,16 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create product
-      const data = await productService.create({
-        userId: req.body.userId,
-        categoryId: req.body.categoryId,
-        sizeId: req.body.sizeId,
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description,
-        image: req.body.image,
+      // create category
+      const data = await sizeService.create({
+        size: req.body.size,
+        stock: req.body.stock,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
       res.status(201).json({
         status: true,
-        message: "Product has been created!",
+        message: "Size has been created!",
         data: data,
       });
     } catch (err) {
@@ -62,7 +41,7 @@ module.exports = {
 
   async show(req, res) {
     try {
-      const data = await productService.get(req.params.id);
+      const data = await sizeService.get(req.params.id);
       if (data !== null) {
         res.status(200).json({
           status: true,
@@ -85,13 +64,13 @@ module.exports = {
 
   async update(req, res) {
     try {
-      await productService.update(req.params.id, req.body);
+      await sizeService.update(req.params.id, req.body);
 
-      const data = await productService.get(req.params.id);
+      const data = await sizeService.get(req.params.id);
 
       res.status(200).json({
         status: true,
-        message: "Product has been updated!",
+        message: "Size has been updated!",
         data: data,
       });
     } catch (err) {
@@ -104,10 +83,10 @@ module.exports = {
 
   async destroy(req, res) {
     try {
-      await productService.delete(req.params.id);
+      await sizeService.delete(req.params.id);
       res.status(200).json({
         status: true,
-        message: "Product has been deleted!",
+        message: "Size has been deleted!",
       });
     } catch (err) {
       res.status(422).json({
