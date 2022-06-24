@@ -8,6 +8,7 @@
     "db:seed": "npm run _db -- db:seed:all",
     "db:create": "npm run _db -- db:create",
     "db:migrate": "npm run _db -- db:migrate",
+    "db:migrate:undo": "npm run _db -- db:migrate:undo:all",
     "db:init": "./scripts/create_and_seed_db.sh",
     "_db": "node ./node_modules/sequelize-cli/lib/sequelize"
   },
