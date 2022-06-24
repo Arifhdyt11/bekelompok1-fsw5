@@ -1,4 +1,4 @@
-const { Product, Category, User } = require("../models");
+const { Product, Category, User, Size } = require("../models");
 
 module.exports = {
   findAll() {
@@ -11,6 +11,10 @@ module.exports = {
         { 
           model: User,
           attributes: ["role", "name", "email", "city", "address", "phone"] 
+        },
+        {
+          model: Size,
+          attributes: ["size", "stock"]
         }],
     });
 
@@ -22,6 +26,26 @@ module.exports = {
     } 
   },
 
+  findBySeller(sellerId) {
+    try {
+      const data = Product.findAll({
+        include: [{
+          model: User,
+          attributes: ["role", "name", "email", "city", "address", "phone"],
+          where: {
+            id: sellerId,
+          },
+        }],
+      });
+        
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
   find(id) {
     return Product.findOne({
       where: {
@@ -29,7 +53,7 @@ module.exports = {
       },
     });
   },
-  
+
   create(createArgs) {
     return Product.create(createArgs);
   },

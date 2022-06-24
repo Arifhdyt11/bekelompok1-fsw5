@@ -9,6 +9,14 @@ module.exports = {
     }
   },
 
+  async listBySeller(sellerId) {
+    try {
+      return await productRepository.findBySeller(sellerId);
+    } catch (err) {
+      throw err;
+    }
+  },
+
   async get(id) {
     try {
       return await productRepository.find(id);

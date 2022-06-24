@@ -6,6 +6,7 @@ const productMiddleware = require("../middlewares/productMiddleware");
 // const userMiddleware = require("../middlewares/userMiddleware");
 
 router.get("/", productController.list);
+router.get("/seller", productController.listSeller);
 router.get("/:id", productController.show);
 router.post("/", productMiddleware.nameValidate, productController.create);
 router.put(
