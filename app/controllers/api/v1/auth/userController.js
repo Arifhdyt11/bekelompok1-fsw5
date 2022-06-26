@@ -15,6 +15,7 @@ module.exports = {
         city: req.body.city,
         address: req.body.address,
         phone: req.body.phone,
+        Image: req.body.Image,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -67,13 +68,13 @@ module.exports = {
 
   async whoami(req, res) {
     try {
-      const userTokenId = req.user.id
+      const userTokenId = req.user.id;
       const data = await userService.getCurrentUser(userTokenId);
-        res.status(200).json({
-          status: true,
-          message: "Successfully find data user",
-          data: data,
-        });
+      res.status(200).json({
+        status: true,
+        message: "Successfully find data user",
+        data: data,
+      });
     } catch (err) {
       res.status(422).json({
         status: false,

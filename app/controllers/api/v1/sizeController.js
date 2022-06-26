@@ -23,6 +23,7 @@ module.exports = {
       const data = await sizeService.create({
         size: req.body.size,
         stock: req.body.stock,
+        productId: req.body.productId,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
