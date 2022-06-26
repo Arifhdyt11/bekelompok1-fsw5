@@ -39,7 +39,6 @@ module.exports = {
       const data = await productService.create({
         userId: req.body.userId,
         categoryId: req.body.categoryId,
-        sizeId: req.body.sizeId,
         name: req.body.name,
         price: req.body.price,
         description: req.body.description,

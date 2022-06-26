@@ -9,17 +9,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Product, {
+      this.belongsTo(models.Size, {
         through: "WishlistProduct",
         as: "product",
-        foreignKey: "productId",
+        foreignKey: "sizeId",
       });
       this.belongsTo(models.User, { foreignKey: "userId" });
     }
   }
   Wishlist.init(
     {
-      productId: DataTypes.INTEGER,
+      sizeId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
     },
     {
