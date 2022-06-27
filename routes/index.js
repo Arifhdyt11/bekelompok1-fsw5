@@ -24,7 +24,7 @@ router.use("/api/v1/product", productRouter);
 router.use("/api/v1/wishlist", wishlistRouter);
 router.use("/api/v1/transaction", transactionRouter);
 router.use("/api/v1/size", sizeRouter);
-router.use("/login", google_oauth2);
+// router.use("/login", google_oauth2);
 
 /* ========= Open API Routes ========= */
 // show open api format .json
