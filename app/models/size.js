@@ -9,13 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Product, { foreignKey: "sizeId" });
+      this.belongsTo(models.Product, { foreignKey: "productId" });
     }
   }
   Size.init(
     {
-      size: DataTypes.ARRAY(DataTypes.STRING),
+      size: DataTypes.STRING,
       stock: DataTypes.INTEGER,
+      productId: DataTypes.INTEGER,
     },
     {
       sequelize,

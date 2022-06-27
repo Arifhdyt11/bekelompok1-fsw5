@@ -5,29 +5,21 @@ module.exports = {
     return User.findAll();
   },
 
-  find(id) {
+  findUser(id) {
     return User.findOne({
       where: {
         id: id,
       },
+      attributes: { exclude: ["password", "createdAt", "updatedAt"] },
     });
   },
 
-  findWhoami(id) {
-    return User.findOne({
-      where: {
-        id: id,
-      },
-      attributes: ['role', 'name', 'email', 'city', 'address', 'phone'],
-    });
-  },
-
-  findByEmail(email){
+  findByEmail(email) {
     return User.findOne({
       where: {
         email: email,
-      }
-    })
+      },
+    });
   },
 
   create(createArgs) {
@@ -39,14 +31,7 @@ module.exports = {
       where: {
         id,
       },
-    });
-  },
-  
-  delete(id) {
-    return User.destroy({
-      where: {
-        id,
-      },
+      individualHooks: true,
     });
   },
 };

@@ -13,6 +13,7 @@ const productRouter = require("./productRouter");
 const wishlistRouter = require("./wishlistRouter");
 const transactionRouter = require("./transactionRouter");
 const sizeRouter = require("./sizeRouter");
+const google_oauth2 = require("./google_oauth2");
 
 /* ========= Main Routes ========= */
 // definisikan router yang akan anda buat disini
@@ -23,6 +24,7 @@ router.use("/api/v1/product", productRouter);
 router.use("/api/v1/wishlist", wishlistRouter);
 router.use("/api/v1/transaction", transactionRouter);
 router.use("/api/v1/size", sizeRouter);
+// router.use("/login", google_oauth2);
 
 /* ========= Open API Routes ========= */
 // show open api format .json

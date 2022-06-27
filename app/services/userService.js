@@ -10,9 +10,9 @@ module.exports = {
     }
   },
 
-  async get(id) {
+  async getById(id) {
     try {
-      return await userRepository.find(id);
+      return await userRepository.findUser(id);
     } catch (err) {
       throw err;
     }
@@ -26,14 +26,6 @@ module.exports = {
     }
   },
 
-  async getCurrentUser(id) {
-    try {
-      return await userRepository.findWhoami(id);
-    } catch (err) {
-      throw err;
-    }
-  },
-
   async create(requestBody) {
     try {
       return await userRepository.create(requestBody);
@@ -42,17 +34,9 @@ module.exports = {
     }
   },
 
-  async update(id, requestBody) {
+  async updateCurrentUser(id, requestBody) {
     try {
       return await userRepository.update(id, requestBody);
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  async delete(id) {
-    try {
-      return await userRepository.delete(id);
     } catch (err) {
       throw err;
     }

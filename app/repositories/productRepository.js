@@ -4,19 +4,25 @@ module.exports = {
   findAll() {
     try {
       const data = Product.findAll({
-        include: [{ 
-          model: Category, 
-          attributes: ["name"] 
-        }, 
-        { 
-          model: User,
-          attributes: ["role", "name", "email", "city", "address", "phone"] 
-        },
-        {
-          model: Size,
-          attributes: ["size", "stock"]
-        }],
-    });
+        include: [
+          {
+            model: Category,
+            attributes: ["name"],
+          },
+          {
+            model: User,
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "email",
+              "city",
+              "address",
+              "phone",
+            ],
+          },
+        ],
+      });
 
       if (data) {
         return data;
@@ -29,15 +35,25 @@ module.exports = {
   findBySeller(sellerId) {
     try {
       const data = Product.findAll({
-        include: [{
-          model: User,
-          attributes: ["role", "name", "email", "city", "address", "phone"],
-          where: {
-            id: sellerId,
+        include: [
+          {
+            model: User,
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "email",
+              "city",
+              "address",
+              "phone",
+            ],
+            where: {
+              id: sellerId,
+            },
           },
-        }],
+        ],
       });
-        
+
       if (data) {
         return data;
       }
@@ -49,22 +65,24 @@ module.exports = {
   find(id) {
     try {
       const data = Product.findOne({
-        include: [{ 
-          model: Category, 
-          attributes: ["name"] 
-        }, 
-        { 
-          model: User,
-          attributes: ["role", "name", "email", "city", "address", "phone"] 
-        },
-        {
-          model: Size,
-          attributes: ["size", "stock"]
-        }],
+        include: [
+          {
+            model: Category,
+            attributes: ["name"],
+          },
+          {
+            model: User,
+            attributes: ["role", "name", "email", "city", "address", "phone"],
+          },
+          {
+            model: Size,
+            attributes: ["size", "stock"],
+          },
+        ],
         where: {
           id: id,
-        }
-    });
+        },
+      });
 
       if (data) {
         return data;
