@@ -28,7 +28,7 @@ module.exports = {
 
   async getCurrentUser(id) {
     try {
-      return await userRepository.findWhoami(id);
+      return await userRepository.findUser(id);
     } catch (err) {
       throw err;
     }
