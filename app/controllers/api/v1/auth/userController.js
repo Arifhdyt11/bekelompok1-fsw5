@@ -1,3 +1,4 @@
+require("dotenv").config();
 const userService = require("../../../../services/userService");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -5,23 +6,24 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   async register(req, res) {
     try {
-      // registrasi user
-      const hashPassword = await bcrypt.hashSync(req.body.password, 10);
-      const data = await userService.create({
-        role: req.body.role,
-        name: req.body.name,
-        email: req.body.email,
-        password: hashPassword,
-        city: req.body.city,
-        address: req.body.address,
-        phone: req.body.phone,
-        Image: req.body.Image,
+      const { name, email, password, role } = req.body;
+      const roleUpper = role.toUpperCase();
+      const hashedPassword = await bcrypt.hash(password, 10);
+      let data = await userService.create({
+        role: roleUpper,
+        name: name,
+        email: email,
+        password: hashedPassword,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+
+      let user = data;
+      delete user.password;
+
       res.status(201).json({
         status: true,
-        message: "User successfully registered!",
+        message: "User has been created!",
         data: data,
       });
     } catch (err) {
@@ -34,29 +36,35 @@ module.exports = {
 
   async login(req, res) {
     try {
-      // login user
-      const mail = req.body.email;
-      const user = await userService.getByEmail(mail);
-      if (!user) return res.status(404).send({ message: "Email Not Found" });
-
-      const match = await bcrypt.compare(req.body.password, user.password);
-      if (!match) return res.status(400).json({ message: "Wrong Password" });
-
-      const id = user.id;
-      const role = user.role;
-      const name = user.name;
-      const email = user.email;
-      const accessToken = jwt.sign(
-        { id, role, name, email },
-        process.env.ACCESS_TOKEN || "secret",
+      const user = await userService.getByEmail(req.body.email);
+      if (user === null) {
+        res.status(400).json({
+          status: false,
+          message: "Email is not registered!",
+        });
+      }
+      const isMatch = bcrypt.compareSync(req.body.password, user.password);
+      if (!isMatch) {
+        res.status(400).json({
+          status: false,
+          message: "Password is incorrect!",
+        });
+      }
+      const token = jwt.sign(
         {
-          expiresIn: "1h",
+          id: user.id,
+          email: user.email,
+          role: user.role,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: process.env.JWT_EXPIRES_TIME,
         }
       );
-      res.status(201).json({
+      res.status(200).json({
         status: true,
-        message: "Login Success!",
-        accessToken: accessToken,
+        message: "Login successfully!",
+        data: token,
       });
     } catch (err) {
       res.status(404).json({
@@ -66,13 +74,30 @@ module.exports = {
     }
   },
 
-  async whoami(req, res) {
+  async profile(req, res) {
     try {
       const userTokenId = req.user.id;
       const data = await userService.getCurrentUser(userTokenId);
       res.status(200).json({
         status: true,
         message: "Successfully find data user",
+        data: data,
+      });
+    } catch (err) {
+      res.status(422).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
+  async updateProfile(req, res) {
+    try {
+      const userTokenId = req.user.id;
+      const data = await userService.updateCurrentUser(userTokenId, req.body);
+      res.status(200).json({
+        status: true,
+        message: "Successfully update data user",
         data: data,
       });
     } catch (err) {

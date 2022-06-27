@@ -13,21 +13,21 @@ module.exports = {
     });
   },
 
-  findWhoami(id) {
+  findUser(id) {
     return User.findOne({
       where: {
         id: id,
       },
-      attributes: ['role', 'name', 'email', 'city', 'address', 'phone'],
+      attributes: { exclude: ["password", "createdAt", "updatedAt"] },
     });
   },
 
-  findByEmail(email){
+  findByEmail(email) {
     return User.findOne({
       where: {
         email: email,
-      }
-    })
+      },
+    });
   },
 
   create(createArgs) {
@@ -41,7 +41,7 @@ module.exports = {
       },
     });
   },
-  
+
   delete(id) {
     return User.destroy({
       where: {
