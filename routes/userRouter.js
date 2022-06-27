@@ -9,11 +9,18 @@ router.post(
   userMiddleware.validateEmailRegister,
   userController.register
 );
-router.get("/profile/:id", userMiddleware.authorize, userController.profile);
+router.get("/profile", userMiddleware.authorize, userController.profile);
 router.put(
-  "/profile/:id",
+  "/profile",
   userMiddleware.authorize,
+  userMiddleware.validateUpdate,
   userController.updateProfile
+);
+
+router.put(
+  "/change-password",
+  userMiddleware.authorize,
+  userController.changePassword
 );
 
 module.exports = router;

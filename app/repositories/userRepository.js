@@ -5,14 +5,6 @@ module.exports = {
     return User.findAll();
   },
 
-  find(id) {
-    return User.findOne({
-      where: {
-        id: id,
-      },
-    });
-  },
-
   findUser(id) {
     return User.findOne({
       where: {
@@ -39,14 +31,7 @@ module.exports = {
       where: {
         id,
       },
-    });
-  },
-
-  delete(id) {
-    return User.destroy({
-      where: {
-        id,
-      },
+      individualHooks: true,
     });
   },
 };

@@ -22,7 +22,24 @@ module.exports = {
     }
   },
 
-  // validate login email
+  async validateUpdate(req, res, next) {
+    try {
+      const { role, email } = req.body;
+      if (role || email) {
+        res.status(400).json({
+          status: false,
+          message: "You can't update role or email!",
+        });
+        return;
+      }
+      next();
+    } catch (error) {
+      res.status(400).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  },
 
   async authorize(req, res, next) {
     try {
@@ -33,7 +50,7 @@ module.exports = {
         process.env.JWT_SECRET || "secret"
       );
 
-      req.user = await userService.get(tokenPayload.id);
+      req.user = await userService.getById(tokenPayload.id);
       if (!req.user) {
         res.status(401).json({
           status: false,
