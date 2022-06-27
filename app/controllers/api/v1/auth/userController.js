@@ -2,29 +2,17 @@ require("dotenv").config();
 const userService = require("../../../../services/userService");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 module.exports = {
   async register(req, res) {
     try {
-      const { name, email, password, role } = req.body;
-      const roleUpper = role.toUpperCase();
-      const hashedPassword = await bcrypt.hash(password, 10);
-      let data = await userService.create({
-        role: roleUpper,
-        name: name,
-        email: email,
-        password: hashedPassword,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+      const newUser = await userService.create(req.body);
 
-      let user = data;
-      delete user.password;
+      const postedData = await userService.getById(newUser.id);
 
       res.status(201).json({
         status: true,
         message: "User has been created!",
-        data: data,
+        data: postedData,
       });
     } catch (err) {
       res.status(422).json({
@@ -42,14 +30,18 @@ module.exports = {
           status: false,
           message: "Email is not registered!",
         });
+        return;
       }
-      const isMatch = bcrypt.compareSync(req.body.password, user.password);
+
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
       if (!isMatch) {
         res.status(400).json({
           status: false,
           message: "Password is incorrect!",
         });
+        return;
       }
+
       const token = jwt.sign(
         {
           id: user.id,
@@ -77,7 +69,7 @@ module.exports = {
   async profile(req, res) {
     try {
       const userTokenId = req.user.id;
-      const data = await userService.getCurrentUser(userTokenId);
+      const data = await userService.getById(userTokenId);
       res.status(200).json({
         status: true,
         message: "Successfully find data user",
@@ -94,16 +86,46 @@ module.exports = {
   async updateProfile(req, res) {
     try {
       const userTokenId = req.user.id;
-      const data = await userService.updateCurrentUser(userTokenId, req.body);
+      await userService.updateCurrentUser(userTokenId, req.body);
+      const updatedData = await userService.getById(userTokenId);
+
       res.status(200).json({
         status: true,
         message: "Successfully update data user",
-        data: data,
+        data: updatedData,
       });
     } catch (err) {
       res.status(422).json({
         status: false,
         message: err.message,
+      });
+    }
+  },
+
+  async changePassword(req, res) {
+    try {
+      const userTokenEmail = req.user.email;
+      const userTokenId = req.user.id;
+      const user = await userService.getByEmail(userTokenEmail);
+
+      const isMatch = await bcrypt.compare(req.body.oldPassword, user.password);
+      if (!isMatch) {
+        res.status(400).json({
+          status: false,
+          message: "Password is incorrect!",
+        });
+        return;
+      }
+      await userService.updateCurrentUser(userTokenId, req.body);
+
+      res.status(200).json({
+        status: true,
+        message: "Successfully change password!",
+      });
+    } catch (error) {
+      res.status(422).json({
+        status: false,
+        message: error.message,
       });
     }
   },
