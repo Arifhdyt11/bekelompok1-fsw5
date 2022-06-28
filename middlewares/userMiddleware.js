@@ -80,7 +80,7 @@ module.exports = {
       const token = bearerToken.split("Bearer ")[1];
       const tokenPayload = jwt.verify(
         token,
-        process.env.ACCESS_TOKEN || "secret"
+        process.env.JWT_SECRET || "secret"
       );
       req.user = await userService.get(tokenPayload.id);
       if (!(req.user.role === "BUYER")) {
@@ -102,7 +102,7 @@ module.exports = {
       const token = bearerToken.split("Bearer ")[1];
       const tokenPayload = jwt.verify(
         token,
-        process.env.ACCESS_TOKEN || "secret"
+        process.env.JWT_SECRET || "secret"
       );
 
       const user = await userService.get(tokenPayload.id);

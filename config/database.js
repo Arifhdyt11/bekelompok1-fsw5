@@ -18,11 +18,10 @@ module.exports = {
     ssl: true,
   },
   production: {
-    username: "stvpyupniaoiec",
-    password:
-      "c67ea4246fb6bf1201d6d891ab30276539df8d1debc32333b52f6666c0273bf5",
-    database: "d7c2vo11n4der1",
-    host: "ec2-34-200-35-222.compute-1.amazonaws.com",
+    username: process.env.DB_USERNAME_PRODUCTION,
+    password: process.env.DB_PASSWORD_PRODUCTION,
+    database: process.env.DB_NAME_PRODUCTION,
+    host: process.env.DB_HOST_PRODUCTION,
     dialect: "postgres",
     dialectOptions: {
       ssl: {
