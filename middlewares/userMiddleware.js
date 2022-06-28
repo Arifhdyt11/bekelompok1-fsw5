@@ -58,7 +58,6 @@ module.exports = {
         });
         return;
       }
-
       next();
     } catch (error) {
       if (error.message.includes("jwt expired")) {
@@ -74,17 +73,19 @@ module.exports = {
 
   async isBuyyer(req, res, next) {
     try {
-      // add token role
       const bearerToken = req.headers.authorization;
-      console.log(bearerToken);
       const token = bearerToken.split("Bearer ")[1];
       const tokenPayload = jwt.verify(
         token,
-        process.env.ACCESS_TOKEN || "secret"
+        process.env.JWT_SECRET || "secret"
       );
-      req.user = await userService.get(tokenPayload.id);
+
+      req.user = await userService.getById(tokenPayload.id);
       if (!(req.user.role === "BUYER")) {
-        res.status(401).json({ message: "Anda bukan buyer" });
+        res.status(401).json({
+          status: false,
+          message: "Anda tidak punya akses (Unauthorized)",
+        });
         return;
       }
       next();
@@ -93,6 +94,10 @@ module.exports = {
         res.status(401).json({ message: "Token Expired" });
         return;
       }
+
+      res.status(401).json({
+        message: "Unauthorized",
+      });
     }
   },
 
@@ -102,12 +107,15 @@ module.exports = {
       const token = bearerToken.split("Bearer ")[1];
       const tokenPayload = jwt.verify(
         token,
-        process.env.ACCESS_TOKEN || "secret"
+        process.env.JWT_SECRET || "secret"
       );
 
-      const user = await userService.get(tokenPayload.id);
-      if (!(user.role === "SELLER")) {
-        res.status(401).json({ message: "Anda bukan seller" });
+      req.user = await userService.getById(tokenPayload.id);
+      if (!(req.user.role === "SELLER")) {
+        res.status(401).json({
+          status: false,
+          message: "Anda tidak punya akses (Unauthorized)",
+        });
         return;
       }
       next();
