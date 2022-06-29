@@ -32,9 +32,43 @@ module.exports = {
     }
   },
 
+  findById(id) {
+    try {
+      const data = Product.findOne({
+        include: [
+          {
+            model: Category,
+            attributes: ["name"],
+          },
+          {
+            model: User,
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "email",
+              "city",
+              "address",
+              "phone",
+            ],
+          },
+        ],
+        where: {
+          id: id,
+        },
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
   findBySeller(sellerId) {
     try {
-      const data = Product.findAll({
+      const data = Product.sellerId.findAll({
         include: [
           {
             model: User,
@@ -55,7 +89,7 @@ module.exports = {
       });
 
       if (data) {
-        return data;
+        return data.sellerId;
       }
     } catch (error) {
       return error;

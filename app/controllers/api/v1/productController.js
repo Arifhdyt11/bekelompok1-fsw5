@@ -1,6 +1,22 @@
 const productService = require("../../../services/productService");
 
 module.exports = {
+  async byId(req, res) {
+    try {
+      const data = await productService.list();
+      res.status(200).json({
+        status: true,
+        message: "Show all data product successfully!",
+        data: data,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
   async list(req, res) {
     try {
       const data = await productService.list();
