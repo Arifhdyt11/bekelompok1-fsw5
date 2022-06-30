@@ -4,69 +4,106 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const pass = "1234";
+    const pass = "password";
     const password = bcrypt.hashSync(pass, 10);
     const timestamp = new Date();
 
-    const userB = [
+    const sellerA = [
       {
-        name: "raihan",
-        email: "raihan@gmail.com",
+        role: "SELLER",
+        name: "SELLER A",
+        email: "seller1@binar.com",
         password,
-        role: "BUYER",
         city: "Medan",
         address: "jl.medan",
-        phone: "120931029",
+        phone: "8123456790",
+        image: "https://picsum.photos/200/300",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
     ];
-    const userA = [
+    const sellerB = [
       {
-        name: "Hasan",
-        email: "hafizhhasan@gmail.com",
+        role: "SELLER",
+        name: "SELLER B",
+        email: "seller2@binar.com",
         password,
-        role: "BUYER",
         city: "Jakarta",
         address: "jl.jakarta",
-        phone: "23982010",
+        phone: "8123456790",
+        image: "https://picsum.photos/200/300",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
     ];
 
-    const userS = [
+    const sellerC = [
       {
-        name: "iqbal",
-        email: "iqbal@gmail.com",
-        password,
         role: "SELLER",
+        name: "SELLER C",
+        email: "seller3@binar.com",
+        password,
         city: "Bandung",
         address: "jl.bandung",
-        phone: "8239230101",
+        phone: "8123456790",
+        image: "https://picsum.photos/200/300",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
     ];
 
-    const userC = [
+    const buyerA = [
       {
-        name: "azis",
-        email: "azis@gmail.com",
+        role: "BUYER",
+        name: "BUYER A",
+        email: "buyer1@binar.com",
         password,
-        role: "SELLER",
         city: "purwakarta",
         address: "jl.purwakarta",
-        phone: "8239230100",
+        phone: "8123456790",
+        image: "https://picsum.photos/200/300",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
     ];
 
-    await queryInterface.bulkInsert("Users", userB, {});
-    await queryInterface.bulkInsert("Users", userS, {});
-    await queryInterface.bulkInsert("Users", userA, {});
-    await queryInterface.bulkInsert("Users", userC, {});
+    const buyerB = [
+      {
+        role: "BUYER",
+        name: "BUYER B",
+        email: "buyer2@binar.com",
+        password,
+        city: "semarang",
+        address: "jl.semarang",
+        phone: "8123456790",
+        image: "https://picsum.photos/200/300",
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      },
+    ];
+
+    const buyerC = [
+      {
+        role: "BUYER",
+        name: "BUYER C",
+        email: "buyer3@binar.com",
+        password,
+        city: "surabaya",
+        address: "jl.surabaya",
+        phone: "8123456790",
+        image: "https://picsum.photos/200/300",
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      },
+    ];
+
+    await queryInterface.bulkInsert("Users", sellerA, {});
+    await queryInterface.bulkInsert("Users", sellerB, {});
+    await queryInterface.bulkInsert("Users", sellerC, {});
+
+    await queryInterface.bulkInsert("Users", buyerA, {});
+    await queryInterface.bulkInsert("Users", buyerB, {});
+    await queryInterface.bulkInsert("Users", buyerC, {});
   },
 
   async down(queryInterface, Sequelize) {
