@@ -7,10 +7,12 @@ module.exports = {
         include: [
           {
             model: Category,
+            as: "categories",
             attributes: ["name"],
           },
           {
             model: User,
+            as: "users",
             attributes: [
               "id",
               "role",
@@ -39,10 +41,12 @@ module.exports = {
         include: [
           {
             model: Category,
+            as: "categories",
             attributes: ["name"],
           },
           {
             model: User,
+            as: "users",
             attributes: [
               "id",
               "role",
@@ -73,6 +77,7 @@ module.exports = {
         include: [
           {
             model: User,
+            as: "users",
             attributes: [
               "id",
               "role",
@@ -103,14 +108,17 @@ module.exports = {
         include: [
           {
             model: Category,
+            as: "categories",
             attributes: ["name"],
           },
           {
             model: User,
+            as: "users",
             attributes: ["role", "name", "email", "city", "address", "phone"],
           },
           {
             model: Size,
+            as: "sizes",
             attributes: ["size", "stock"],
           },
         ],
