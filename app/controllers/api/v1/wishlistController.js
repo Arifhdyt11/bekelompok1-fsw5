@@ -21,14 +21,11 @@ module.exports = {
   async listByBuyer(req, res) {
     try {
       let data = await wishlistService.getByBuyer();
-      let dataJson = JSON.parse(data);
-      console.log(dataJson);
-        // res.status(200).json({
-        //   status: true,
-        //   message: "Show all data wishlist successfully!",
-        //   data: data,
-        // });
-
+        res.status(200).json({
+          status: true,
+          message: "Show all data wishlist successfully!",
+          data: data,
+        });
     } catch (err) {
       res.status(400).json({
         status: false,
