@@ -14,7 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         as: "size",
         foreignKey: "sizeId",
       });
-      this.belongsTo(models.User, { foreignKey: "userId" });
+      
+      this.belongsTo(models.User, {
+        through: "WishlistProduct",
+        as: "user",
+        foreignKey: "userId" 
+      });
     }
   }
   Wishlist.init(

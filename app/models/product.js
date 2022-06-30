@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       this.hasOne(models.Transaction, { foreignKey: "productId" });
       this.hasOne(models.Size, { foreignKey: "productId" });
 
-      this.belongsTo(models.User, { foreignKey: "userId" });
+      this.belongsTo(models.User, { 
+        through: "WishlistProduct",
+        as: "user",
+        foreignKey: "userId" 
+      });
+      
       this.belongsTo(models.Category, { foreignKey: "categoryId" });
     }
   }

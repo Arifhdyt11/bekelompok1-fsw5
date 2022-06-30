@@ -8,7 +8,25 @@ module.exports = {
   findByBuyer() {
     try {
       const data = Wishlist.findAll({
-        include: [{ model: Size }, { model: User },], 
+        include: [
+          { 
+            model: Size,
+            as: "size",
+            include: [
+              {
+                model: Product,
+                as: "product",
+              },
+            ],
+          }, 
+          { 
+            model: User,
+            as: "user",
+            where: {
+              role: "BUYER",
+            }
+          },
+        ],
       });
 
       if (data) {
@@ -19,7 +37,7 @@ module.exports = {
     }
   },
 
-  findBySeller(sellerId) {
+  findBySeller() {
     try {
       const data = Wishlist.findAll({
         include: [
@@ -29,9 +47,15 @@ module.exports = {
             include: [{ 
               model: Product, 
               as: "product", 
-              where: { 
-                userId: sellerId 
-              }
+              include: [
+                {
+                  model: User,
+                  as: "user",
+                  where: {
+                    role: "SELLER",
+                  }
+                },
+              ],
             }],
           },
         ],

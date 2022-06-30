@@ -42,25 +42,6 @@ const getBySeller = async (req, res, sellerId) => {
 };
 
 module.exports = {
-  // async getById(req, res, next) {
-  //   try {
-  //     const data = await wishlistService.get(req.params.id);
-  //     if (data !== null) {
-  //       next();
-  //     } else {
-  //       res.status(404).json({
-  //         status: false,
-  //         message: "Data not found",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     res.status(400).json({
-  //       status: false,
-  //       message: err.message,
-  //     });
-  //   }
-  // },
-
   async getProductByUser(req, res, next) {
     try {
       const sizeId = await wishlistService.getProductByUser(
