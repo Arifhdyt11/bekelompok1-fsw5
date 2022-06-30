@@ -19,7 +19,7 @@ module.exports = {
 
   async get(id) {
     try {
-      return await productRepository.find(id);
+      return await productRepository.findById(id);
     } catch (err) {
       throw err;
     }
