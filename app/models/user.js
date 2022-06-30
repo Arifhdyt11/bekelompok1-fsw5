@@ -32,11 +32,10 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
         beforeUpdate: async (user) => {
-          if (user.password !== null || user.password !== "") {
+          if (user.changed("password")) {
             const salt = await bcrypt.genSalt(10, "a");
             user.password = bcrypt.hashSync(user.password, salt);
           }
-          throw new Error("You can't update password in this section!");
         },
       },
     }
