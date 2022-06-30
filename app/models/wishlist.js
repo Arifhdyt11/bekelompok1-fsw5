@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.Size, {
         through: "WishlistProduct",
-        as: "product",
+        as: "size",
         foreignKey: "sizeId",
       });
       this.belongsTo(models.User, { foreignKey: "userId" });

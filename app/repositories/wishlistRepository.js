@@ -1,13 +1,14 @@
-const { Wishlist, Product } = require("../models");
+const { Wishlist, Size, User, Product } = require("../models");
 
 module.exports = {
-  findByBuyer(buyerId) {
+  findAll() {
+    return Wishlist.findAll();
+  },
+
+  findByBuyer() {
     try {
       const data = Wishlist.findAll({
-        include: [{ model: Product }],
-        where: {
-          userId: buyerId,
-        },
+        include: [{ model: Size }, { model: User },], 
       });
 
       if (data) {
@@ -23,11 +24,15 @@ module.exports = {
       const data = Wishlist.findAll({
         include: [
           {
-            model: Product,
-            as: "product",
-            where: {
-              userId: sellerId,
-            },
+            model: Size,
+            as: "size",
+            include: [{ 
+              model: Product, 
+              as: "product", 
+              where: { 
+                userId: sellerId 
+              }
+            }],
           },
         ],
       });

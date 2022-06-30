@@ -27,6 +27,7 @@ module.exports = {
       if (data) {
         return data;
       }
+      console.log(data);
     } catch (error) {
       return error;
     }
