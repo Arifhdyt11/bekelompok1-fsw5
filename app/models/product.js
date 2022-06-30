@@ -10,10 +10,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasOne(models.Transaction, { foreignKey: "productId" });
-      this.hasOne(models.Wishlist, { foreignKey: "productId" });
       this.hasOne(models.Size, { foreignKey: "productId" });
 
-      this.belongsTo(models.User, { foreignKey: "userId" });
+      this.belongsTo(models.User, { 
+        through: "WishlistProduct",
+        as: "user",
+        foreignKey: "userId" 
+      });
+      
       this.belongsTo(models.Category, { foreignKey: "categoryId" });
     }
   }

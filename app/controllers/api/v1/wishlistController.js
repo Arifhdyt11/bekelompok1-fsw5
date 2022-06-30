@@ -2,14 +2,30 @@ const product = require("../../../models/product");
 const wishlistService = require("../../../services/wishlistService");
 
 module.exports = {
-  async listByBuyer(req, res, buyerId) {
+  async list(req, res) {
     try {
-      const data = await wishlistService.getByBuyer(buyerId);
+      const data = await wishlistService.list();
       res.status(200).json({
         status: true,
         message: "Show all data wishlist successfully!",
         data: data,
       });
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
+  async listByBuyer(req, res) {
+    try {
+      let data = await wishlistService.getByBuyer();
+        res.status(200).json({
+          status: true,
+          message: "Show all data wishlist successfully!",
+          data: data,
+        });
     } catch (err) {
       res.status(400).json({
         status: false,
@@ -37,8 +53,8 @@ module.exports = {
   async create(req, res) {
     try {
       const data = await wishlistService.create({
-        productId: req.body.productId,
-        userId: req.user.id,
+        sizeId: req.body.sizeId,
+        userId: req.body.userId,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
