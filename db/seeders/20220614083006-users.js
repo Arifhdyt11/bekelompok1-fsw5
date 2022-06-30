@@ -49,9 +49,24 @@ module.exports = {
       },
     ];
 
+    const userC = [
+      {
+        name: "azis",
+        email: "azis@gmail.com",
+        password,
+        role: "SELLER",
+        city: "purwakarta",
+        address: "jl.purwakarta",
+        phone: "8239230100",
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      },
+    ];
+
     await queryInterface.bulkInsert("Users", userB, {});
     await queryInterface.bulkInsert("Users", userS, {});
     await queryInterface.bulkInsert("Users", userA, {});
+    await queryInterface.bulkInsert("Users", userC, {});
   },
 
   async down(queryInterface, Sequelize) {
