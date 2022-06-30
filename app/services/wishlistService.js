@@ -1,9 +1,17 @@
 const wishlistRepository = require("../repositories/wishlistRepository");
 
 module.exports = {
-  async getByBuyer(buyerId) {
+  async list() {
     try {
-      return await wishlistRepository.findByBuyer(buyerId);
+      return await wishlistRepository.findAll();
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getByBuyer() {
+    try {
+      return await wishlistRepository.findByBuyer();
     } catch (err) {
       throw err;
     }
@@ -25,9 +33,9 @@ module.exports = {
     }
   },
 
-  async create(createArgs) {
+  async create(requestBody) {
     try {
-      return await wishlistRepository.create(createArgs);
+      return await wishlistRepository.create(requestBody);
     } catch (err) {
       throw err;
     }

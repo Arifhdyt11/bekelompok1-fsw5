@@ -4,13 +4,14 @@ const wishlistController = require("../app/controllers/api/v1/wishlistController
 const wishlistMiddleware = require("../middlewares/wishlistMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
-router.get("/", userMiddleware.authorize, wishlistMiddleware.getByRole);
+router.get("/", wishlistController.list);
+router.get("/buyer", wishlistController.listByBuyer);
+router.get("/seller", userMiddleware.authorize, userMiddleware.isSeller, wishlistMiddleware.getByRole);
 // router.get("/:id", userMiddleware.authorize, wishlistController.show);
 router.post(
   "/",
-  userMiddleware.authorize,
-  userMiddleware.isBuyyer,
-  wishlistMiddleware.getProductByUser,
+  // userMiddleware.authorize,
+  // userMiddleware.isBuyyer,
   wishlistController.create
 );
 router.delete(

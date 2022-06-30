@@ -63,12 +63,12 @@ module.exports = {
 
   async getProductByUser(req, res, next) {
     try {
-      const productId = await wishlistService.getProductByUser(
-        req.user.id,
+      const sizeId = await wishlistService.getProductByUser(
+        req.body.userId,
         req.body.productId
       );
 
-      if (productId) {
+      if (sizeId) {
         res.status(422).json({
           status: false,
           message: "Product already in wishlist",

@@ -9,6 +9,7 @@ module.exports = {
         message: "Show all data category successfully!",
         data: data,
       });
+      console.log(data.categoryService)
     } catch (err) {
       res.status(400).json({
         status: false,
@@ -47,6 +48,7 @@ module.exports = {
           message: "Successfully find data",
           data: data,
         });
+        console.log(data);
       } else {
         res.status(404).json({
           status: false,
