@@ -11,6 +11,7 @@ module.exports = {
           },
           {
             model: User,
+            as: "user",
             attributes: [
               "id",
               "role",
