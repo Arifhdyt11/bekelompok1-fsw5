@@ -1,4 +1,4 @@
-const { Wishlist, Size, User, Product } = require("../models");
+const { Wishlist, User, Product } = require("../models");
 
 module.exports = {
   findAll() {
@@ -10,18 +10,12 @@ module.exports = {
       const data = Wishlist.findAll({
         include: [
           {
-            model: Size,
-            as: "sizes",
-            include: [
-              {
-                model: Product,
-                as: "products",
-              },
-            ],
+            model: Product,
+            as: "products",  
           },
           {
             model: User,
-            as: "users",
+            as: "user",
             where: {
               role: "BUYER",
             },
@@ -42,23 +36,76 @@ module.exports = {
       const data = Wishlist.findAll({
         include: [
           {
-            model: Size,
-            as: "sizes",
+            model: Product,
+            as: "products",
             include: [
               {
-                model: Product,
-                as: "products",
-                include: [
-                  {
-                    model: User,
-                    as: "users",
-                    where: {
-                      role: "SELLER",
-                    },
-                  },
-                ],
+                model: User,
+                as: "users",
+                where: {
+                  role: "SELLER",
+                },
               },
-            ],
+            ], 
+          },
+        ],
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
+  findWishlistBuyerById(id){
+    try {
+      const data = Wishlist.findOne({
+        include: [
+          {
+            model: Product,
+            as: "products",  
+          },
+          {
+            model: User,
+            as: "user",
+            where: {
+              role: "BUYER",
+              id: id,
+            },
+          },
+        ],
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
+  findWishlistSellerById(id){
+    try {
+      const data = Wishlist.findOne({
+        include: [
+          {
+            model: Product,
+            as: "products",
+            where: {
+              userId: id,
+            },
+            include: [
+              {
+                model: User,
+                as: "users",
+                where: {
+                  role: "SELLER",
+                  id: id,
+                },
+              },
+            ], 
           },
         ],
       });

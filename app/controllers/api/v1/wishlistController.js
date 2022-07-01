@@ -34,9 +34,10 @@ module.exports = {
     }
   },
 
-  async listBySeller(req, res, sellerId) {
+  
+  async listBySeller(req, res) {
     try {
-      const data = await wishlistService.getBySeller(sellerId);
+      const data = await wishlistService.getBySeller();
       res.status(200).json({
         status: true,
         message: "Show all data wishlist successfully!",
@@ -49,11 +50,57 @@ module.exports = {
       });
     }
   },
+  
+  async showByBuyer(req, res) {
+    try {
+      const data = await wishlistService.getWishlistBuyerById(req.params.id);
+      if (data) {
+        res.status(200).json({
+          status: true,
+          message: "Successfully find data",
+          data: data,
+        });
+      } else {
+        res.status(404).json({
+          status: false,
+          message: "Data not found",
+        });
+      }
+    } catch (error) {
+      res.status(422).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  },
 
+  async showBySeller(req, res) {
+    try {
+      const data = await wishlistService.getWishlistSellerById(req.params.id);
+      if (data) {
+        res.status(200).json({
+          status: true,
+          message: "Successfully find data",
+          data: data,
+        });
+      } else {
+        res.status(404).json({
+          status: false,
+          message: "Data not found",
+        });
+      }
+    } catch (error) {
+      res.status(422).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  },
+  
   async create(req, res) {
     try {
       const data = await wishlistService.create({
-        sizeId: req.body.sizeId,
+        productId: req.body.productId,
         userId: req.body.userId,
         createdAt: new Date(),
         updatedAt: new Date(),
