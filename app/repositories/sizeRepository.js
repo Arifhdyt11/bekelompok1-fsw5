@@ -2,18 +2,7 @@ const { Size, Product, User, Category } = require("../models");
 
 module.exports = {
   findAll() {
-    return Size.findAll({
-      include: [
-        {
-          model: Product,
-          as: "product",
-          include: [
-            { model: User, as: "users" },
-            { model: Category, as: "categories" },
-          ],
-        },
-      ],
-    });
+    return Size.findAll();
   },
 
   find(id) {
@@ -25,9 +14,7 @@ module.exports = {
   },
 
   create(createArgs) {
-    return Size.create(createArgs, {
-      include: [{ model: Product, as: "products" }],
-    });
+    return Size.create(createArgs);
   },
 
   update(id, updateArgs) {

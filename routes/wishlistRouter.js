@@ -19,7 +19,18 @@ router.get(
   wishlistMiddleware.getByRole, 
   wishlistController.listBySeller
 );
-// router.get("/:id", userMiddleware.authorize, wishlistController.show);
+router.get(
+  "/buyer/:id", 
+  userMiddleware.authorize, 
+  userMiddleware.isBuyyer, 
+  wishlistController.showByBuyer
+);
+router.get(
+  "/seller/:id", 
+  userMiddleware.authorize, 
+  userMiddleware.isSeller, 
+  wishlistController.showBySeller
+);
 router.post(
   "/",
   userMiddleware.authorize,
