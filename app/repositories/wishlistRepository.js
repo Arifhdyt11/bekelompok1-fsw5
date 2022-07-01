@@ -9,22 +9,22 @@ module.exports = {
     try {
       const data = Wishlist.findAll({
         include: [
-          { 
+          {
             model: Size,
-            as: "size",
+            as: "sizes",
             include: [
               {
                 model: Product,
-                as: "product",
+                as: "products",
               },
             ],
-          }, 
-          { 
+          },
+          {
             model: User,
-            as: "user",
+            as: "users",
             where: {
               role: "BUYER",
-            }
+            },
           },
         ],
       });
@@ -43,20 +43,22 @@ module.exports = {
         include: [
           {
             model: Size,
-            as: "size",
-            include: [{ 
-              model: Product, 
-              as: "product", 
-              include: [
-                {
-                  model: User,
-                  as: "user",
-                  where: {
-                    role: "SELLER",
-                  }
-                },
-              ],
-            }],
+            as: "sizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "users",
+                    where: {
+                      role: "SELLER",
+                    },
+                  },
+                ],
+              },
+            ],
           },
         ],
       });

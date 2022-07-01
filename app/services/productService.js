@@ -25,6 +25,14 @@ module.exports = {
     }
   },
 
+  async getBySellerId(id, sellerId) {
+    try {
+      return await productRepository.findBySellerId(id, sellerId);
+    } catch (err) {
+      throw err;
+    }
+  },
+
   async create(requestBody) {
     try {
       return await productRepository.create(requestBody);

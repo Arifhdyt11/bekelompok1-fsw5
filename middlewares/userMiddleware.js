@@ -24,11 +24,11 @@ module.exports = {
 
   async validateUpdate(req, res, next) {
     try {
-      const { role, email } = req.body;
-      if (role || email) {
+      const { role, email, password } = req.body;
+      if (role || email || password) {
         res.status(400).json({
           status: false,
-          message: "You can't update role or email!",
+          message: "You can't update role, email and password!",
         });
         return;
       }

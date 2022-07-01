@@ -1,5 +1,7 @@
 const productService = require("../../../services/productService");
 
+const { Product } = require("../../../models");
+
 module.exports = {
   async byId(req, res) {
     try {
@@ -51,16 +53,14 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create product
+      const userTokenId = req.user.id;
       const data = await productService.create({
-        userId: req.body.userId,
+        userId: userTokenId,
         categoryId: req.body.categoryId,
         name: req.body.name,
         price: req.body.price,
         description: req.body.description,
         image: req.body.image,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       });
       res.status(201).json({
         status: true,
@@ -100,14 +100,18 @@ module.exports = {
 
   async update(req, res) {
     try {
-      await productService.update(req.params.id, req.body);
+      let updateArgs = {
+        ...req.body,
+      };
+      let productId = req.params.id;
 
-      const data = await productService.get(req.params.id);
+      await productService.update(productId, updateArgs);
+      const dataUpdated = await productService.get(productId);
 
       res.status(200).json({
         status: true,
         message: "Product has been updated!",
-        data: data,
+        data: dataUpdated,
       });
     } catch (err) {
       res.status(422).json({

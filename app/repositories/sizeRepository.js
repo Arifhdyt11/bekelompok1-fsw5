@@ -7,7 +7,10 @@ module.exports = {
         {
           model: Product,
           as: "product",
-          include: [{ model: User }, { model: Category }],
+          include: [
+            { model: User, as: "users" },
+            { model: Category, as: "categories" },
+          ],
         },
       ],
     });
@@ -23,7 +26,7 @@ module.exports = {
 
   create(createArgs) {
     return Size.create(createArgs, {
-      include: [{ model: Product, as: "product" }],
+      include: [{ model: Product, as: "products" }],
     });
   },
 
