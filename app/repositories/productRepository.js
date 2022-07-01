@@ -71,6 +71,19 @@ module.exports = {
     }
   },
 
+  findBySellerId(id, sellerId) {
+    try {
+      return Product.findOne({
+        where: {
+          id: id,
+          userId: sellerId,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
+  },
+
   findBySeller(sellerId) {
     try {
       const data = Product.sellerId.findAll({
@@ -87,11 +100,11 @@ module.exports = {
               "address",
               "phone",
             ],
-            where: {
-              id: sellerId,
-            },
           },
         ],
+        where: {
+          id: sellerId,
+        },
       });
 
       if (data) {
