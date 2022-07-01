@@ -86,7 +86,7 @@ module.exports = {
   async updateProfile(req, res) {
     try {
       const userTokenId = req.user.id;
-      await userService.updateCurrentUser(userTokenId, req.body);
+      await userService.updateCurrentUser(userTokenId, req.body, { new: true });
       const updatedData = await userService.getById(userTokenId);
 
       res.status(200).json({

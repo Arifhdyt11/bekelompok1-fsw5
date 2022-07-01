@@ -9,7 +9,6 @@ module.exports = {
         message: "Show all data category successfully!",
         data: data,
       });
-      console.log(data.categoryService)
     } catch (err) {
       res.status(400).json({
         status: false,
@@ -20,12 +19,7 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create category
-      const data = await categoryService.create({
-        name: req.body.name,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+      const data = await categoryService.create(req.body);
       res.status(201).json({
         status: true,
         message: "Category has been created!",
@@ -48,7 +42,6 @@ module.exports = {
           message: "Successfully find data",
           data: data,
         });
-        console.log(data);
       } else {
         res.status(404).json({
           status: false,

@@ -24,7 +24,7 @@ module.exports = {
         include: [
           {
             model: Product,
-            as: "product",
+            as: "products",
             where: {
               userId: sellerId,
             },
