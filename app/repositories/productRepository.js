@@ -78,16 +78,12 @@ module.exports = {
           id: id,
           userId: sellerId,
         },
-      });
-    } catch (error) {
-      return error;
-    }
-  },
-
-  findBySeller(sellerId) {
-    try {
-      const data = Product.sellerId.findAll({
         include: [
+          {
+            model: Category,
+            as: "categories",
+            attributes: ["name"],
+          },
           {
             model: User,
             as: "users",
@@ -102,14 +98,39 @@ module.exports = {
             ],
           },
         ],
-        where: {
-          id: sellerId,
-        },
       });
+    } catch (error) {
+      return error;
+    }
+  },
 
-      if (data) {
-        return data.sellerId;
-      }
+  findBySeller(sellerId) {
+    try {
+      return Product.findAll({
+        where: {
+          userId: sellerId,
+        },
+        include: [
+          {
+            model: Category,
+            as: "categories",
+            attributes: ["name"],
+          },
+          {
+            model: User,
+            as: "users",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "email",
+              "city",
+              "address",
+              "phone",
+            ],
+          },
+        ],
+      });
     } catch (error) {
       return error;
     }

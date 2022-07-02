@@ -17,11 +17,34 @@ module.exports = {
     }
   },
 
-  async getBySeller(sellerId) {
+  
+  async getBySeller() {
     try {
-      return await wishlistRepository.findBySeller(sellerId);
+      return await wishlistRepository.findBySeller();
     } catch (err) {
       throw err;
+    }
+  },
+  
+  async getWishlistBuyerById(id) {
+    try {
+      const data = await wishlistRepository.findWishlistBuyerById(id);
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
+  async getWishlistSellerById(id) {
+    try {
+      const data = await wishlistRepository.findWishlistSellerById(id);
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
     }
   },
 
