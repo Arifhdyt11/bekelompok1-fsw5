@@ -5,9 +5,19 @@ const productMiddleware = require("../middlewares/productMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
 router.get("/", productController.list);
+router.get(
+  "/seller",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  productController.listBySeller
+);
 router.get("/:id", productController.show);
-router.get("/seller", productController.listSeller);
-router.get("/seller/:id", productController.listSeller);
+router.get(
+  "/seller/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  productController.showBySeller
+);
 router.post(
   "/",
   userMiddleware.authorize,
