@@ -57,7 +57,7 @@ module.exports = {
               },
               {
                 model: User,
-                as: "user as seller",
+                as: "userAsSeller",
                 where: {
                   role: "SELLER",
                   id: id,
