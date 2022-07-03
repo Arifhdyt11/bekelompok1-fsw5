@@ -80,9 +80,27 @@ module.exports = {
                   role: "SELLER",
                   id: id,
                 },
+                attributes: [
+                  "id",
+                  "role",
+                  "name",
+                ],
               },
             ],
           },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          }
         ],
       });
 
