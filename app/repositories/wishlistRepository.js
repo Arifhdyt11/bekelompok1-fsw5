@@ -5,7 +5,7 @@ module.exports = {
     return Wishlist.findAll();
   },
 
-  findWishlistBuyerById(id){
+  findWishlistBuyerById(id) {
     try {
       const data = Wishlist.findAll({
         include: [
@@ -22,7 +22,7 @@ module.exports = {
           },
           {
             model: User,
-            as: "user as buyer",
+            as: "userAsBuyer",
             where: {
               role: "BUYER",
               id: id,
@@ -39,7 +39,7 @@ module.exports = {
     }
   },
 
-  findWishlistSellerById(id){
+  findWishlistSellerById(id) {
     try {
       const data = Wishlist.findAll({
         include: [
@@ -62,7 +62,7 @@ module.exports = {
                   role: "SELLER",
                   id: id,
                 },
-              }, 
+              },
             ],
           },
         ],
