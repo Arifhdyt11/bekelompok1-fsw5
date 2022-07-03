@@ -8,24 +8,7 @@ module.exports = {
       throw err;
     }
   },
-
-  async getByBuyer() {
-    try {
-      return await wishlistRepository.findByBuyer();
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  
-  async getBySeller() {
-    try {
-      return await wishlistRepository.findBySeller();
-    } catch (err) {
-      throw err;
-    }
-  },
-  
+ 
   async getWishlistBuyerById(id) {
     try {
       const data = await wishlistRepository.findWishlistBuyerById(id);
