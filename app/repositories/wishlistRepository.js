@@ -18,6 +18,19 @@ module.exports = {
                 as: "categories",
                 attributes: ["name"],
               },
+              {
+                model: User,
+                as: "userAsSeller",
+                attributes: [
+                  "id",
+                  "role",
+                  "name",
+                  "city",
+                  "address",
+                  "phone",
+                  "image",
+                ],
+              }
             ],
           },
           {
@@ -27,6 +40,11 @@ module.exports = {
               role: "BUYER",
               id: id,
             },
+            attributes: [
+              "id",
+              "role",
+              "name",
+            ],
           },
         ],
       });
@@ -62,9 +80,27 @@ module.exports = {
                   role: "SELLER",
                   id: id,
                 },
+                attributes: [
+                  "id",
+                  "role",
+                  "name",
+                ],
               },
             ],
           },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          }
         ],
       });
 
