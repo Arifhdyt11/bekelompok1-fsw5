@@ -1,37 +1,11 @@
-const { Wishlist, User, Product } = require("../models");
+const { Wishlist, User, Product, Category } = require("../models");
 
 module.exports = {
   findAll() {
     return Wishlist.findAll();
   },
 
-  findByBuyer() {
-    try {
-      const data = Wishlist.findAll({
-        include: [
-          {
-            model: Product,
-            as: "products",  
-          },
-          {
-            model: User,
-            as: "user",
-            where: {
-              role: "BUYER",
-            },
-          },
-        ],
-      });
-
-      if (data) {
-        return data;
-      }
-    } catch (error) {
-      return error;
-    }
-  },
-
-  findBySeller() {
+  findWishlistBuyerById(id){
     try {
       const data = Wishlist.findAll({
         include: [
@@ -40,36 +14,15 @@ module.exports = {
             as: "products",
             include: [
               {
-                model: User,
-                as: "users",
-                where: {
-                  role: "SELLER",
-                },
+                model: Category,
+                as: "categories",
+                attributes: ["name"],
               },
-            ], 
-          },
-        ],
-      });
-
-      if (data) {
-        return data;
-      }
-    } catch (error) {
-      return error;
-    }
-  },
-
-  findWishlistBuyerById(id){
-    try {
-      const data = Wishlist.findOne({
-        include: [
-          {
-            model: Product,
-            as: "products",  
+            ],
           },
           {
             model: User,
-            as: "user",
+            as: "user as buyer",
             where: {
               role: "BUYER",
               id: id,
@@ -88,7 +41,7 @@ module.exports = {
 
   findWishlistSellerById(id){
     try {
-      const data = Wishlist.findOne({
+      const data = Wishlist.findAll({
         include: [
           {
             model: Product,
@@ -98,14 +51,19 @@ module.exports = {
             },
             include: [
               {
+                model: Category,
+                as: "categories",
+                attributes: ["name"],
+              },
+              {
                 model: User,
-                as: "users",
+                as: "user as seller",
                 where: {
                   role: "SELLER",
                   id: id,
                 },
-              },
-            ], 
+              }, 
+            ],
           },
         ],
       });

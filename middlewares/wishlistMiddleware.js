@@ -1,11 +1,9 @@
-const { getByUserId } = require("../app/services/wishlistService");
 const wishlistService = require("../app/services/wishlistService");
 const wishlistController = require("../app/controllers/api/v1/wishlistController");
 
 const getByBuyer = async (req, res, buyerId) => {
   try {
     const data = await wishlistService.getByBuyer(buyerId);
-    // console.log(data);
     if (data !== null) {
       return await wishlistController.listByBuyer(req, res, buyerId);
     } else {
