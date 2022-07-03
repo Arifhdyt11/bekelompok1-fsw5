@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsTo(models.User, {
         through: "SellerProducts",
-        as: "user as seller",
+        as: "userAsSeller",
         foreignKey: "userId",
       });
 
