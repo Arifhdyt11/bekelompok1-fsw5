@@ -22,9 +22,9 @@ module.exports = {
           },
           {
             model: User,
-            as: "userAsSeler",
+            as: "userAsBuyer",
             where: {
-              role: "SELLER",
+              role: "BUYER",
               id: id,
             },
           },
