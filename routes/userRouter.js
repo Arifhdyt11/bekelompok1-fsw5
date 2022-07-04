@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../app/controllers/api/v1/auth/userController");
 const userMiddleware = require("../middlewares/userMiddleware");
+const uploadOnMemory = require("../config/uploadOnMemory");
 
 router.post("/login", userController.login);
 router.post(
@@ -14,6 +15,7 @@ router.put(
   "/profile",
   userMiddleware.authorize,
   userMiddleware.validateUpdate,
+  uploadOnMemory.single("image"),
   userController.updateProfile
 );
 
