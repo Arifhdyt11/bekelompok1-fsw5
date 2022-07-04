@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../app/controllers/api/v1/productController");
+const uploadOnMemory = require("../config/uploadOnMemory");
 const productMiddleware = require("../middlewares/productMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
@@ -20,6 +21,7 @@ router.get(
 );
 router.post(
   "/",
+  uploadOnMemory.array("image", 4),
   userMiddleware.authorize,
   userMiddleware.isSeller,
   productMiddleware.postValidate,
