@@ -1,17 +1,25 @@
 const transactionRepository = require("../repositories/transactionRepository");
 
 module.exports = {
-  async getByBuyer(buyerId) {
+  async list(req, res) {
     try {
-      return await transactionRepository.findByBuyer(buyerId);
+      return await transactionRepository.findAll();
     } catch (err) {
       throw err;
     }
   },
 
-  async getBySeller(sellerId) {
+  async getAllByBuyer(id) {
     try {
-      return await transactionRepository.findBySeller(sellerId);
+      return await transactionRepository.findByBuyer(id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getAllBySeller(id) {
+    try {
+      return await transactionRepository.findBySeller(id);
     } catch (err) {
       throw err;
     }
@@ -36,14 +44,6 @@ module.exports = {
   async update(id, requestBody) {
     try {
       return await transactionRepository.update(id, requestBody);
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  async delete(id) {
-    try {
-      return await transactionRepository.delete(id);
     } catch (err) {
       throw err;
     }

@@ -46,13 +46,13 @@ module.exports = {
     try {
       const productId = await transactionService.getProductByUser(
         req.user.id,
-        req.body.productId
+        req.body.productsizeId
       );
 
       if (productId) {
         res.status(422).json({
           status: false,
-          message: "Product already in transaction",
+          message: "Product was already in transaction",
         });
       } else {
         next();

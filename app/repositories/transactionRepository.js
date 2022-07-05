@@ -1,13 +1,33 @@
-const { transaction, Product } = require("../models");
+const { Transaction, ProductSize, Product, User } = require("../models");
 
 module.exports = {
-  findByBuyer(buyerId) {
+  findAll() {
+    return Transaction.findAll();
+  },
+
+  findByBuyer(id) {
     try {
-      const data = transaction.findAll({
-        include: [{ model: Product }],
-        where: {
-          userId: buyerId,
-        },
+      const data = Transaction.findAll({
+        include: [
+          { 
+            model: ProductSize,
+            as: "productsizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+              },
+            ],
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            where: {
+              userId: id,
+            },
+            attributes: [ "id", "role", "name", ],
+          }
+        ],
       });
 
       if (data) {
@@ -18,16 +38,28 @@ module.exports = {
     }
   },
 
-  findBySeller(sellerId) {
+  findBySeller(id) {
     try {
-      const data = transaction.findAll({
+      const data = Transaction.findAll({
         include: [
           {
-            model: Product,
-            as: "products",
-            where: {
-              userId: sellerId,
-            },
+            model: ProductSize,
+            as: "productsizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    where: {
+                      userId: id,
+                    },
+                  },
+                ],
+              },
+            ],  
           },
         ],
       });
@@ -42,7 +74,7 @@ module.exports = {
 
   findProductByUser(userId, productId) {
     try {
-      const data = transaction.findOne({
+      const data = Transaction.findOne({
         where: {
           userId: userId,
           productId: productId,
@@ -58,21 +90,14 @@ module.exports = {
   },
 
   create(createArgs) {
-    return Wishlist.create(createArgs);
+    return Transaction.create(createArgs);
   },
 
   update(id, updateArgs) {
-    return Wishlist.update(updateArgs, {
+    return Transaction.update(updateArgs, {
       where: {
         id,
       },
     });
-  },
-  delete(id) {
-    return Wishlist.destroy({
-      where: {
-        id,
-      },
-    });
-  },
+  }
 };

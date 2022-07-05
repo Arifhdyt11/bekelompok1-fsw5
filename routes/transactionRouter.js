@@ -4,21 +4,29 @@ const transactionController = require("../app/controllers/api/v1/transactionCont
 const transactionMiddleware = require("../middlewares/transactionMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
-router.get("/", userMiddleware.authorize, transactionMiddleware.getByRole);
-// router.get("/:id", userMiddleware.authorize, transactionController.show);
+router.get(
+  "/", 
+  userMiddleware.authorize, 
+  transactionController.list
+);
+router.get(
+  "/buyer/:id",
+  userMiddleware.authorize,
+  userMiddleware.isBuyyer,
+  transactionController.listByBuyer,
+);
+router.get(
+  "/seller/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  transactionController.listBySeller,
+);
 router.post(
   "/",
   userMiddleware.authorize,
   userMiddleware.isBuyyer,
   transactionMiddleware.getProductByUser,
   transactionController.create
-);
-router.delete(
-  "/:id",
-  userMiddleware.authorize,
-  userMiddleware.isBuyyer,
-  // transactionMiddleware.getById,
-  transactionController.destroy
 );
 
 module.exports = router;
