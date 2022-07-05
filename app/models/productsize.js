@@ -3,23 +3,23 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class ProductSize extends Model {
     static associate(models) {
-      this.hasOne(models.Transaction, { foreignKey: "productsizeId" });
-      this.belongsToMany(models.Product, {
-        through: "Product_Sizes",
-        as: "products",
+      this.hasOne(models.Transaction, { foreignKey: "productSizeId" });
+      this.belongsTo(models.Product, {
+        through: "Products",
+        as: "product_productSizes",
         foreignKey: "productId",
       });
-      this.belongsToMany(models.Size, {
-        through: "Product_Sizes",
-        as: "sizes",
+      this.belongsTo(models.Size, {
+        through: "Sizes",
+        as: "size_productSizes",
         foreignKey: "sizeId",
       });
     }
   }
   ProductSize.init(
     {
-      productId: DataTypes.STRING,
-      sizeId: DataTypes.STRING,
+      productId: DataTypes.INTEGER,
+      sizeId: DataTypes.INTEGER,
       stock: DataTypes.INTEGER,
     },
     {
