@@ -2,7 +2,20 @@ const { ProductSize, Product, Size } = require("../models");
 
 module.exports = {
   findAll() {
-    return ProductSize.findAll();
+    return ProductSize.findAll({
+      include: [
+        {
+          model: Product,
+          as: "product_productSizes",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Size,
+          as: "size_productSizes",
+          attributes: ["id", "size"],
+        },
+      ],
+    });
   },
 
   find(id) {
