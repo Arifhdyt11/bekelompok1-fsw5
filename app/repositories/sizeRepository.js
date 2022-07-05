@@ -1,24 +1,36 @@
-const { Size, Product, User, Category } = require("../models");
+const { ProductSize, Product, Size } = require("../models");
 
 module.exports = {
   findAll() {
-    return Size.findAll();
+    return ProductSize.findAll();
   },
 
   find(id) {
-    return Size.findOne({
+    return ProductSize.findOne({
       where: {
         id: id,
       },
+      include: [
+        {
+          model: Product,
+          as: "product_productSizes",
+          attributes: ["id", "name", "price", "image"],
+        },
+        {
+          model: Size,
+          as: "size_productSizes",
+          attributes: ["id", "size"],
+        },
+      ],
     });
   },
 
   create(createArgs) {
-    return Size.create(createArgs);
+    return ProductSize.create(createArgs);
   },
 
   update(id, updateArgs) {
-    return Size.update(updateArgs, {
+    return ProductSize.update(updateArgs, {
       where: {
         id,
       },
@@ -26,7 +38,7 @@ module.exports = {
   },
 
   delete(id) {
-    return Size.destroy({
+    return ProductSize.destroy({
       where: {
         id,
       },
