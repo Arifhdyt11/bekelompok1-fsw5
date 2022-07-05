@@ -41,4 +41,7 @@ module.exports = {
       throw err;
     }
   },
+  update(id, requestBody) {
+    return userRepository.update(id, requestBody);
+  },
 };
