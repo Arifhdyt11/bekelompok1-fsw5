@@ -1,11 +1,9 @@
-const { getByUserId } = require("../app/services/wishlistService");
 const wishlistService = require("../app/services/wishlistService");
 const wishlistController = require("../app/controllers/api/v1/wishlistController");
 
 const getByBuyer = async (req, res, buyerId) => {
   try {
     const data = await wishlistService.getByBuyer(buyerId);
-    // console.log(data);
     if (data !== null) {
       return await wishlistController.listByBuyer(req, res, buyerId);
     } else {
@@ -42,33 +40,14 @@ const getBySeller = async (req, res, sellerId) => {
 };
 
 module.exports = {
-  // async getById(req, res, next) {
-  //   try {
-  //     const data = await wishlistService.get(req.params.id);
-  //     if (data !== null) {
-  //       next();
-  //     } else {
-  //       res.status(404).json({
-  //         status: false,
-  //         message: "Data not found",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     res.status(400).json({
-  //       status: false,
-  //       message: err.message,
-  //     });
-  //   }
-  // },
-
   async getProductByUser(req, res, next) {
     try {
-      const productId = await wishlistService.getProductByUser(
-        req.user.id,
+      const sizeId = await wishlistService.getProductByUser(
+        req.body.userId,
         req.body.productId
       );
 
-      if (productId) {
+      if (sizeId) {
         res.status(422).json({
           status: false,
           message: "Product already in wishlist",

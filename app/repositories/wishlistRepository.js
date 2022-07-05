@@ -1,13 +1,52 @@
-const { Wishlist, Product } = require("../models");
+const { Wishlist, User, Product, Category } = require("../models");
 
 module.exports = {
-  findByBuyer(buyerId) {
+  findAll() {
+    return Wishlist.findAll();
+  },
+
+  findWishlistBuyerById(id) {
     try {
       const data = Wishlist.findAll({
-        include: [{ model: Product }],
-        where: {
-          userId: buyerId,
-        },
+        include: [
+          {
+            model: Product,
+            as: "products",
+            include: [
+              {
+                model: Category,
+                as: "categories",
+                attributes: ["name"],
+              },
+              {
+                model: User,
+                as: "userAsSeller",
+                attributes: [
+                  "id",
+                  "role",
+                  "name",
+                  "city",
+                  "address",
+                  "phone",
+                  "image",
+                ],
+              }
+            ],
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            where: {
+              role: "BUYER",
+              id: id,
+            },
+            attributes: [
+              "id",
+              "role",
+              "name",
+            ],
+          },
+        ],
       });
 
       if (data) {
@@ -18,17 +57,50 @@ module.exports = {
     }
   },
 
-  findBySeller(sellerId) {
+  findWishlistSellerById(id) {
     try {
       const data = Wishlist.findAll({
         include: [
           {
             model: Product,
-            as: "product",
+            as: "products",
             where: {
-              userId: sellerId,
+              userId: id,
             },
+            include: [
+              {
+                model: Category,
+                as: "categories",
+                attributes: ["name"],
+              },
+              {
+                model: User,
+                as: "userAsSeller",
+                where: {
+                  role: "SELLER",
+                  id: id,
+                },
+                attributes: [
+                  "id",
+                  "role",
+                  "name",
+                ],
+              },
+            ],
           },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          }
         ],
       });
 

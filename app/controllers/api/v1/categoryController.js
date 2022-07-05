@@ -19,12 +19,7 @@ module.exports = {
 
   async create(req, res) {
     try {
-      // create category
-      const data = await categoryService.create({
-        name: req.body.name,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+      const data = await categoryService.create(req.body);
       res.status(201).json({
         status: true,
         message: "Category has been created!",

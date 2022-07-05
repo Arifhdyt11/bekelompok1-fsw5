@@ -7,10 +7,12 @@ module.exports = {
         include: [
           {
             model: Category,
+            as: "categories",
             attributes: ["name"],
           },
           {
             model: User,
+            as: "userAsSeller",
             attributes: [
               "id",
               "role",
@@ -27,6 +29,7 @@ module.exports = {
       if (data) {
         return data;
       }
+      console.log(data);
     } catch (error) {
       return error;
     }
@@ -38,10 +41,12 @@ module.exports = {
         include: [
           {
             model: Category,
+            as: "categories",
             attributes: ["name"],
           },
           {
             model: User,
+            as: "userAsSeller",
             attributes: [
               "id",
               "role",
@@ -66,12 +71,22 @@ module.exports = {
     }
   },
 
-  findBySeller(sellerId) {
+  findBySellerId(id, sellerId) {
     try {
-      const data = Product.sellerId.findAll({
+      return Product.findOne({
+        where: {
+          id: id,
+          userId: sellerId,
+        },
         include: [
           {
+            model: Category,
+            as: "categories",
+            attributes: ["name"],
+          },
+          {
             model: User,
+            as: "userAsSeller",
             attributes: [
               "id",
               "role",
@@ -81,16 +96,41 @@ module.exports = {
               "address",
               "phone",
             ],
-            where: {
-              id: sellerId,
-            },
           },
         ],
       });
+    } catch (error) {
+      return error;
+    }
+  },
 
-      if (data) {
-        return data.sellerId;
-      }
+  findBySeller(sellerId) {
+    try {
+      return Product.findAll({
+        where: {
+          userId: sellerId,
+        },
+        include: [
+          {
+            model: Category,
+            as: "categories",
+            attributes: ["name"],
+          },
+          {
+            model: User,
+            as: "userAsSeller",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "email",
+              "city",
+              "address",
+              "phone",
+            ],
+          },
+        ],
+      });
     } catch (error) {
       return error;
     }
@@ -102,14 +142,17 @@ module.exports = {
         include: [
           {
             model: Category,
+            as: "categories",
             attributes: ["name"],
           },
           {
             model: User,
+            as: "userAsSeller",
             attributes: ["role", "name", "email", "city", "address", "phone"],
           },
           {
             model: Size,
+            as: "sizes",
             attributes: ["size", "stock"],
           },
         ],

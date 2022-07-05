@@ -1,20 +1,50 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../app/controllers/api/v1/productController");
-// const productMiddleware = require("../middlewares/getProductId");
+const uploadOnMemory = require("../config/uploadOnMemory");
 const productMiddleware = require("../middlewares/productMiddleware");
-// const userMiddleware = require("../middlewares/userMiddleware");
+const userMiddleware = require("../middlewares/userMiddleware");
 
 router.get("/", productController.list);
-router.get("/seller", productController.listSeller);
+router.get(
+  "/seller",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  productController.listBySeller
+);
 router.get("/:id", productController.show);
-router.post("/", productMiddleware.nameValidate, productController.create);
+router.get(
+  "/seller/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  productController.showBySeller
+);
+router.post(
+  "/",
+  uploadOnMemory.array("image", 4),
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  productMiddleware.postValidate,
+  productController.create
+);
+
 router.put(
   "/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
   productMiddleware.getById,
-  productMiddleware.nameValidate,
+  productMiddleware.getBySellerId,
+  productMiddleware.postValidate,
   productController.update
 );
-router.delete("/:id", productMiddleware.getById, productController.destroy);
+
+router.delete(
+  "/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  productMiddleware.getById,
+  productMiddleware.getBySellerId,
+  productController.destroy
+);
 
 module.exports = router;
