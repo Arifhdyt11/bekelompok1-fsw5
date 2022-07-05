@@ -1,4 +1,9 @@
 const productService = require("../../../services/productService");
+const { promisify } = require("util");
+const cloudinary = require("../../../../config/cloudinary");
+const cloudinaryUpload = promisify(cloudinary.uploader.upload);
+const cloudinaryDestroy = promisify(cloudinary.uploader.destroy);
+
 module.exports = {
   async list(req, res) {
     try {
@@ -35,20 +40,34 @@ module.exports = {
 
   async create(req, res) {
     try {
+      const { name, price, categoryId, description } = req.body;
       const userTokenId = req.user.id;
-      const data = await productService.create({
-        userId: userTokenId,
-        categoryId: req.body.categoryId,
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description,
-        image: req.body.image,
-      });
-      res.status(201).json({
-        status: true,
-        message: "Product has been created!",
-        data: data,
-      });
+      const image = [];
+      const fileBase64 = [];
+      const file = [];
+
+      for (var i = 0; i < req.files.length; i++) {
+        fileBase64.push(req.files[i].buffer.toString("base64"));
+        file.push(`data:${req.files[i].mimetype};base64,${fileBase64[i]}`);
+        const result = await cloudinaryUpload(file[i]);
+        image.push(result.secure_url);
+      }
+
+      productService
+        .create({
+          userId: userTokenId,
+          name,
+          price,
+          categoryId,
+          description,
+          image,
+        })
+        .then((product) => {
+          res.status(201).json({
+            status: true,
+            product,
+          });
+        });
     } catch (err) {
       res.status(422).json({
         status: false,

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsTo(models.User, {
         through: "Wishlist_Product",
-        as: "user",
+        as: "userAsBuyer",
         foreignKey: "userId",
       });
     }

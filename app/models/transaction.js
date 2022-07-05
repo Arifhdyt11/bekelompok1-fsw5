@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsTo(models.User, {
         through: "Product_Transactions",
-        as: "users",
+        as: "user as buyer",
         foreignKey: "userId",
       });
     }
