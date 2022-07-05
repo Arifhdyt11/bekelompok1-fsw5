@@ -20,17 +20,21 @@ module.exports = {
   async create(req, res) {
     try {
       // create category
-      const data = await sizeService.create({
-        size: req.body.size,
-        stock: req.body.stock,
+      let data = await sizeService.create({
         productId: req.body.productId,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        sizeId: req.body.sizeId,
+        stock: req.body.stock,
       });
+
+      // data parse to jsoon
+      // const dataJson = JSON.parse(JSON.stringify(data));
+
+      const dataCreated = await sizeService.get(data.id);
+
       res.status(201).json({
         status: true,
         message: "Size has been created!",
-        data: data,
+        data: dataCreated,
       });
     } catch (err) {
       res.status(422).json({
