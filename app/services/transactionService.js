@@ -9,6 +9,14 @@ module.exports = {
     }
   },
 
+  async get(id) {
+    try {
+      return await transactionRepository.find(id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
   async getAllByBuyer(id) {
     try {
       return await transactionRepository.findByBuyer(id);
@@ -28,6 +36,14 @@ module.exports = {
   async getDetailByBuyer(userId, id){
     try {
       return await transactionRepository.findDetailByBuyer(userId, id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getDetailBySeller(userId, id){
+    try {
+      return await transactionRepository.findDetailBySeller(userId, id);
     } catch (err) {
       throw err;
     }
