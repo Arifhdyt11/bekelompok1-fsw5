@@ -12,7 +12,7 @@ module.exports = {
           },
           {
             model: User,
-            as: "users",
+            as: "userAsSeller",
             attributes: [
               "id",
               "role",
@@ -46,7 +46,7 @@ module.exports = {
           },
           {
             model: User,
-            as: "users",
+            as: "userAsSeller",
             attributes: [
               "id",
               "role",
@@ -86,7 +86,7 @@ module.exports = {
           },
           {
             model: User,
-            as: "users",
+            as: "userAsSeller",
             attributes: [
               "id",
               "role",
@@ -118,7 +118,7 @@ module.exports = {
           },
           {
             model: User,
-            as: "users",
+            as: "userAsSeller",
             attributes: [
               "id",
               "role",
@@ -147,7 +147,7 @@ module.exports = {
           },
           {
             model: User,
-            as: "users",
+            as: "userAsSeller",
             attributes: ["role", "name", "email", "city", "address", "phone"],
           },
           {

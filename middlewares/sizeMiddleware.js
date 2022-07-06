@@ -3,9 +3,9 @@ const sizeService = require("../app/services/sizeService");
 module.exports = {
   async valuesValidate(req, res, next) {
     try {
-      const size = await req.body.size;
+      const size = await req.body.sizeId;
       const stock = await req.body.stock;
-      if ((size == null || size == "") || (stock == null || stock < 0)) {
+      if (size == null || size == "" || stock == null || stock < 0) {
         res.status(400).json({
           status: false,
           message: "Values size and stock are required!",
