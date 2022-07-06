@@ -3,15 +3,15 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class ProductSize extends Model {
     static associate(models) {
-      this.hasOne(models.Transaction, { foreignKey: "productSizeId" });
+      this.hasOne(models.Transaction, { foreignKey: "productsizeId" });
       this.belongsTo(models.Product, {
         through: "Products",
-        as: "product_productSizes",
+        as: "products",
         foreignKey: "productId",
       });
       this.belongsTo(models.Size, {
         through: "Sizes",
-        as: "size_productSizes",
+        as: "sizes",
         foreignKey: "sizeId",
       });
     }
