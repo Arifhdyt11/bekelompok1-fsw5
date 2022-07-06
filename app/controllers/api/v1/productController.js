@@ -148,6 +148,12 @@ module.exports = {
     }
   },
 
+    // deleteProduct : async (req,res, next) => {
+    //   try{
+    //     const productRepository = await 
+    //   }
+    // }
+
   async destroy(req, res) {
     try {
       await productService.delete(req.params.id);
