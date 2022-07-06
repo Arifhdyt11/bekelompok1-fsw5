@@ -15,6 +15,7 @@ module.exports = {
             as: "userAsSeller",
             attributes: [
               "id",
+              "image",
               "role",
               "name",
               "email",
