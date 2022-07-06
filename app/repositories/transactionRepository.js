@@ -5,6 +5,14 @@ module.exports = {
     return Transaction.findAll();
   },
 
+  find(id) {
+    return Transaction.findOne({
+      where: {
+        id: id,
+      },
+    });
+  },
+
   findByBuyer(id) {
     try {
       const data = Transaction.findAll({
@@ -167,6 +175,67 @@ module.exports = {
               id: userId,
             },
             attributes: [ "id", "role", "name", ],
+          }
+        ],
+        where: {
+          id: id,
+        },
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
+  findDetailBySeller(userId, id){
+    try {
+      const data = Transaction.findAll({
+        include: [
+          {
+            model: ProductSize,
+            as: "productSizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    where: {
+                      id: userId,
+                    },
+                    attributes: [ "id", "role", "name", ],
+                  },
+                  {
+                    model: Category,
+                    as: "categories",
+                    attributes: ["name"],
+                  },
+                ],
+              },
+              {
+                model: Size,
+                as: "sizes",
+                attributes: ["size"],
+              },
+            ],
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
           }
         ],
         where: {

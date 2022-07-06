@@ -133,13 +133,6 @@ module.exports = {
     return Wishlist.create(createArgs);
   },
 
-  update(id, updateArgs) {
-    return Wishlist.update(updateArgs, {
-      where: {
-        id,
-      },
-    });
-  },
   delete(id) {
     return Wishlist.destroy({
       where: {
