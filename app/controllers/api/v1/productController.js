@@ -127,14 +127,41 @@ module.exports = {
 
   async update(req, res) {
     try {
+      const oldImage = req.body.oldImage;
+      const fileBase64 = [];
+      const file = [];
+      const image = [];
+      console.log("old image : ", oldImage.length);
       let updateArgs = {
         ...req.body,
       };
       let productId = req.params.id;
 
-      await productService.update(productId, updateArgs);
       const dataUpdated = await productService.get(productId);
 
+      // Delete Image from Cloudinary
+      if (oldImage !== undefined) {
+        if (Array.isArray(oldImage)) {
+          // Kalo bentuknya array
+          for (var x = 0; x < oldImage.length; x++) {
+            cloudinaryDestroy(oldImage[x]);
+          }
+        } else {
+          // Kalo bentuknya string cuma 1 image
+          cloudinaryDestroy(oldImage);
+        }
+      }
+      // Upload New Image to Cloudinary
+      if (req.files.length > 0) {
+        for (var i = 0; i < req.files.length; i++) {
+          fileBase64.push(req.files[i].buffer.toString("base64"));
+          file.push(`data:${req.files[i].mimetype};base64,${fileBase64[i]}`);
+          const result = await cloudinaryUpload(file[i]);
+          image.push(result.secure_url);
+        }
+      }
+      updateArgs = { ...updateArgs, image };
+      await productService.update(productId, updateArgs);
       res.status(200).json({
         status: true,
         message: "Product has been updated!",
