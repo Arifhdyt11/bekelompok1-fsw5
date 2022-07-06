@@ -44,15 +44,15 @@ const getBySeller = async (req, res, sellerId) => {
 module.exports = {
   async getProductByUser(req, res, next) {
     try {
-      const productId = await transactionService.getProductByUser(
+      const productSizeId = await transactionService.getProductByUser(
         req.user.id,
-        req.body.productId
+        req.body.productsizeId
       );
 
-      if (productId) {
+      if (productSizeId) {
         res.status(422).json({
           status: false,
-          message: "Product already in transaction",
+          message: "Product was already in transaction",
         });
       } else {
         next();

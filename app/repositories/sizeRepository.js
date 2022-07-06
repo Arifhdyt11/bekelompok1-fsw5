@@ -26,12 +26,12 @@ module.exports = {
       include: [
         {
           model: Product,
-          as: "product_productSizes",
+          as: "products",
           attributes: ["id", "name", "price", "image"],
         },
         {
           model: Size,
-          as: "size_productSizes",
+          as: "sizes",
           attributes: ["id", "size"],
         },
       ],

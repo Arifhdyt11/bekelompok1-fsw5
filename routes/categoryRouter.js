@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const categoryController = require("../app/controllers/api/v1/categoryController");
-// const categoryMiddleware = require("../middlewares/getCategoryId");
 const categoryMiddleware = require("../middlewares/categoryMiddleware");
 
 router.get("/", categoryController.list);

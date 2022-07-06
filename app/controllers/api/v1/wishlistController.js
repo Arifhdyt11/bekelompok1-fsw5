@@ -66,9 +66,10 @@ module.exports = {
   
   async create(req, res) {
     try {
+      const userTokenId = req.user.id;
       const data = await wishlistService.create({
         productId: req.body.productId,
-        userId: req.body.userId,
+        userId: userTokenId,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
