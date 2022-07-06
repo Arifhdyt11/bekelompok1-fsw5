@@ -47,14 +47,6 @@ module.exports = {
     }
   },
 
-  async update(id, requestBody) {
-    try {
-      return await wishlistRepository.update(id, requestBody);
-    } catch (err) {
-      throw err;
-    }
-  },
-
   async delete(id) {
     try {
       return await wishlistRepository.delete(id);

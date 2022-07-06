@@ -5,7 +5,7 @@ const transactionMiddleware = require("../middlewares/transactionMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
 router.get(
-  "/", 
+  "/",
   userMiddleware.authorize, 
   transactionController.list
 );
@@ -22,10 +22,16 @@ router.get(
   transactionController.listBySeller,
 );
 router.get(
-  "/:userId&:id",
+  "/buyer/:userId/:id",
   userMiddleware.authorize,
   userMiddleware.isBuyyer,
   transactionController.showByBuyer,
+);
+router.get(
+  "/seller/:userId/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  transactionController.showBySeller,
 );
 router.post(
   "/",
@@ -34,5 +40,11 @@ router.post(
   transactionMiddleware.getProductByUser,
   transactionController.create
 );
+router.put(
+  "/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  transactionController.update
+)
 
 module.exports = router;

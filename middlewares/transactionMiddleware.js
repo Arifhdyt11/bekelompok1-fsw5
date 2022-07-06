@@ -1,4 +1,3 @@
-const { getByUserId } = require("../app/services/transactionService");
 const transactionService = require("../app/services/transactionService");
 const transactionController = require("../app/controllers/api/v1/transactionController");
 

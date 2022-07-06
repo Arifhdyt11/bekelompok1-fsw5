@@ -23,7 +23,7 @@ module.exports = {
       if (data) {
         res.status(200).json({
           status: true,
-          message: "Successfully find data transaction",
+          message: "Successfully find all data transaction",
           data: data,
         });
       } else {
@@ -46,7 +46,7 @@ module.exports = {
       if (data) {
         res.status(200).json({
           status: true,
-          message: "Successfully find data transaction",
+          message: "Successfully find all data transaction",
           data: data,
         });
       } else {
@@ -66,6 +66,29 @@ module.exports = {
   async showByBuyer(req, res) {
     try {
       const data = await transactionService.getDetailByBuyer(req.params.userId, req.params.id);
+      if (data) {
+        res.status(200).json({
+          status: true,
+          message: "Successfully find data transaction",
+          data: data,
+        });
+      } else {
+        res.status(404).json({
+          status: false,
+          message: "Data not found",
+        });
+      }
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
+  async showBySeller(req, res) {
+    try {
+      const data = await transactionService.getDetailBySeller(req.params.userId, req.params.id);
       if (data) {
         res.status(200).json({
           status: true,
@@ -109,32 +132,11 @@ module.exports = {
     }
   },
 
-  async show(req, res) {
-    try {
-      const data = await transactionService.get(req.params.id);
-      if (data !== null) {
-        res.status(200).json({
-          status: true,
-          message: "Successfully find data",
-          data: data,
-        });
-      } else {
-        res.status(404).json({
-          status: false,
-          message: "Data not found",
-        });
-      }
-    } catch (error) {
-      res.status(422).json({
-        status: false,
-        message: error.message,
-      });
-    }
-  },
-
   async update(req, res) {
     try {
-      await transactionService.update(req.params.id, req.body);
+      await transactionService.update(req.params.id, {
+        status: req.body.status,
+      });
 
       const data = await transactionService.get(req.params.id);
 
