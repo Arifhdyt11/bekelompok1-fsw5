@@ -21,6 +21,12 @@ router.get(
   userMiddleware.isSeller,
   transactionController.listBySeller,
 );
+router.get(
+  "/:userId&:id",
+  userMiddleware.authorize,
+  userMiddleware.isBuyyer,
+  transactionController.showByBuyer,
+);
 router.post(
   "/",
   userMiddleware.authorize,

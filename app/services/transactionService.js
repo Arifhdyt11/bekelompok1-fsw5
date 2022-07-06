@@ -25,9 +25,17 @@ module.exports = {
     }
   },
 
-  async getProductByUser(userId, productId) {
+  async getDetailByBuyer(userId, id){
     try {
-      return await transactionRepository.findProductByUser(userId, productId);
+      return await transactionRepository.findDetailByBuyer(userId, id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getProductByUser(userId, productsizeId) {
+    try {
+      return await transactionRepository.findProductByUser(userId, productsizeId);
     } catch (err) {
       throw err;
     }

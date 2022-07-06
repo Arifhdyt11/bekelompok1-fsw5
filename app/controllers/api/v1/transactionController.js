@@ -63,13 +63,36 @@ module.exports = {
     }
   },
 
+  async showByBuyer(req, res) {
+    try {
+      const data = await transactionService.getDetailByBuyer(req.params.userId, req.params.id);
+      if (data) {
+        res.status(200).json({
+          status: true,
+          message: "Successfully find data transaction",
+          data: data,
+        });
+      } else {
+        res.status(404).json({
+          status: false,
+          message: "Data not found",
+        });
+      }
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
   async create(req, res) {
     try {
       const data = await transactionService.create({
         productsizeId: req.body.productsizeId,
         userId: req.user.id,
         price: req.body.price,
-        status: defaultStatus,
+        status: 'pending',
         createdAt: new Date(),
         updatedAt: new Date(),
       });
