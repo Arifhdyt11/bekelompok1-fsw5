@@ -41,6 +41,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
+      googleId: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
