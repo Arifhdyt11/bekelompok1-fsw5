@@ -257,6 +257,7 @@ module.exports = {
         where: {
           userId: userId,
           productsizeId: productsizeId,
+          status: ["pending", "success"],
         },
       });
 
