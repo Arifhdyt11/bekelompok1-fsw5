@@ -10,25 +10,25 @@ router.get(
   transactionController.list
 );
 router.get(
-  "/buyer/:id",
+  "/buyer",
   userMiddleware.authorize,
   userMiddleware.isBuyyer,
   transactionController.listByBuyer,
 );
 router.get(
-  "/seller/:id",
+  "/seller",
   userMiddleware.authorize,
   userMiddleware.isSeller,
   transactionController.listBySeller,
 );
 router.get(
-  "/buyer/:userId/:id",
+  "/buyer/:id",
   userMiddleware.authorize,
   userMiddleware.isBuyyer,
   transactionController.showByBuyer,
 );
 router.get(
-  "/seller/:userId/:id",
+  "/seller/:id",
   userMiddleware.authorize,
   userMiddleware.isSeller,
   transactionController.showBySeller,

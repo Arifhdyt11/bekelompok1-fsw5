@@ -4,6 +4,7 @@ const sizeController = require("../app/controllers/api/v1/sizeController");
 const sizeMiddleware = require("../middlewares/sizeMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
+router.get("/", sizeController.list);
 router.get(
   "/",
   userMiddleware.authorize,
