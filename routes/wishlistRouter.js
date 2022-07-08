@@ -9,13 +9,13 @@ router.get(
   wishlistController.list
 );
 router.get(
-  "/buyer/:id",
+  "/buyer",
   userMiddleware.authorize, 
   userMiddleware.isBuyyer, 
   wishlistController.showAllByBuyer
 );
 router.get(
-  "/seller/:id", 
+  "/seller", 
   userMiddleware.authorize, 
   userMiddleware.isSeller, 
   wishlistController.showAllBySeller
