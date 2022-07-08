@@ -22,15 +22,15 @@ module.exports = {
                 model: User,
                 as: "userAsSeller",
                 attributes: [
-                  "id",
-                  "role",
                   "name",
                   "city",
-                  "address",
-                  "phone",
-                  "image",
                 ],
               }
+            ],
+            attributes: [
+              "name",
+              "image",
+              "price",
             ],
           },
           {
@@ -40,13 +40,10 @@ module.exports = {
               role: "BUYER",
               id: id,
             },
-            attributes: [
-              "id",
-              "role",
-              "name",
-            ],
+            attributes: [],
           },
         ],
+        attributes: [ "id", ],
       });
 
       if (data) {
@@ -80,28 +77,17 @@ module.exports = {
                   role: "SELLER",
                   id: id,
                 },
-                attributes: [
-                  "id",
-                  "role",
-                  "name",
-                ],
+                attributes: [],
               },
             ],
-          },
-          {
-            model: User,
-            as: "userAsBuyer",
             attributes: [
-              "id",
-              "role",
               "name",
-              "city",
-              "address",
-              "phone",
               "image",
+              "price",
             ],
-          }
+          },
         ],
+        attributes: [ "id", ],
       });
 
       if (data) {

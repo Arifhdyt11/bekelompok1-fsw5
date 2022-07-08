@@ -89,7 +89,7 @@ module.exports = {
                     where: {
                       id: id,
                     },
-                    attributes: [ "id", "role", "name", ],
+                    attributes: [],
                   },
                   {
                     model: Category,
@@ -118,6 +118,11 @@ module.exports = {
               "image",
             ],
           }
+        ],
+        attributes: [
+          "id",
+          "status",
+          "price",
         ],
       });
 
@@ -257,7 +262,7 @@ module.exports = {
         where: {
           userId: userId,
           productsizeId: productsizeId,
-          status: ["pending", "success"],
+          status: "pending",
         },
       });
 
