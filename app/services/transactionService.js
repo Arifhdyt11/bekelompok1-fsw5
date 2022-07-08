@@ -72,4 +72,12 @@ module.exports = {
       throw err;
     }
   },
+
+  async delete(id) {
+    try {
+      return await transactionRepository.delete(id);
+    } catch (err) {
+      throw err;
+    }
+  },
 };

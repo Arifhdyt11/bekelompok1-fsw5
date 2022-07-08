@@ -45,6 +45,12 @@ router.put(
   userMiddleware.authorize,
   userMiddleware.isSeller,
   transactionController.update
-)
+);
+router.delete(
+  "/:id",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  transactionController.destroy
+);
 
 module.exports = router;
