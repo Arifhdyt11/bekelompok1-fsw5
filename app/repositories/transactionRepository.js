@@ -279,5 +279,13 @@ module.exports = {
         id,
       },
     });
-  }
+  },
+
+  delete(id) {
+    return Transaction.destroy({
+      where: {
+        id,
+      },
+    });
+  },
 };
