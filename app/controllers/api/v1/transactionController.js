@@ -152,4 +152,19 @@ module.exports = {
       });
     }
   },
+
+  async destroy(req, res) {
+    try {
+      await transactionService.delete(req.params.id);
+      res.status(200).json({
+        status: true,
+        message: "Transaction has been deleted!",
+      });
+    } catch (err) {
+      res.status(422).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
 };

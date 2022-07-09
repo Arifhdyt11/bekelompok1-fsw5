@@ -89,7 +89,7 @@ module.exports = {
                     where: {
                       id: id,
                     },
-                    attributes: [ "id", "role", "name", ],
+                    attributes: [],
                   },
                   {
                     model: Category,
@@ -118,6 +118,11 @@ module.exports = {
               "image",
             ],
           }
+        ],
+        attributes: [
+          "id",
+          "status",
+          "price",
         ],
       });
 
@@ -257,6 +262,7 @@ module.exports = {
         where: {
           userId: userId,
           productsizeId: productsizeId,
+          status: "pending",
         },
       });
 
@@ -278,5 +284,13 @@ module.exports = {
         id,
       },
     });
-  }
+  },
+
+  delete(id) {
+    return Transaction.destroy({
+      where: {
+        id,
+      },
+    });
+  },
 };
