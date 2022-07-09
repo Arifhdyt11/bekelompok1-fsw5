@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       password: {
-        allowNull: false,
+        // allowNull: false,
         type: Sequelize.STRING,
       },
       city: {
@@ -40,6 +40,10 @@ module.exports = {
       image: {
         allowNull: true,
         type: Sequelize.STRING,
+      },
+      googleId: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
