@@ -20,7 +20,7 @@ module.exports = {
   
   async showAllByBuyer(req, res) {
     try {
-      const data = await wishlistService.getWishlistBuyerById(req.params.id);
+      const data = await wishlistService.getWishlistBuyerById(req.user.id);
       if (data) {
         res.status(200).json({
           status: true,
@@ -43,7 +43,7 @@ module.exports = {
 
   async showAllBySeller(req, res) {
     try {
-      const data = await wishlistService.getWishlistSellerById(req.params.id);
+      const data = await wishlistService.getWishlistSellerById(req.user.id);
       if (data) {
         res.status(200).json({
           status: true,
@@ -66,9 +66,10 @@ module.exports = {
   
   async create(req, res) {
     try {
+      const userTokenId = req.user.id;
       const data = await wishlistService.create({
         productId: req.body.productId,
-        userId: req.body.userId,
+        userId: userTokenId,
         createdAt: new Date(),
         updatedAt: new Date(),
       });

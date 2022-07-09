@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const wishlistController = require("../app/controllers/api/v1/wishlistController");
-const wishlistMiddleware = require("../middlewares/wishlistMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
 router.get(
@@ -10,13 +9,13 @@ router.get(
   wishlistController.list
 );
 router.get(
-  "/buyer/:id", 
+  "/buyer",
   userMiddleware.authorize, 
   userMiddleware.isBuyyer, 
   wishlistController.showAllByBuyer
 );
 router.get(
-  "/seller/:id", 
+  "/seller", 
   userMiddleware.authorize, 
   userMiddleware.isSeller, 
   wishlistController.showAllBySeller

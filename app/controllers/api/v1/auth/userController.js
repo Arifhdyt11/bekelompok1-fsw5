@@ -97,34 +97,9 @@ module.exports = {
     }
   },
 
-  // async updateProfile(req, res) {
-  //   try {
-  //     const userTokenId = req.user.id;
-  //     await userService.updateCurrentUser(userTokenId, req.body, { new: true });
-  //     const updatedData = await userService.getById(userTokenId);
-
-  //     res.status(200).json({
-  //       status: true,
-  //       message: "Successfully update data user",
-  //       data: updatedData,
-  //     });
-  //   } catch (err) {
-  //     res.status(422).json({
-  //       status: false,
-  //       message: err.message,
-  //     });
-  //   }
-  // },
-
   async updateProfile(req, res) {
     try {
       console.log("file", req.file);
-      // const bearerToken = req.headers.authorization;
-      // const userTokenId = req.user.id;
-      // const userTokenEmail = req.user.email;
-      // await userService.updateCurrentUser(userTokenId, req.body, { new: true });
-      // const user = await userService.getById(userTokenId);
-
       const bearerToken = req.headers.authorization;
       const token = bearerToken.split("Bearer ")[1];
       const tokenPayload = verifyToken(token);
@@ -132,9 +107,6 @@ module.exports = {
         JSON.stringify(await userService.getByEmail(tokenPayload.email))
       );
       delete user.password;
-
-      console.log("user : ", user.name);
-      console.log("user image : ", user.image);
 
       if (req.file === undefined || req.file === null) {
         user.name = req.body.name;
@@ -163,7 +135,6 @@ module.exports = {
         user.phone = req.body.phone;
         user.image = url;
       }
-      console.log("user2 : ", user.name);
       await userService.update(user.id, user);
       delete user.password;
 
@@ -173,7 +144,7 @@ module.exports = {
         data: JSON.parse(JSON.stringify(user)),
       });
     } catch (err) {
-      res.status(400).send(err.message);
+      res.status(422).send(err.message);
     }
   },
 

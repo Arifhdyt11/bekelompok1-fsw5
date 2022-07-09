@@ -1,34 +1,65 @@
-const { transaction, Product } = require("../models");
+const { Transaction, ProductSize, Product, User, Category, Size } = require("../models");
 
 module.exports = {
-  findByBuyer(buyerId) {
-    try {
-      const data = transaction.findAll({
-        include: [{ model: Product }],
-        where: {
-          userId: buyerId,
-        },
-      });
-
-      if (data) {
-        return data;
-      }
-    } catch (error) {
-      return error;
-    }
+  findAll() {
+    return Transaction.findAll();
   },
 
-  findBySeller(sellerId) {
+  find(id) {
+    return Transaction.findOne({
+      where: {
+        id: id,
+      },
+    });
+  },
+
+  findByBuyer(id) {
     try {
-      const data = transaction.findAll({
+      const data = Transaction.findAll({
         include: [
-          {
-            model: Product,
-            as: "products",
-            where: {
-              userId: sellerId,
-            },
+          { 
+            model: ProductSize,
+            as: "productSizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    attributes: [
+                      "id",
+                      "role",
+                      "name",
+                      "city",
+                      "address",
+                      "phone",
+                      "image",
+                    ],
+                  },
+                  {
+                    model: Category,
+                    as: "categories",
+                    attributes: ["name"],
+                  },
+                ],
+              },
+              {
+                model: Size,
+                as: "sizes",
+                attributes: ["size"],
+              },
+            ],
           },
+          {
+            model: User,
+            as: "userAsBuyer",
+            where: {
+              id: id,
+            },
+            attributes: [ "id", "role", "name", ],
+          }
         ],
       });
 
@@ -40,12 +71,198 @@ module.exports = {
     }
   },
 
-  findProductByUser(userId, productId) {
+  findBySeller(id) {
     try {
-      const data = transaction.findOne({
+      const data = Transaction.findAll({
+        include: [
+          {
+            model: ProductSize,
+            as: "productSizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    where: {
+                      id: id,
+                    },
+                    attributes: [],
+                  },
+                  {
+                    model: Category,
+                    as: "categories",
+                    attributes: ["name"],
+                  },
+                ],
+              },
+              {
+                model: Size,
+                as: "sizes",
+                attributes: ["size"],
+              },
+            ],  
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          }
+        ],
+        attributes: [
+          "id",
+          "status",
+          "price",
+        ],
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
+  findDetailByBuyer(userId, id){
+    try {
+      const data = Transaction.findOne({
+        include: [
+          { 
+            model: ProductSize,
+            as: "productSizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    attributes: [
+                      "id",
+                      "role",
+                      "name",
+                      "city",
+                      "address",
+                      "phone",
+                      "image",
+                    ],
+                  },
+                  {
+                    model: Category,
+                    as: "categories",
+                    attributes: ["name"],
+                  },
+                ],
+              },
+              {
+                model: Size,
+                as: "sizes",
+                attributes: ["size"],
+              },
+            ],
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            where: {
+              id: userId,
+            },
+            attributes: [ "id", "role", "name", ],
+          }
+        ],
+        where: {
+          id: id,
+        },
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
+  findDetailBySeller(userId, id){
+    try {
+      const data = Transaction.findAll({
+        include: [
+          {
+            model: ProductSize,
+            as: "productSizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    where: {
+                      id: userId,
+                    },
+                    attributes: [ "id", "role", "name", ],
+                  },
+                  {
+                    model: Category,
+                    as: "categories",
+                    attributes: ["name"],
+                  },
+                ],
+              },
+              {
+                model: Size,
+                as: "sizes",
+                attributes: ["size"],
+              },
+            ],
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          }
+        ],
+        where: {
+          id: id,
+        },
+      });
+
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      return error;
+    }
+  },
+
+  findProductByUser(userId, productsizeId) {
+    try {
+      const data = Transaction.findOne({
         where: {
           userId: userId,
-          productId: productId,
+          productsizeId: productsizeId,
+          status: "pending",
         },
       });
 
@@ -58,18 +275,19 @@ module.exports = {
   },
 
   create(createArgs) {
-    return Wishlist.create(createArgs);
+    return Transaction.create(createArgs);
   },
 
   update(id, updateArgs) {
-    return Wishlist.update(updateArgs, {
+    return Transaction.update(updateArgs, {
       where: {
         id,
       },
     });
   },
+
   delete(id) {
-    return Wishlist.destroy({
+    return Transaction.destroy({
       where: {
         id,
       },

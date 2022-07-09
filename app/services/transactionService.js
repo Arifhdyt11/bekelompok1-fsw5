@@ -1,25 +1,57 @@
 const transactionRepository = require("../repositories/transactionRepository");
 
 module.exports = {
-  async getByBuyer(buyerId) {
+  async list(req, res) {
     try {
-      return await transactionRepository.findByBuyer(buyerId);
+      return await transactionRepository.findAll();
     } catch (err) {
       throw err;
     }
   },
 
-  async getBySeller(sellerId) {
+  async get(id) {
     try {
-      return await transactionRepository.findBySeller(sellerId);
+      return await transactionRepository.find(id);
     } catch (err) {
       throw err;
     }
   },
 
-  async getProductByUser(userId, productId) {
+  async getAllByBuyer(id) {
     try {
-      return await transactionRepository.findProductByUser(userId, productId);
+      return await transactionRepository.findByBuyer(id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getAllBySeller(id) {
+    try {
+      return await transactionRepository.findBySeller(id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getDetailByBuyer(userId, id){
+    try {
+      return await transactionRepository.findDetailByBuyer(userId, id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getDetailBySeller(userId, id){
+    try {
+      return await transactionRepository.findDetailBySeller(userId, id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getProductByUser(userId, productsizeId) {
+    try {
+      return await transactionRepository.findProductByUser(userId, productsizeId);
     } catch (err) {
       throw err;
     }

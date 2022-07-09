@@ -4,6 +4,7 @@ module.exports = {
   findAll() {
     return Category.findAll();
   },
+
   find(id) {
     return Category.findOne({
       where: {
@@ -11,9 +12,11 @@ module.exports = {
       },
     });
   },
+
   create(createArgs) {
     return Category.create(createArgs);
   },
+
   update(id, updateArgs) {
     return Category.update(updateArgs, {
       where: {
@@ -21,6 +24,7 @@ module.exports = {
       },
     });
   },
+
   delete(id) {
     return Category.destroy({
       where: {

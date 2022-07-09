@@ -5,12 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.ProductSize, {
         through: "Product_Transactions",
-        as: "productsizes",
+        as: "productSizes",
         foreignKey: "productsizeId",
       });
       this.belongsTo(models.User, {
         through: "Product_Transactions",
-        as: "user as buyer",
+        as: "userAsBuyer",
         foreignKey: "userId",
       });
     }
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       productsizeId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
-      priceBid: DataTypes.STRING,
+      price: DataTypes.STRING,
       status: {
         type: DataTypes.STRING,
         values: ["pending", "success", "cancel"],

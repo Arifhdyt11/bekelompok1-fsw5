@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "db:seed": "npm run _db -- db:seed:all",
