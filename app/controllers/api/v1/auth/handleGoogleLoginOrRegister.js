@@ -29,13 +29,12 @@ async function handleGoogleLoginOrRegister(req, res) {
         name,
         googleId: sub,
         role: "BUYER",
+        registeredVia: "google",
       });
     delete user.password;
 
     const token = createToken(user);
-    res.status(201).json({token});
-
-
+    res.status(201).json({ token });
   } catch (err) {
     console.log(err.message);
     res.status(401).json({ error: { name: err.name, message: err.message } });

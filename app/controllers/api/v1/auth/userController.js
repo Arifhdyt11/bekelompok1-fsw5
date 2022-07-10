@@ -19,7 +19,14 @@ function verifyToken(token) {
 module.exports = {
   async register(req, res) {
     try {
-      const newUser = await userService.create(req.body);
+      let { role, name, email, password } = req.body;
+      const newUser = await userService.create({
+        role: role.toUpperCase(),
+        name,
+        email,
+        password,
+        registeredVia: "auth-form",
+      });
 
       const postedData = await userService.getById(newUser.id);
 
