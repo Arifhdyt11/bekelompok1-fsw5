@@ -73,6 +73,19 @@ module.exports = {
             as: "categories",
             attributes: ["name"],
           },
+          {
+            model: User,
+            as: "userAsSeller",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          },
         ],
         attributes: ["id", "name", "image", "price", "description"],
       });
