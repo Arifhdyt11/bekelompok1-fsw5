@@ -1,9 +1,13 @@
+
+const handleGoogleLoginOrRegister  = require("../app/controllers/api/v1/auth/handleGoogleLoginOrRegister");
 // const express = require("express");
 // const passport = require("passport");
 // const { router } = require("../server");
 // const auth = require("../app/controllers/api/v1/auth/auth");
 // const { session } = require("passport");
 // const app = express();
+
+// router.post("/google", handleGoogleLoginOrRegister );
 
 // function isLoggedIn(req, res, next) {
 //   req.user ? next() : res.sendStatus(401);

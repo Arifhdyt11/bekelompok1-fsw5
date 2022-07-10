@@ -15,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
+      googleId: DataTypes.STRING,
+      registeredVia: DataTypes.STRING,
+      emailVerifiedAt: DataTypes.DATE,
+      status: {
+        type: DataTypes.STRING,
+        values: ["inactive", "active"],
+        defaultValue: "inactive",
+      },
       city: DataTypes.STRING,
       address: DataTypes.TEXT,
       phone: DataTypes.STRING,
@@ -30,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
             const salt = await bcrypt.genSalt(10, "a");
             user.password = bcrypt.hashSync(user.password, salt);
           }
+          // default avatar
+          let name = user.name.replaceAll(" ", "+");
+          user.image = `https://ui-avatars.com/api/?name=${name}&background=4e73df&color=ffffff&size=100`;
         },
         beforeUpdate: async (user) => {
           if (user.changed("password")) {

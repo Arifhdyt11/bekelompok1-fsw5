@@ -4,6 +4,10 @@ const userController = require("../app/controllers/api/v1/auth/userController");
 const userMiddleware = require("../middlewares/userMiddleware");
 const uploadOnMemory = require("../config/uploadOnMemory");
 
+// oauth
+const handleGoogleLoginOrRegister  = require("../app/controllers/api/v1/auth/handleGoogleLoginOrRegister");
+router.post("/google", handleGoogleLoginOrRegister);
+
 router.post("/login", userController.login);
 router.post(
   "/register",
