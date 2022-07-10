@@ -11,12 +11,7 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "price",
-        ],
+        attributes: ["id", "name", "image", "price"],
       });
 
       if (data) {
@@ -54,13 +49,7 @@ module.exports = {
         where: {
           id: id,
         },
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "price",
-          "description",
-        ],
+        attributes: ["id", "name", "image", "price", "description"],
       });
 
       if (data) {
@@ -84,14 +73,21 @@ module.exports = {
             as: "categories",
             attributes: ["name"],
           },
+          {
+            model: User,
+            as: "userAsSeller",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          },
         ],
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "price",
-          "description",
-        ],
+        attributes: ["id", "name", "image", "price", "description"],
       });
     } catch (error) {
       return error;
@@ -111,12 +107,7 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "price",
-        ],
+        attributes: ["id", "name", "image", "price"],
       });
     } catch (error) {
       return error;
