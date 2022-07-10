@@ -11,7 +11,7 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: ["id", "name", "image", "price"],
+        attributes: ["id", "name", "image", "price", "status"],
       });
 
       if (data) {
