@@ -22,7 +22,24 @@ module.exports = {
         type: Sequelize.STRING,
       },
       password: {
-        // allowNull: false,
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      googleId: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      registeredVia: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      emailVerifiedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
+      status: {
+        allowNull: true,
+        defaultValue: "inactive",
         type: Sequelize.STRING,
       },
       city: {
@@ -40,10 +57,6 @@ module.exports = {
       image: {
         allowNull: true,
         type: Sequelize.STRING,
-      },
-      googleId: {
-        allowNull: true,
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
