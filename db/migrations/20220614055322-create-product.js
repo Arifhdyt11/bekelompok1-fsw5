@@ -15,6 +15,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       categoryId: {
         allowNull: false,
@@ -23,6 +24,7 @@ module.exports = {
           model: "Categories",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       name: {
         allowNull: false,
@@ -40,6 +42,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.ARRAY(Sequelize.STRING),
         default: [],
+      },
+      status: {
+        allowNull: true,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

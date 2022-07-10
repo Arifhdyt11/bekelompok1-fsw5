@@ -13,14 +13,14 @@ module.exports = {
     ];
     const categoryB = [
       {
-        name: "Sport",
+        name: "Sports",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
     ];
     const categoryC = [
       {
-        name: "Casual",
+        name: "Casuals",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -32,11 +32,19 @@ module.exports = {
         updatedAt: timestamp,
       },
     ];
+    const categoryE = [
+      {
+        name: "Formals",
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      },
+    ];
 
     await queryInterface.bulkInsert("Categories", categoryA, {});
     await queryInterface.bulkInsert("Categories", categoryB, {});
     await queryInterface.bulkInsert("Categories", categoryC, {});
     await queryInterface.bulkInsert("Categories", categoryD, {});
+    await queryInterface.bulkInsert("Categories", categoryE, {});
   },
 
   async down(queryInterface, Sequelize) {

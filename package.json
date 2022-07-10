@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "jest --verbose",
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "db:seed": "npm run _db -- db:seed:all",
@@ -13,6 +14,7 @@
     "_db": "node ./node_modules/sequelize-cli/lib/sequelize"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.30.0",
     "cookie-parser": "~1.4.4",
@@ -33,6 +35,15 @@
     "sequelize": "^6.20.1",
     "sequelize-cli": "^6.4.1",
     "swagger-ui-express": "^4.4.0",
+    "verbose": "^0.2.3",
     "yamljs": "^0.3.0"
+  },
+  "jest": {
+    "verbose": true
+  },
+  "devDependencies": {
+    "jest": "^28.1.2",
+    "nodemon": "^2.0.19",
+    "supertest": "^6.2.4"
   }
 }

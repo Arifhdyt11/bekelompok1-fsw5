@@ -15,6 +15,7 @@ module.exports = {
           model: "ProductSizes",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       userId: {
         allowNull: false,
@@ -23,13 +24,14 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
-      price: {
+      priceBid: {
         allowNull: false,
         type: Sequelize.STRING,
       },
       status: {
-        allowNull: false,
+        allowNull: true,
         defaultValue: "pending",
         type: Sequelize.STRING,
       },

@@ -20,7 +20,7 @@ module.exports = {
   async listByBuyer(req, res) {
     try {
       const data = await transactionService.getAllByBuyer(req.user.id);
-      if (data) {  
+      if (data) {
         res.status(200).json({
           status: true,
           message: "Successfully find all data transaction",
@@ -65,7 +65,10 @@ module.exports = {
 
   async showByBuyer(req, res) {
     try {
-      const data = await transactionService.getDetailByBuyer(req.user.id, req.params.id);
+      const data = await transactionService.getDetailByBuyer(
+        req.user.id,
+        req.params.id
+      );
       if (data) {
         res.status(200).json({
           status: true,
@@ -88,7 +91,10 @@ module.exports = {
 
   async showBySeller(req, res) {
     try {
-      const data = await transactionService.getDetailBySeller(req.user.id, req.params.id);
+      const data = await transactionService.getDetailBySeller(
+        req.user.id,
+        req.params.id
+      );
       if (data) {
         res.status(200).json({
           status: true,
@@ -114,8 +120,8 @@ module.exports = {
       const data = await transactionService.create({
         productsizeId: req.body.productsizeId,
         userId: req.user.id,
-        price: req.body.price,
-        status: 'pending',
+        priceBid: req.body.price,
+        status: "pending",
         createdAt: new Date(),
         updatedAt: new Date(),
       });

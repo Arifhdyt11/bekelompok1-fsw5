@@ -17,7 +17,8 @@ module.exports = {
         city: "Medan",
         address: "jl.medan",
         phone: "8123456790",
-        image: "https://picsum.photos/200/300",
+        image:
+          "https://ui-avatars.com/api/?name=Seller+A&background=4e73df&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -31,7 +32,8 @@ module.exports = {
         city: "Jakarta",
         address: "jl.jakarta",
         phone: "8123456790",
-        image: "https://picsum.photos/200/300",
+        image:
+          "https://ui-avatars.com/api/?name=Seller+B&background=4e73df&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -46,7 +48,8 @@ module.exports = {
         city: "Bandung",
         address: "jl.bandung",
         phone: "8123456790",
-        image: "https://picsum.photos/200/300",
+        image:
+          "https://ui-avatars.com/api/?name=Seller+C&background=4e73df&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -61,7 +64,8 @@ module.exports = {
         city: "purwakarta",
         address: "jl.purwakarta",
         phone: "8123456790",
-        image: "https://picsum.photos/200/300",
+        image:
+          "https://ui-avatars.com/api/?name=Buyer+A&background=4e73df&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -76,7 +80,8 @@ module.exports = {
         city: "semarang",
         address: "jl.semarang",
         phone: "8123456790",
-        image: "https://picsum.photos/200/300",
+        image:
+          "https://ui-avatars.com/api/?name=Buyer+B&background=4e73df&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -91,7 +96,8 @@ module.exports = {
         city: "surabaya",
         address: "jl.surabaya",
         phone: "8123456790",
-        image: "https://picsum.photos/200/300",
+        image:
+          "https://ui-avatars.com/api/?name=Buyer+C&background=4e73df&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },

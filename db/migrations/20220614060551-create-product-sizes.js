@@ -15,6 +15,7 @@ module.exports = {
           model: "Products",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       sizeId: {
         allowNull: false,
@@ -23,6 +24,7 @@ module.exports = {
           model: "Sizes",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       stock: {
         allowNull: false,
