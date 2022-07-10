@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       productsizeId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
-      price: DataTypes.STRING,
+      priceBid: DataTypes.STRING,
       status: {
         type: DataTypes.STRING,
         values: ["pending", "success", "cancel"],
