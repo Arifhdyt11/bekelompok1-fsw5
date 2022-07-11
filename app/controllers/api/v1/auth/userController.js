@@ -20,6 +20,24 @@ module.exports = {
   async register(req, res) {
     try {
       let { role, name, email, password } = req.body;
+      // password required
+      if (!password) {
+        res.status(400).json({
+          status: false,
+          message: "Password is required",
+        });
+        return;
+      }
+
+      // password must be at least 8 characters
+      if (password.length < 8) {
+        res.status(400).json({
+          status: false,
+          message: "Password must be at least 8 characters",
+        });
+        return;
+      }
+
       const newUser = await userService.create({
         role: role.toUpperCase(),
         name,
@@ -169,6 +187,23 @@ module.exports = {
         });
         return;
       }
+      // password required
+      if (req.body.password === "") {
+        res.status(400).json({
+          status: false,
+          message: "New password is required!",
+        });
+        return;
+      }
+      // password must be at least 8 characters
+      if (req.body.newPassword.length < 8) {
+        res.status(400).json({
+          status: false,
+          message: "Password must be at least 8 characters!",
+        });
+        return;
+      }
+
       await userService.updateCurrentUser(userTokenId, req.body);
 
       res.status(200).json({
@@ -179,6 +214,21 @@ module.exports = {
       res.status(422).json({
         status: false,
         message: error.message,
+      });
+    }
+  },
+
+  async delete(req, res) {
+    try {
+      await userService.delete(req.body.email);
+      res.status(200).json({
+        status: true,
+        message: "User has been deleted!",
+      });
+    } catch (err) {
+      res.status(422).json({
+        status: false,
+        message: err.message,
       });
     }
   },

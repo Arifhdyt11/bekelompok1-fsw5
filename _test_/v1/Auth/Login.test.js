@@ -1,76 +1,82 @@
 const request = require("supertest");
 const app = require("../../../server");
 
-describe("Login", () => {
-  const emailLogin = "test@binar.com";
-  const emailNotRegistered = "custnotregis@gmail.com";
-  const passwordLogin = "password";
-  const passwordNotRegistered = "custnotregis";
+const emailRegister = "user_testing@binar.com";
+const passwordRegister = "password";
+const emailNotRegister = "testNotResgister@binar.comm";
+const passwordNotRegister = "randomPassword";
 
-  it("Login success, status code 200", async () =>
-    request(app)
-      .post("/api/v1/login")
-      .set("Content-Type", "application/json")
-      .send({ emailLogin, passwordLogin })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.body.accesToken).toEqual(res.body.accesToken);
-      }));
+beforeEach(async () => {
+  return await request(app).post("/api/v1/register").send({
+    role: "buyer",
+    name: "login testing",
+    email: emailRegister,
+    password: passwordRegister,
+    status: "active",
+    registeredVia: "auth-form",
+    emailVerifiedAt: new Date(),
+    createAt: new Date(),
+    updateAt: new Date(),
+  });
+});
 
-  // it("Login email not registered, status code 404", async () =>
-  //   request(app)
-  //     .post("/api/v1/login")
-  //     .set("Content-Type", "application/json")
-  //     .send({ email: emailNotRegistered, password: passwordNotRegistered })
-  //     .then((res) => {
-  //       expect(res.statusCode).toBe(404);
-  //       expect(res.body).toEqual({
-  //         error: {
-  //           message: "Email Not Found!",
-  //         },
-  //       });
-  //     }));
+describe("POST /login", () => {
+  // test login success
+  it("should return 200 OK", async () => {
+    const response = await request(app).post("/api/v1/login").send({
+      email: emailRegister,
+      password: passwordRegister,
+    });
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      status: true,
+      message: "Login successfully!",
+      accessToken: response.body.accessToken,
+    });
+  });
 
-  // it("Login status code 401", async () =>
-  //   request(app)
-  //     .post("/api/v1/login")
-  //     .set("Content-Type", "application/json")
-  //     .send({ email: emailLogin, password: passwordNotRegistered })
-  //     .then((res) => {
-  //       expect(res.statusCode).toBe(401);
-  //       expect(res.body).toEqual({
-  //         error: {
-  //           message: "Wrong Password. Please Try Again!",
-  //         },
-  //       });
-  //     }));
+  // test login failed wrong email and password
+  it("should return 400 Bad Request", async () => {
+    const response = await request(app).post("/api/v1/login").send({
+      email: emailNotRegister,
+      password: passwordNotRegister,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      status: false,
+      message: "Email is not registered!",
+    });
+  });
 
-  // it("Login email not found status code 404", async () =>
-  //   request(app)
-  //     .post("/api/v1/login")
-  //     .set("Content-Type", "application/json")
-  //     .send({ email: emailNotRegistered, password: passwordLogin })
-  //     .then((res) => {
-  //       expect(res.statusCode).toBe(404);
-  //       expect(res.body).toEqual({
-  //         error: {
-  //           message: "Email Not Found!",
-  //         },
-  //       });
-  //     }));
+  // test login failed wrong password
+  it("should return 400 Bad Request", async () => {
+    const response = await request(app).post("/api/v1/login").send({
+      email: emailRegister,
+      password: passwordNotRegister,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      status: false,
+      message: "Password is incorrect!",
+    });
+  });
 
-  // it('Not login status code 401', async () => request(app)
-  // .post('/api/v1/login')
-  // .set('Content-Type', 'application/json')
-  // // .send({})
-  // .then((res) => {
-  //   console.log(res.statusCode)
-  //   console.log(res.body)
-  //   // expect(res.statusCode).toBe(404);
-  //   // expect(res.body).toEqual({
-  //   //   error: {
-  //   //     message: 'Please login first'
-  //   //   },
-  //   // });
-  // }))
+  // test login failed wrong email
+  it("should return 400 Bad Request", async () => {
+    const response = await request(app).post("/api/v1/login").send({
+      email: emailNotRegister,
+      password: passwordRegister,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      status: false,
+      message: "Email is not registered!",
+    });
+  });
+});
+
+afterEach(async () => {
+  return await request(app).delete("/api/v1/user").send({
+    email: emailRegister,
+  });
 });

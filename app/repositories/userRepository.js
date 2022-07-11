@@ -34,4 +34,12 @@ module.exports = {
       individualHooks: true,
     });
   },
+
+  delete(email) {
+    return User.destroy({
+      where: {
+        email,
+      },
+    });
+  },
 };
