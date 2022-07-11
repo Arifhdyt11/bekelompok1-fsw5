@@ -152,6 +152,7 @@ module.exports = {
           cloudinaryDestroy(oldImage);
         }
       }
+
       // Upload New Image to Cloudinary
       if (req.files.length > 0) {
         for (var i = 0; i < req.files.length; i++) {
@@ -161,7 +162,7 @@ module.exports = {
           image.push(result.secure_url);
         }
       }
-      updateArgs = { ...updateArgs, image };
+      updateArgs = { ...updateArgs, oldImage };
       await productService.update(productId, updateArgs);
       res.status(200).json({
         status: true,
