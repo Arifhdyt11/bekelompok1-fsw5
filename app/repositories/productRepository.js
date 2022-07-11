@@ -87,7 +87,15 @@ module.exports = {
             ],
           },
         ],
-        attributes: ["id", "name", "image", "price", "description", "status"],
+        attributes: [
+          "id",
+          "name",
+          "image",
+          "categoryId",
+          "price",
+          "description",
+          "status",
+        ],
       });
     } catch (error) {
       return error;
@@ -107,7 +115,7 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: ["id", "name", "image", "categoryId", "price", "status"],
+        attributes: ["id", "name", "image", "price", "status"],
       });
     } catch (error) {
       return error;
