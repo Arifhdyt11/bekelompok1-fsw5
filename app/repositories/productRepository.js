@@ -11,12 +11,7 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "price",
-        ],
+        attributes: ["id", "name", "image", "price", "status"],
       });
 
       if (data) {
@@ -54,13 +49,7 @@ module.exports = {
         where: {
           id: id,
         },
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "price",
-          "description",
-        ],
+        attributes: ["id", "name", "image", "price", "description", "status"],
       });
 
       if (data) {
@@ -84,13 +73,28 @@ module.exports = {
             as: "categories",
             attributes: ["name"],
           },
+          {
+            model: User,
+            as: "userAsSeller",
+            attributes: [
+              "id",
+              "role",
+              "name",
+              "city",
+              "address",
+              "phone",
+              "image",
+            ],
+          },
         ],
         attributes: [
           "id",
           "name",
           "image",
+          "categoryId",
           "price",
           "description",
+          "status",
         ],
       });
     } catch (error) {
@@ -111,12 +115,7 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "price",
-        ],
+        attributes: ["id", "name", "image", "price", "status"],
       });
     } catch (error) {
       return error;
@@ -135,7 +134,15 @@ module.exports = {
           {
             model: User,
             as: "userAsSeller",
-            attributes: ["role", "name", "email", "city", "address", "phone"],
+            attributes: [
+              "role",
+              "name",
+              "email",
+              "city",
+              "address",
+              "phone",
+              "status",
+            ],
           },
           {
             model: Size,

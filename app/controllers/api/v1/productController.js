@@ -40,7 +40,7 @@ module.exports = {
 
   async create(req, res) {
     try {
-      const { name, price, categoryId, description } = req.body;
+      const { name, price, categoryId, description, status } = req.body;
       const userTokenId = req.user.id;
       const image = [];
       const fileBase64 = [];
@@ -61,6 +61,7 @@ module.exports = {
           categoryId,
           description,
           image,
+          status,
         })
         .then((product) => {
           res.status(201).json({
@@ -140,7 +141,7 @@ module.exports = {
       const dataUpdated = await productService.get(productId);
 
       // Delete Image from Cloudinary
-      if (oldImage !== undefined) {
+      if (oldImage) {
         if (Array.isArray(oldImage)) {
           // Kalo bentuknya array
           for (var x = 0; x < oldImage.length; x++) {
@@ -175,11 +176,11 @@ module.exports = {
     }
   },
 
-    // deleteProduct : async (req,res, next) => {
-    //   try{
-    //     const productRepository = await 
-    //   }
-    // }
+  // deleteProduct : async (req,res, next) => {
+  //   try{
+  //     const productRepository = await
+  //   }
+  // }
 
   async destroy(req, res) {
     try {
