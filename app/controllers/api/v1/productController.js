@@ -133,13 +133,15 @@ module.exports = {
       const file = [];
       const image = [];
       console.log("old image : ", oldImage.length);
-
+      let updateArgs = {
+        ...req.body,
+      };
       let productId = req.params.id;
 
       const dataUpdated = await productService.get(productId);
 
       // Delete Image from Cloudinary
-      if (oldImage !== undefined) {
+      if (oldImage) {
         if (Array.isArray(oldImage)) {
           // Kalo bentuknya array
           for (var x = 0; x < oldImage.length; x++) {
@@ -150,7 +152,6 @@ module.exports = {
           cloudinaryDestroy(oldImage);
         }
       }
-
       // Upload New Image to Cloudinary
       if (req.files.length > 0) {
         for (var i = 0; i < req.files.length; i++) {
@@ -160,7 +161,7 @@ module.exports = {
           image.push(result.secure_url);
         }
       }
-      updateArgs = { ...req.body };
+      updateArgs = { ...updateArgs, image };
       await productService.update(productId, updateArgs);
       res.status(200).json({
         status: true,
