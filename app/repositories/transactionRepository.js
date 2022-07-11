@@ -122,7 +122,7 @@ module.exports = {
         attributes: [
           "id",
           "status",
-          "price",
+          "priceBid",
         ],
       });
 
