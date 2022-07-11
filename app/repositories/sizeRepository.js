@@ -1,4 +1,4 @@
-const { ProductSize, Product, Size } = require("../models");
+const { ProductSize, Product, Size, } = require("../models");
 
 module.exports = {
   findAll() {
