@@ -133,9 +133,7 @@ module.exports = {
       const file = [];
       const image = [];
       console.log("old image : ", oldImage.length);
-      let updateArgs = {
-        ...req.body,
-      };
+
       let productId = req.params.id;
 
       const dataUpdated = await productService.get(productId);
@@ -162,7 +160,7 @@ module.exports = {
           image.push(result.secure_url);
         }
       }
-      updateArgs = { ...updateArgs, oldImage };
+      updateArgs = { ...req.body };
       await productService.update(productId, updateArgs);
       res.status(200).json({
         status: true,
