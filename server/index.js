@@ -1,7 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
+const cors = require("cors")
 const router = require("../routes");
 
 const app = express();

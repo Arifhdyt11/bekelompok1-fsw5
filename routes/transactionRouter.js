@@ -37,6 +37,7 @@ router.post(
   "/",
   userMiddleware.authorize,
   userMiddleware.isBuyyer,
+  userMiddleware.validateUserIdentity,
   transactionMiddleware.getProductByUser,
   transactionController.create
 );

@@ -141,10 +141,10 @@ module.exports = {
         user.phone = req.body.phone;
       } else {
         //hapus foto lama
-        if (user.image !== null) {
-          const oldImage = user.image.substring(65, 85);
-          await cloudinaryDestroy(oldImage);
-        }
+        // if (user.image !== null) {
+        //   const oldImage = user.image.substring(65, 85);
+        //   await cloudinaryDestroy(oldImage);
+        // }
         console.log("user before : ", user.name);
         // Upload foto baru
         const fileBase64 = req.file.buffer.toString("base64");
@@ -166,7 +166,7 @@ module.exports = {
       res.status(200).json({
         status: true,
         message: "User Updated",
-        data: JSON.parse(JSON.stringify(user)),
+        data: user,
       });
     } catch (err) {
       res.status(422).send(err.message);

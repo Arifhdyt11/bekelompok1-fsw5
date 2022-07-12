@@ -21,17 +21,10 @@ module.exports = {
               {
                 model: User,
                 as: "userAsSeller",
-                attributes: [
-                  "name",
-                  "city",
-                ],
-              }
+                attributes: ["name", "city"],
+              },
             ],
-            attributes: [
-              "name",
-              "image",
-              "price",
-            ],
+            attributes: ["name", "image", "price"],
           },
           {
             model: User,
@@ -43,7 +36,7 @@ module.exports = {
             attributes: [],
           },
         ],
-        attributes: [ "id", ],
+        attributes: ["id", "productId"],
       });
 
       if (data) {
@@ -80,14 +73,10 @@ module.exports = {
                 attributes: [],
               },
             ],
-            attributes: [
-              "name",
-              "image",
-              "price",
-            ],
+            attributes: ["name", "image", "price"],
           },
         ],
-        attributes: [ "id", ],
+        attributes: ["id"],
       });
 
       if (data) {

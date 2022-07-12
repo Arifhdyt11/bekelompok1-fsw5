@@ -23,6 +23,7 @@ router.post(
   "/",
   userMiddleware.authorize,
   userMiddleware.isSeller,
+  userMiddleware.validateUserIdentity,
   uploadOnMemory.array("image", 4),
   productMiddleware.postValidate,
   productController.create
@@ -35,7 +36,7 @@ router.put(
   uploadOnMemory.array("image", 4),
   productMiddleware.getById,
   productMiddleware.getBySellerId,
-  productMiddleware.postValidate,
+  // productMiddleware.postValidate,
   productController.update
 );
 
