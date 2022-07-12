@@ -1,4 +1,5 @@
 const transactionService = require("../../../services/transactionService");
+const sizeService = require("../../../services/sizeService");
 
 module.exports = {
   async list(req, res) {
@@ -120,7 +121,7 @@ module.exports = {
       const data = await transactionService.create({
         productsizeId: req.body.productsizeId,
         userId: req.user.id,
-        priceBid: req.body.price,
+        priceBid: req.body.priceBid,
         status: "pending",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -143,14 +144,30 @@ module.exports = {
       await transactionService.update(req.params.id, {
         status: req.body.status,
       });
+      
+      let updatedStatus = await transactionService.get(req.params.id);
+      
+      let data = await sizeService.get(updatedStatus.productsizeId);
+      
+      let stock = data.stock;
+      let newStock = stock - 1;
+      
+      if(!updatedStatus.status === "success"){
+        res.status(200).json({
+          status: true,
+          message: "Transaction has been updated!",
+          data: updatedStatus,
+        });
+      } 
+        await sizeService.update(data.id, {
+          stock: newStock,
+        });
+        res.status(200).json({
+          status: true,
+          message: "Transaction has been updated!",
+          data: updatedStatus,
+        });
 
-      const data = await transactionService.get(req.params.id);
-
-      res.status(200).json({
-        status: true,
-        message: "Transaction has been updated!",
-        data: data,
-      });
     } catch (err) {
       res.status(422).json({
         status: false,

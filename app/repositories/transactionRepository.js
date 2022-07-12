@@ -124,7 +124,12 @@ module.exports = {
               "phone",
               "image",
             ],
-          },
+          }
+        ],
+        attributes: [
+          "id",
+          "status",
+          "priceBid",
         ],
       });
 
