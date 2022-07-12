@@ -41,6 +41,26 @@ module.exports = {
     }
   },
 
+  async validateUserIdentity(req, res, next) {
+    try {
+      const { city, address, phone } = await req.user;
+      if (city === null || address === null || phone === null
+        || city === "" || address === "" || phone === "") {
+        res.status(400).json({
+          status: false,
+          message: "Please compelete your profile!",
+        });
+        return;
+      }
+      next();
+    } catch (error) {
+      res.status(400).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  },
+
   async authorize(req, res, next) {
     try {
       const bearerToken = req.headers.authorization;
