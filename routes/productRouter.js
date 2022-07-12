@@ -23,6 +23,7 @@ router.post(
   "/",
   userMiddleware.authorize,
   userMiddleware.isSeller,
+  userMiddleware.validateUserIdentity,
   uploadOnMemory.array("image", 4),
   productMiddleware.postValidate,
   productController.create
