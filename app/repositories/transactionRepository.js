@@ -1,11 +1,4 @@
-const {
-  Transaction,
-  ProductSize,
-  Product,
-  User,
-  Category,
-  Size,
-} = require("../models");
+const { Transaction, ProductSize, Product, User, Category, Size } = require("../models");
 
 module.exports = {
   findAll() {
@@ -24,7 +17,7 @@ module.exports = {
     try {
       const data = Transaction.findAll({
         include: [
-          {
+          { 
             model: ProductSize,
             as: "productSizes",
             include: [
@@ -65,8 +58,8 @@ module.exports = {
             where: {
               id: id,
             },
-            attributes: ["id", "role", "name"],
-          },
+            attributes: [ "id", "role", "name", ],
+          }
         ],
       });
 
@@ -110,7 +103,7 @@ module.exports = {
                 as: "sizes",
                 attributes: ["size"],
               },
-            ],
+            ],  
           },
           {
             model: User,
@@ -141,11 +134,11 @@ module.exports = {
     }
   },
 
-  findDetailByBuyer(userId, id) {
+  findDetailByBuyer(userId, id){
     try {
       const data = Transaction.findOne({
         include: [
-          {
+          { 
             model: ProductSize,
             as: "productSizes",
             include: [
@@ -186,8 +179,8 @@ module.exports = {
             where: {
               id: userId,
             },
-            attributes: ["id", "role", "name"],
-          },
+            attributes: [ "id", "role", "name", ],
+          }
         ],
         where: {
           id: id,
@@ -202,7 +195,7 @@ module.exports = {
     }
   },
 
-  findDetailBySeller(userId, id) {
+  findDetailBySeller(userId, id){
     try {
       const data = Transaction.findAll({
         include: [
@@ -220,7 +213,7 @@ module.exports = {
                     where: {
                       id: userId,
                     },
-                    attributes: ["id", "role", "name"],
+                    attributes: [ "id", "role", "name", ],
                   },
                   {
                     model: Category,
@@ -248,7 +241,7 @@ module.exports = {
               "phone",
               "image",
             ],
-          },
+          }
         ],
         where: {
           id: id,
