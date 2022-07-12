@@ -36,7 +36,7 @@ router.put(
   uploadOnMemory.array("image", 4),
   productMiddleware.getById,
   productMiddleware.getBySellerId,
-  productMiddleware.postValidate,
+  // productMiddleware.postValidate,
   productController.update
 );
 

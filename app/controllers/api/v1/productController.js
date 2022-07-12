@@ -132,7 +132,7 @@ module.exports = {
       const fileBase64 = [];
       const file = [];
       const newImage = [];
-      console.log("old image : ", oldImage.length);
+      // console.log("old image : ", oldImage.length);
       let updateArgs = {
         ...req.body,
       };
@@ -154,12 +154,14 @@ module.exports = {
       }
       // Upload New Image to Cloudinary
       const image = req.body.image;
-      if (req.files.length > 0) {
-        for (var i = 0; i < req.files.length; i++) {
-          fileBase64.push(req.files[i].buffer.toString("base64"));
-          file.push(`data:${req.files[i].mimetype};base64,${fileBase64[i]}`);
-          const result = await cloudinaryUpload(file[i]);
-          newImage.push(result.secure_url);
+      if (req.files) {
+        if (req.files.length > 0) {
+          for (var i = 0; i < req.files.length; i++) {
+            fileBase64.push(req.files[i].buffer.toString("base64"));
+            file.push(`data:${req.files[i].mimetype};base64,${fileBase64[i]}`);
+            const result = await cloudinaryUpload(file[i]);
+            newImage.push(result.secure_url);
+          }
         }
       }
       if (image) {
@@ -171,8 +173,8 @@ module.exports = {
           newImage.push(image);
         }
       }
-      console.log(newImage);
       updateArgs = { ...updateArgs, image: newImage };
+      console.log(updateArgs);
       await productService.update(productId, updateArgs);
       res.status(200).json({
         status: true,
