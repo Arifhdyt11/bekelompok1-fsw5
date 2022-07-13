@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/16</span>
+                <span class='fraction'>8/16</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
+                <span class="quiet">Functions</span>
                 <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/16</span>
+                <span class='fraction'>8/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -154,16 +154,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -208,17 +208,17 @@ module.exports = (sequelize, DataTypes) =&gt; {
       modelName: "User",
       timestamps: true,
       hooks: {
-        beforeCreate: async (user) =&gt; {
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (user.password) {
-            const salt = await bcrypt.genSalt(10, "a");
-            user.password = bcrypt.hashSync(user.password, salt);
+        beforeCreate: <span class="fstat-no" title="function not covered" >as</span>ync (user) =&gt; {
+<span class="cstat-no" title="statement not covered" >          if (user.password) {</span>
+            const salt = <span class="cstat-no" title="statement not covered" >await bcrypt.genSalt(10, "a");</span>
+<span class="cstat-no" title="statement not covered" >            user.password = bcrypt.hashSync(user.password, salt);</span>
           }
           // default avatar
-          let name = user.name.replaceAll(" ", "+");
-          user.image = `https://ui-avatars.com/api/?name=${name}&amp;background=4e73df&amp;color=ffffff&amp;size=100`;
+          let name = <span class="cstat-no" title="statement not covered" >user.name.replaceAll(" ", "+");</span>
+<span class="cstat-no" title="statement not covered" >          user.image = `https://ui-avatars.com/api/?name=${name}&amp;background=4e73df&amp;color=ffffff&amp;size=100`;</span>
         },
-        beforeUpdate: async (user) =&gt; {
-          <span class="missing-if-branch" title="if path not taken" >I</span>if (user.changed("password")) {
+        beforeUpdate: <span class="fstat-no" title="function not covered" >as</span>ync (user) =&gt; {
+<span class="cstat-no" title="statement not covered" >          if (user.changed("password")) {</span>
             const salt = <span class="cstat-no" title="statement not covered" >await bcrypt.genSalt(10, "a");</span>
 <span class="cstat-no" title="statement not covered" >            user.password = bcrypt.hashSync(user.password, salt);</span>
           }
@@ -235,7 +235,7 @@ module.exports = (sequelize, DataTypes) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Jul 10 2022 20:46:21 GMT+0700 (Western Indonesia Time)
+                at Wed Jul 13 2022 08:55:20 GMT+0700 (Waktu Indonesia Barat)
             </div>
         <script src="../../prettify.js"></script>
         <script>

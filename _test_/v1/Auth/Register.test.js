@@ -15,7 +15,7 @@ const passwordSeller = "password";
 
 describe("POST /register", () => {
   // test register success
-  it("should return 201 Created", async () => {
+  it("should return 200 Created", async () => {
     const response = await request(app).post("/api/v1/register").send({
       role: roleBuyer,
       name: nameBuyer,
@@ -27,7 +27,7 @@ describe("POST /register", () => {
       createAt: new Date(),
       updateAt: new Date(),
     });
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual({
       status: true,
       message: "User has been created!",
@@ -36,7 +36,7 @@ describe("POST /register", () => {
   });
 
   // register seller test
-  it("should return 201 Created", async () => {
+  it("should return 200 Created", async () => {
     const response = await request(app).post("/api/v1/register").send({
       role: roleSeller,
       name: nameSeller,
@@ -48,7 +48,7 @@ describe("POST /register", () => {
       createAt: new Date(),
       updateAt: new Date(),
     });
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual({
       status: true,
       message: "User has been created!",
