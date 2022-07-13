@@ -154,6 +154,15 @@ module.exports = {
       }
       // Upload New Image to Cloudinary
       const image = req.body.image;
+      if (image) {
+        if (Array.isArray(image)) {
+          for (var x = 0; x < image.length; x++) {
+            newImage.push(image[x]);
+          }
+        } else {
+          newImage.push(image);
+        }
+      }
       if (req.files) {
         if (req.files.length > 0) {
           for (var i = 0; i < req.files.length; i++) {
@@ -162,15 +171,6 @@ module.exports = {
             const result = await cloudinaryUpload(file[i]);
             newImage.push(result.secure_url);
           }
-        }
-      }
-      if (image) {
-        if (Array.isArray(image)) {
-          for (var x = 0; x < image.length; x++) {
-            newImage.push(image[x]);
-          }
-        } else {
-          newImage.push(image);
         }
       }
       updateArgs = { ...updateArgs, image: newImage };
