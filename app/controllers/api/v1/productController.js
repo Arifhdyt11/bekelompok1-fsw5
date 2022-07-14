@@ -4,10 +4,14 @@ const cloudinary = require("../../../../config/cloudinary");
 const cloudinaryUpload = promisify(cloudinary.uploader.upload);
 const cloudinaryDestroy = promisify(cloudinary.uploader.destroy);
 
+const socket = require("../../../../bin/www"); //import socket  from www
+
 module.exports = {
   async list(req, res) {
     try {
       const data = await productService.list();
+
+      socket.ioObject.emit("products", data);
       res.status(200).json({
         status: true,
         message: "Show all data product successfully!",
@@ -64,8 +68,10 @@ module.exports = {
           status,
         })
         .then((product) => {
+          socket.ioObject.emit("add-products", product);
           res.status(201).json({
             status: true,
+            message: "product added",
             product,
           });
         });

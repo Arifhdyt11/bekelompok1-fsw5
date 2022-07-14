@@ -1,8 +1,33 @@
-require("dotenv").config();
+const express = require("express");
+const socketIo = require("socket.io");
+const http = require("http");
+const PORT = process.env.PORT || 5000;
 
+// const app = express();
 const app = require("../server");
-const port = process.env.PORT || 8000;
+const server = http.createServer(app);
 
-app.listen(port, () => {
-  console.log(`Listening on http://localhost:${port}`);
+const io = socketIo(server, {
+  transports: ["polling"],
+  cors: {
+    cors: {
+      origin: "http://localhost:3000",
+    },
+  },
 });
+
+io.on("connection", (socket) => {
+  /* socket object may be used to send specific messages to the new connected client */
+  console.log("new client connected");
+
+  socket.emit("connection", null);
+
+  // socket.on("connected", function (data) {});
+});
+
+server.listen(PORT, (err) => {
+  if (err) console.log(err);
+  console.log("Server running on Port ", PORT);
+});
+
+module.exports.ioObject = io;
