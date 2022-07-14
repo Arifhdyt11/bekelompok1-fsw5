@@ -123,6 +123,8 @@ module.exports = {
           "id",
           "status",
           "priceBid",
+          "createdAt",
+          "updatedAt",
         ],
       });
 
