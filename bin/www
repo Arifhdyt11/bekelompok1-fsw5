@@ -12,7 +12,7 @@ const io = socketIo(server, {
   transports: ["polling"],
   cors: {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "shoesnarian.vercel.app",
     },
   },
 });
