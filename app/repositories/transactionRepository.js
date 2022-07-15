@@ -71,9 +71,12 @@ module.exports = {
     }
   },
 
+  
+
   findBySeller(id) {
     try {
       const data = Transaction.findAll({
+        where: {'$productSizes.products.userAsSeller.id$': id},
         include: [
           {
             model: ProductSize,
@@ -86,9 +89,6 @@ module.exports = {
                   {
                     model: User,
                     as: "userAsSeller",
-                    where: {
-                      id: id,
-                    },
                     attributes: [],
                   },
                   {
