@@ -23,6 +23,30 @@ module.exports = {
     }
   },
 
+  findByIdCreate(id){
+    try {
+      const data = Product.findOne({
+        include: [
+          {
+            model: Category,
+            as: "categories",
+            attributes: ["name"],
+          },
+        ],
+        where: {
+          id: id,
+        },
+      });
+
+      if (data) {
+        return data;
+      }
+      console.log(data);
+    } catch (error) {
+      return error;
+    }
+  },
+
   findById(id) {
     try {
       const data = Product.findOne({

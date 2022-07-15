@@ -1,5 +1,6 @@
 const transactionService = require("../../../services/transactionService");
 const sizeService = require("../../../services/sizeService");
+const productService = require("../../../services/productService");
 
 module.exports = {
   async list(req, res) {
@@ -43,12 +44,12 @@ module.exports = {
 
   async listBySeller(req, res) {
     try {
-      const data = await transactionService.getAllBySeller(req.user.id);
-      if (data) {
+      const dataTransaction = await transactionService.getAllBySeller(req.user.id);
+      if (dataTransaction.length > 0) {
         res.status(200).json({
           status: true,
           message: "Successfully find all data transaction",
-          data: data,
+          data: dataTransaction,
         });
       } else {
         res.status(404).json({

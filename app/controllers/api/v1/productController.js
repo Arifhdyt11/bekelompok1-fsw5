@@ -28,7 +28,6 @@ module.exports = {
   async listBySeller(req, res) {
     try {
       const data = await productService.listBySeller(req.user.id);
-      console.log(data);
       res.status(200).json({
         status: true,
         message: "Show all data product successfully!",
@@ -57,7 +56,7 @@ module.exports = {
         image.push(result.secure_url);
       }
 
-      productService
+      const productCreated = await productService
         .create({
           userId: userTokenId,
           name,
@@ -67,14 +66,14 @@ module.exports = {
           image,
           status,
         })
-        .then((product) => {
-          socket.ioObject.emit("add-products", product);
-          res.status(201).json({
-            status: true,
-            message: "product added",
-            product,
-          });
-        });
+      const data = await productService.getCreateData(productCreated.id);
+      socket.ioObject.emit("add-products", data);
+      res.status(200).json({
+        status: true,
+        message: "Product added",
+        data : data,
+      });
+    
     } catch (err) {
       res.status(422).json({
         status: false,
