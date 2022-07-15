@@ -24,7 +24,7 @@ module.exports = {
                 attributes: ["name", "city"],
               },
             ],
-            attributes: ["name", "image", "price"],
+            attributes: ["id", "name", "image", "price"],
           },
           {
             model: User,
@@ -73,7 +73,7 @@ module.exports = {
                 attributes: [],
               },
             ],
-            attributes: ["name", "image", "price"],
+            attributes: ["id", "name", "image", "price"],
           },
         ],
         attributes: ["id"],

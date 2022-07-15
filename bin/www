@@ -21,8 +21,9 @@ io.on("connection", (socket) => {
   console.log("new client connected");
 
   socket.emit("connection", null);
-
-  // socket.on("connected", function (data) {});
+  socket.on("disconnect", (reason) => {
+    console.log(reason);
+  });
 });
 
 server.listen(PORT, (err) => {
