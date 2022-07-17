@@ -45,7 +45,7 @@ module.exports = {
   async listBySeller(req, res) {
     try {
       const dataTransaction = await transactionService.getAllBySeller(req.user.id);
-      if (dataTransaction.length > 0) {
+      if (dataTransaction) {
         res.status(200).json({
           status: true,
           message: "Successfully find all data transaction",
