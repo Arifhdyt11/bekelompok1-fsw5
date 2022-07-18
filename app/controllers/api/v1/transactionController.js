@@ -2,6 +2,8 @@ const transactionService = require("../../../services/transactionService");
 const sizeService = require("../../../services/sizeService");
 const productService = require("../../../services/productService");
 
+const socket = require("../../../../bin/www"); //import socket  from www
+
 module.exports = {
   async list(req, res) {
     try {
@@ -44,7 +46,9 @@ module.exports = {
 
   async listBySeller(req, res) {
     try {
-      const dataTransaction = await transactionService.getAllBySeller(req.user.id);
+      const dataTransaction = await transactionService.getAllBySeller(
+        req.user.id
+      );
       if (dataTransaction) {
         res.status(200).json({
           status: true,
@@ -127,6 +131,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+      socket.ioObject.emit("add-transaction", data);
       res.status(201).json({
         status: true,
         message: "Transaction has been added!",
@@ -145,30 +150,29 @@ module.exports = {
       await transactionService.update(req.params.id, {
         status: req.body.status,
       });
-      
+
       let updatedStatus = await transactionService.get(req.params.id);
-      
+
       let data = await sizeService.get(updatedStatus.productsizeId);
-      
+
       let stock = data.stock;
       let newStock = stock - 1;
-      
-      if(!updatedStatus.status === "success"){
-        res.status(200).json({
-          status: true,
-          message: "Transaction has been updated!",
-          data: updatedStatus,
-        });
-      } 
-        await sizeService.update(data.id, {
-          stock: newStock,
-        });
-        res.status(200).json({
-          status: true,
-          message: "Transaction has been updated!",
-          data: updatedStatus,
-        });
 
+      if (!updatedStatus.status === "success") {
+        res.status(200).json({
+          status: true,
+          message: "Transaction has been updated!",
+          data: updatedStatus,
+        });
+      }
+      await sizeService.update(data.id, {
+        stock: newStock,
+      });
+      res.status(200).json({
+        status: true,
+        message: "Transaction has been updated!",
+        data: updatedStatus,
+      });
     } catch (err) {
       res.status(422).json({
         status: false,

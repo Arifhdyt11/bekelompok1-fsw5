@@ -11,7 +11,15 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: ["id", "name", "image", "price", "status"],
+        attributes: [
+          "id",
+          "name",
+          "image",
+          "price",
+          "status",
+          "createdAt",
+          "updatedAt",
+        ],
       });
 
       if (data) {
@@ -23,16 +31,9 @@ module.exports = {
     }
   },
 
-  findByIdCreate(id){
+  findByIdCreate(id) {
     try {
       const data = Product.findOne({
-        include: [
-          {
-            model: Category,
-            as: "categories",
-            attributes: ["name"],
-          },
-        ],
         where: {
           id: id,
         },

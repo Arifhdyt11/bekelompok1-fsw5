@@ -56,24 +56,22 @@ module.exports = {
         image.push(result.secure_url);
       }
 
-      const productCreated = await productService
-        .create({
-          userId: userTokenId,
-          name,
-          price,
-          categoryId,
-          description,
-          image,
-          status,
-        })
+      const productCreated = await productService.create({
+        userId: userTokenId,
+        name,
+        price,
+        categoryId,
+        description,
+        image,
+        status,
+      });
       const data = await productService.getCreateData(productCreated.id);
-      socket.ioObject.emit("add-products", data);
+      socket.ioObject.emit("add-products");
       res.status(200).json({
         status: true,
         message: "Product added",
-        data : data,
+        data: data,
       });
-    
     } catch (err) {
       res.status(422).json({
         status: false,
