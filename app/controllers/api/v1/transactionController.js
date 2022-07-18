@@ -168,6 +168,8 @@ module.exports = {
       await sizeService.update(data.id, {
         stock: newStock,
       });
+
+      socket.ioObject.emit("update-transaction", updatedStatus);
       res.status(200).json({
         status: true,
         message: "Transaction has been updated!",
