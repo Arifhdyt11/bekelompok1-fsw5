@@ -11,7 +11,32 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: ["id", "name", "image", "price", "status"],
+        attributes: [
+          "id",
+          "name",
+          "image",
+          "price",
+          "status",
+          "createdAt",
+          "updatedAt",
+        ],
+      });
+
+      if (data) {
+        return data;
+      }
+      console.log(data);
+    } catch (error) {
+      return error;
+    }
+  },
+
+  findByIdCreate(id) {
+    try {
+      const data = Product.findOne({
+        where: {
+          id: id,
+        },
       });
 
       if (data) {

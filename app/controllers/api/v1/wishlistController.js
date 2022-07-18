@@ -1,6 +1,8 @@
 const product = require("../../../models/product");
 const wishlistService = require("../../../services/wishlistService");
 
+const socket = require("../../../../bin/www"); //import socket  from www
+
 module.exports = {
   async list(req, res) {
     try {
@@ -17,7 +19,7 @@ module.exports = {
       });
     }
   },
-  
+
   async showAllByBuyer(req, res) {
     try {
       const data = await wishlistService.getWishlistBuyerById(req.user.id);
@@ -63,7 +65,7 @@ module.exports = {
       });
     }
   },
-  
+
   async create(req, res) {
     try {
       const userTokenId = req.user.id;
@@ -73,6 +75,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+      socket.ioObject.emit("add-wishlist");
       res.status(201).json({
         status: true,
         message: "Wishlist has been added!",
@@ -89,6 +92,7 @@ module.exports = {
   async destroy(req, res) {
     try {
       await wishlistService.delete(req.params.id);
+      socket.ioObject.emit("delete-wishlist");
       res.status(200).json({
         status: true,
         message: "Wishlist has been deleted!",

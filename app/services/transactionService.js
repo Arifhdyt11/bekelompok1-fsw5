@@ -33,7 +33,7 @@ module.exports = {
     }
   },
 
-  async getDetailByBuyer(userId, id){
+  async getDetailByBuyer(userId, id) {
     try {
       return await transactionRepository.findDetailByBuyer(userId, id);
     } catch (err) {
@@ -41,7 +41,7 @@ module.exports = {
     }
   },
 
-  async getDetailBySeller(userId, id){
+  async getDetailBySeller(userId, id) {
     try {
       return await transactionRepository.findDetailBySeller(userId, id);
     } catch (err) {
@@ -49,9 +49,20 @@ module.exports = {
     }
   },
 
+  async getDetailOneBySeller(userId, id) {
+    try {
+      return await transactionRepository.findOneBySeller(userId, id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
   async getProductByUser(userId, productsizeId) {
     try {
-      return await transactionRepository.findProductByUser(userId, productsizeId);
+      return await transactionRepository.findProductByUser(
+        userId,
+        productsizeId
+      );
     } catch (err) {
       throw err;
     }
