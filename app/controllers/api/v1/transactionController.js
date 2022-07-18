@@ -131,11 +131,12 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      socket.ioObject.emit("add-transaction", data);
+      const transactionCreated = await transactionService.get(data.id);
+      socket.ioObject.emit("add-transaction", transactionCreated);
       res.status(201).json({
         status: true,
         message: "Transaction has been added!",
-        data: data,
+        data: transactionCreated,
       });
     } catch (err) {
       res.status(422).json({
@@ -152,6 +153,8 @@ module.exports = {
       });
 
       let updatedStatus = await transactionService.get(req.params.id);
+
+      console.log(req.params.id);
 
       let data = await sizeService.get(updatedStatus.productsizeId);
 
