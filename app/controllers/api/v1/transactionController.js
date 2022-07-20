@@ -168,9 +168,17 @@ module.exports = {
       let data = await sizeService.get(updatedStatus.productsizeId);
 
       let stock = data.stock;
-      let newStock = stock - 1;
 
-      if (!updatedStatus.status === "success") {
+      if (updatedStatus.status === "process") {
+        var newStock = stock - 1;
+      } else if (updatedStatus.status === "cancel") {
+        var newStock = stock + 1;
+      }
+
+      if (
+        !updatedStatus.status === "process" ||
+        !updatedStatus.status === "cancel"
+      ) {
         res.status(200).json({
           status: true,
           message: "Transaction has been updated!",
