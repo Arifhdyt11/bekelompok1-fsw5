@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       priceBid: DataTypes.STRING,
       status: {
         type: DataTypes.STRING,
-        values: ["pending", "success", "cancel"],
+        values: ["pending", "process", "success", "cancel"],
         defaultValue: "pending",
       },
     },
