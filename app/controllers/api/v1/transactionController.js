@@ -1,7 +1,6 @@
 const transactionService = require("../../../services/transactionService");
 const sizeService = require("../../../services/sizeService");
-const productService = require("../../../services/productService");
-
+const notifService = require("../../../services/notifService");
 const socket = require("../../../../bin/www"); //import socket  from www
 
 module.exports = {
@@ -131,9 +130,19 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+
+      const createNotif = await notifService.create({
+        transactionId: data.id,
+        isReadBuyer: false,
+        isReadSeller: false,
+        message: "You have new transaction",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
       const transactionCreated = await transactionService.get(data.id);
-      socket.ioObject.emit("add-transaction", transactionCreated);
-      res.status(201).json({
+      socket.ioObject.emit("add-transaction", createNotif);
+      res.status(200).json({
         status: true,
         message: "Transaction has been added!",
         data: transactionCreated,
