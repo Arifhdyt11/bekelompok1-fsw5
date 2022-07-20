@@ -17,9 +17,13 @@ module.exports = {
         },
       },
       isReadBuyer: {
+        allowNull: false,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       isReadSeller: {
+        allowNull: false,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       message: {
