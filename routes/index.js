@@ -13,6 +13,7 @@ const productRouter = require("./productRouter");
 const wishlistRouter = require("./wishlistRouter");
 const transactionRouter = require("./transactionRouter");
 const sizeRouter = require("./sizeRouter");
+const notifRouter = require("./notifRouter");
 // const google_oauth2 = require("./google_oauth2");
 
 /* ========= Main Routes ========= */
@@ -24,6 +25,7 @@ router.use("/api/v1/product", productRouter);
 router.use("/api/v1/wishlist", wishlistRouter);
 router.use("/api/v1/transaction", transactionRouter);
 router.use("/api/v1/size", sizeRouter);
+router.use("/api/v1/notif", notifRouter);
 
 
 
