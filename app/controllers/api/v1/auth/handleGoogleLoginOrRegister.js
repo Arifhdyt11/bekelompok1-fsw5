@@ -20,7 +20,7 @@ async function handleGoogleLoginOrRegister(req, res) {
     const response = await axios.get(
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
     );
-    const { sub, email, name } = response.data;
+    const { sub, email, name, avatar } = response.data;
 
     let user = await User.findOne({ where: { googleId: sub } });
     if (!user)
@@ -29,6 +29,7 @@ async function handleGoogleLoginOrRegister(req, res) {
         name,
         googleId: sub,
         role: "BUYER",
+        image: avatar,
         registeredVia: "google",
       });
     delete user.password;
