@@ -189,7 +189,16 @@ module.exports = {
         stock: newStock,
       });
 
-      socket.ioObject.emit("update-transaction", updatedStatus);
+      const updateNotif = await notifService.create({
+        transactionId: updatedStatus.id,
+        isReadBuyer: false,
+        isReadSeller: false,
+        message: "Transaction has been " + updatedStatus.status,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      socket.ioObject.emit("update-transaction", updateNotif);
       res.status(200).json({
         status: true,
         message: "Transaction has been updated!",

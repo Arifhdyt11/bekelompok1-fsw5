@@ -119,6 +119,26 @@ module.exports = {
     });
   },
 
+  updateAllBuyer() {
+    return Notification.update( 
+      { isReadBuyer: true }, 
+      { 
+        where: { 
+          isReadBuyer: false 
+        }, 
+    });
+  },
+
+  updateAllSeller() {
+    return Notification.update(
+      { isReadSeller: true }, 
+      { 
+        where: { 
+          isReadSeller: false 
+        },
+    });
+  },
+
   delete(id) {
     return Notification.destroy({
       where: {

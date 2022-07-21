@@ -105,6 +105,44 @@ module.exports = {
     }
   },
 
+  async updateAllBuyer(req, res) {
+    try {
+      await notifService.updateAllBuyer(req.user.id);
+
+      const data = await notifService.getAllByBuyer(req.user.id);
+
+      res.status(200).json({
+        status: true,
+        message: "isReadBuyer has been updated!",
+        data: data,
+      });
+    } catch (err) {
+      res.status(422).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
+  async updateAllSeller(req, res) {
+    try {
+      await notifService.updateAllSeller(req.user.id);
+
+      const data = await notifService.getAllBySeller(req.user.id);
+
+      res.status(200).json({
+        status: true,
+        message: "isReadBuyer has been updated!",
+        data: data,
+      });
+    } catch (err) {
+      res.status(422).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
   async destroy(req, res) {
     try {
       await notifService.delete(req.params.id);
