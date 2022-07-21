@@ -49,6 +49,22 @@ module.exports = {
     }
   },
 
+  async updateAllBuyer() {
+    try {
+      return await notifRepository.updateAllBuyer();
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async updateAllSeller() {
+    try {
+      return await notifRepository.updateAllSeller();
+    } catch (err) {
+      throw err;
+    }
+  },
+
   async delete(id) {
     try {
       return await notifRepository.delete(id);

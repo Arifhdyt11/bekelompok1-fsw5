@@ -22,6 +22,7 @@ router.put(
   userMiddleware.authorize,
   userMiddleware.isBuyyer,
   notifMiddleware.getById,
+  notifMiddleware.isReadValidate,
   notifController.updateBuyer
 );
 router.put(
@@ -29,7 +30,20 @@ router.put(
   userMiddleware.authorize,
   userMiddleware.isSeller,
   notifMiddleware.getById,
+  notifMiddleware.isReadValidate,
   notifController.updateSeller
+);
+router.put(
+  "/buyer",
+  userMiddleware.authorize,
+  userMiddleware.isBuyyer,
+  notifController.updateAllBuyer
+);
+router.put(
+  "/seller",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
+  notifController.updateAllSeller
 );
 router.delete(
   "/:id",
