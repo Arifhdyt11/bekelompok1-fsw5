@@ -1,4 +1,10 @@
-const { Notification, Transaction, ProductSize, Product, Category } = require("../models");
+const {
+  Notification,
+  Transaction,
+  ProductSize,
+  Product,
+  Category,
+} = require("../models");
 
 module.exports = {
   findAll() {
@@ -20,11 +26,7 @@ module.exports = {
                   {
                     model: Product,
                     as: "products",
-                    attributes: [
-                      "name",
-                      "image",
-                      "price",
-                    ],
+                    attributes: ["name", "image", "price"],
                     include: [
                       {
                         model: Category,
@@ -40,7 +42,7 @@ module.exports = {
             where: {
               userId: id,
             },
-            attributes: ["priceBid"],
+            attributes: ["priceBid", "status"],
           },
         ],
       });
@@ -69,11 +71,7 @@ module.exports = {
                   {
                     model: Product,
                     as: "products",
-                    attributes: [
-                      "name",
-                      "image",
-                      "price",
-                    ],
+                    attributes: ["name", "image", "price"],
                     include: [
                       {
                         model: Category,
@@ -86,7 +84,7 @@ module.exports = {
                 attributes: ["productId"],
               },
             ],
-            attributes: ["priceBid"],
+            attributes: ["priceBid", "status"],
           },
         ],
       });

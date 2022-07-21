@@ -56,6 +56,10 @@ module.exports = {
         image.push(result.secure_url);
       }
 
+      //kalo image kosong masukin placholder
+      if (image.length === 0) {
+        image.push("https://pricesm.com/uploads/placeholder.png");
+      }
       const productCreated = await productService.create({
         userId: userTokenId,
         name,
