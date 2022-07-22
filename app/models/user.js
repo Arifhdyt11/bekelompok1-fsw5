@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         values: ["inactive", "active"],
         defaultValue: "inactive",
       },
+      province: DataTypes.STRING,
       city: DataTypes.STRING,
       address: DataTypes.TEXT,
       phone: DataTypes.STRING,
