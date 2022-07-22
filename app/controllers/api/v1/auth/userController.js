@@ -119,6 +119,7 @@ module.exports = {
         user.name = req.body.name;
         user.email = req.body.email;
         user.city = req.body.city;
+        user.province = req.body.province;
         user.address = req.body.address;
         user.phone = req.body.phone;
       } else {
@@ -137,6 +138,7 @@ module.exports = {
         // Masukan ke object Args
         user.name = req.body.name;
         user.email = req.body.email;
+        user.province = req.body.province;
         user.city = req.body.city;
         user.address = req.body.address;
         user.phone = req.body.phone;
