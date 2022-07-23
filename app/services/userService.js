@@ -41,7 +41,19 @@ module.exports = {
       throw err;
     }
   },
-  update(id, requestBody) {
-    return userRepository.update(id, requestBody);
+  async update(id, requestBody) {
+    try {
+      return userRepository.update(id, requestBody);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async delete(email) {
+    try {
+      return await userRepository.delete(email);
+    } catch (err) {
+      throw err;
+    }
   },
 };

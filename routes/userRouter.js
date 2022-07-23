@@ -5,7 +5,7 @@ const userMiddleware = require("../middlewares/userMiddleware");
 const uploadOnMemory = require("../config/uploadOnMemory");
 
 // oauth
-const handleGoogleLoginOrRegister  = require("../app/controllers/api/v1/auth/handleGoogleLoginOrRegister");
+const handleGoogleLoginOrRegister = require("../app/controllers/api/v1/auth/handleGoogleLoginOrRegister");
 router.post("/google", handleGoogleLoginOrRegister);
 
 router.post("/login", userController.login);
@@ -28,5 +28,8 @@ router.put(
   userMiddleware.authorize,
   userController.changePassword
 );
+
+// end point for testing
+router.delete("/user", userController.delete);
 
 module.exports = router;
