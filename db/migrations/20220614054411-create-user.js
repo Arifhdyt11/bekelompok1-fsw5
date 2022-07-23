@@ -42,6 +42,10 @@ module.exports = {
         defaultValue: "inactive",
         type: Sequelize.STRING,
       },
+      province: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       city: {
         allowNull: true,
         type: Sequelize.STRING,

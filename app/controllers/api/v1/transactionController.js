@@ -1,5 +1,7 @@
 const transactionService = require("../../../services/transactionService");
 const sizeService = require("../../../services/sizeService");
+const notifService = require("../../../services/notifService");
+const socket = require("../../../../bin/www"); //import socket  from www
 
 module.exports = {
   async list(req, res) {
@@ -43,12 +45,14 @@ module.exports = {
 
   async listBySeller(req, res) {
     try {
-      const data = await transactionService.getAllBySeller(req.user.id);
-      if (data) {
+      const dataTransaction = await transactionService.getAllBySeller(
+        req.user.id
+      );
+      if (dataTransaction) {
         res.status(200).json({
           status: true,
           message: "Successfully find all data transaction",
-          data: data,
+          data: dataTransaction,
         });
       } else {
         res.status(404).json({
@@ -126,10 +130,22 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      res.status(201).json({
+
+      const createNotif = await notifService.create({
+        transactionId: data.id,
+        isReadBuyer: false,
+        isReadSeller: false,
+        message: "You have new transaction",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      const transactionCreated = await transactionService.get(data.id);
+      socket.ioObject.emit("add-transaction", createNotif);
+      res.status(200).json({
         status: true,
         message: "Transaction has been added!",
-        data: data,
+        data: transactionCreated,
       });
     } catch (err) {
       res.status(422).json({
@@ -144,30 +160,50 @@ module.exports = {
       await transactionService.update(req.params.id, {
         status: req.body.status,
       });
-      
-      let updatedStatus = await transactionService.get(req.params.id);
-      
-      let data = await sizeService.get(updatedStatus.productsizeId);
-      
-      let stock = data.stock;
-      let newStock = stock - 1;
-      
-      if(!updatedStatus.status === "success"){
-        res.status(200).json({
-          status: true,
-          message: "Transaction has been updated!",
-          data: updatedStatus,
-        });
-      } 
-        await sizeService.update(data.id, {
-          stock: newStock,
-        });
-        res.status(200).json({
-          status: true,
-          message: "Transaction has been updated!",
-          data: updatedStatus,
-        });
 
+      let updatedStatus = await transactionService.get(req.params.id);
+
+      console.log(req.params.id);
+
+      let data = await sizeService.get(updatedStatus.productsizeId);
+
+      let stock = data.stock;
+
+      if (updatedStatus.status === "process") {
+        var newStock = stock - 1;
+      } else if (updatedStatus.status === "cancel") {
+        var newStock = stock + 1;
+      }
+
+      if (
+        !updatedStatus.status === "process" ||
+        !updatedStatus.status === "cancel"
+      ) {
+        res.status(200).json({
+          status: true,
+          message: "Transaction has been updated!",
+          data: updatedStatus,
+        });
+      }
+      await sizeService.update(data.id, {
+        stock: newStock,
+      });
+
+      const updateNotif = await notifService.create({
+        transactionId: updatedStatus.id,
+        isReadBuyer: false,
+        isReadSeller: false,
+        message: "Transaction has been " + updatedStatus.status,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      socket.ioObject.emit("update-transaction", updateNotif);
+      res.status(200).json({
+        status: true,
+        message: "Transaction has been updated!",
+        data: updatedStatus,
+      });
     } catch (err) {
       res.status(422).json({
         status: false,

@@ -21,10 +21,10 @@ module.exports = {
               {
                 model: User,
                 as: "userAsSeller",
-                attributes: ["name", "city"],
+                attributes: ["name", "city", "image"],
               },
             ],
-            attributes: ["name", "image", "price"],
+            attributes: ["id", "name", "image", "price", "status"],
           },
           {
             model: User,
@@ -73,7 +73,7 @@ module.exports = {
                 attributes: [],
               },
             ],
-            attributes: ["name", "image", "price"],
+            attributes: ["id", "name", "image", "price"],
           },
         ],
         attributes: ["id"],

@@ -4,10 +4,14 @@ const cloudinary = require("../../../../config/cloudinary");
 const cloudinaryUpload = promisify(cloudinary.uploader.upload);
 const cloudinaryDestroy = promisify(cloudinary.uploader.destroy);
 
+const socket = require("../../../../bin/www"); //import socket  from www
+
 module.exports = {
   async list(req, res) {
     try {
       const data = await productService.list();
+
+      socket.ioObject.emit("products", data);
       res.status(200).json({
         status: true,
         message: "Show all data product successfully!",
@@ -24,7 +28,6 @@ module.exports = {
   async listBySeller(req, res) {
     try {
       const data = await productService.listBySeller(req.user.id);
-      console.log(data);
       res.status(200).json({
         status: true,
         message: "Show all data product successfully!",
@@ -53,22 +56,26 @@ module.exports = {
         image.push(result.secure_url);
       }
 
-      productService
-        .create({
-          userId: userTokenId,
-          name,
-          price,
-          categoryId,
-          description,
-          image,
-          status,
-        })
-        .then((product) => {
-          res.status(201).json({
-            status: true,
-            product,
-          });
-        });
+      //kalo image kosong masukin placholder
+      if (image.length === 0) {
+        image.push("https://pricesm.com/uploads/placeholder.png");
+      }
+      const productCreated = await productService.create({
+        userId: userTokenId,
+        name,
+        price,
+        categoryId,
+        description,
+        image,
+        status,
+      });
+      const data = await productService.getCreateData(productCreated.id);
+      socket.ioObject.emit("add-products");
+      res.status(200).json({
+        status: true,
+        message: "Product added",
+        data: data,
+      });
     } catch (err) {
       res.status(422).json({
         status: false,
@@ -154,6 +161,15 @@ module.exports = {
       }
       // Upload New Image to Cloudinary
       const image = req.body.image;
+      if (image) {
+        if (Array.isArray(image)) {
+          for (var x = 0; x < image.length; x++) {
+            newImage.push(image[x]);
+          }
+        } else {
+          newImage.push(image);
+        }
+      }
       if (req.files) {
         if (req.files.length > 0) {
           for (var i = 0; i < req.files.length; i++) {
@@ -162,15 +178,6 @@ module.exports = {
             const result = await cloudinaryUpload(file[i]);
             newImage.push(result.secure_url);
           }
-        }
-      }
-      if (image) {
-        if (Array.isArray(image)) {
-          for (var x = 0; x < image.length; x++) {
-            newImage.push(image[x]);
-          }
-        } else {
-          newImage.push(image);
         }
       }
       updateArgs = { ...updateArgs, image: newImage };
