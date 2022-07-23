@@ -18,7 +18,7 @@ module.exports = {
         address: "jl.medan",
         phone: "8123456790",
         image:
-          "https://ui-avatars.com/api/?name=Seller+A&background=4e73df&color=ffffff&size=100",
+          "https://ui-avatars.com/api/?name=Seller+A&background=023e7d&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -33,7 +33,7 @@ module.exports = {
         address: "jl.jakarta",
         phone: "8123456790",
         image:
-          "https://ui-avatars.com/api/?name=Seller+B&background=4e73df&color=ffffff&size=100",
+          "https://ui-avatars.com/api/?name=Seller+B&background=023e7d&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -49,7 +49,7 @@ module.exports = {
         address: "jl.bandung",
         phone: "8123456790",
         image:
-          "https://ui-avatars.com/api/?name=Seller+C&background=4e73df&color=ffffff&size=100",
+          "https://ui-avatars.com/api/?name=Seller+C&background=023e7d&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -65,7 +65,7 @@ module.exports = {
         address: "jl.purwakarta",
         phone: "8123456790",
         image:
-          "https://ui-avatars.com/api/?name=Buyer+A&background=4e73df&color=ffffff&size=100",
+          "https://ui-avatars.com/api/?name=Buyer+A&background=023e7d&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -81,7 +81,7 @@ module.exports = {
         address: "jl.semarang",
         phone: "8123456790",
         image:
-          "https://ui-avatars.com/api/?name=Buyer+B&background=4e73df&color=ffffff&size=100",
+          "https://ui-avatars.com/api/?name=Buyer+B&background=023e7d&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -97,7 +97,7 @@ module.exports = {
         address: "jl.surabaya",
         phone: "8123456790",
         image:
-          "https://ui-avatars.com/api/?name=Buyer+C&background=4e73df&color=ffffff&size=100",
+          "https://ui-avatars.com/api/?name=Buyer+C&background=023e7d&color=ffffff&size=100",
         createdAt: timestamp,
         updatedAt: timestamp,
       },
