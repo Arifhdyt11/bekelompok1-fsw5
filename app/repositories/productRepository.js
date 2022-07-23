@@ -140,7 +140,7 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: ["id", "name", "image", "price", "status"],
+        attributes: ["id", "name", "image", "price", "status", "updatedAt"],
       });
     } catch (error) {
       return error;
