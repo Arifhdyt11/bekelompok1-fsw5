@@ -40,7 +40,8 @@
     "yamljs": "^0.3.0"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "testTimeout": 9000
   },
   "devDependencies": {
     "jest": "^28.1.2",

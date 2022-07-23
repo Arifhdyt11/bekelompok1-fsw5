@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("./server");
+const app = require("../server");
 
 // Buyer Account
 const roleBuyer = "buyer";
@@ -12,6 +12,10 @@ const roleSeller = "seller";
 const nameSeller = "Seller Testing2";
 const emailSeller = "seller_testing2@binar.com";
 const passwordSeller = "password";
+const citySeller = "jakarta";
+const addressSeller = "jl.jakarta";
+const phoneSeller = "0812345678";
+const imageSeller = "image.png";
 
 const emailNotRegister = "testNotResgister@binar.comm";
 const passwordNotRegister = "randomPassword";
@@ -20,25 +24,26 @@ let bearerToken = "";
 
 describe("POST /register", () => {
   // test register success
-  it("should return 201 Created", async () => {
-    const response = await request(app).post("/api/v1/register").send({
-      role: roleBuyer,
-      name: nameBuyer,
-      email: emailBuyer,
-      password: passwordBuyer,
-      status: "active",
-      registeredVia: "auth-form",
-      emailVerifiedAt: new Date(),
-      createAt: new Date(),
-      updateAt: new Date(),
-    });
-    expect(response.status).toBe(201);
-    expect(response.body).toEqual({
-      status: true,
-      message: "User has been created!",
-      data: expect.any(Object),
-    });
-  });
+  // it("should return 201 Created", async () => {
+  //   const response = await request(app).post("/api/v1/register").send({
+  //     role: roleBuyer,
+  //     name: nameBuyer,
+  //     email: emailBuyer,
+  //     password: passwordBuyer,
+  //     status: "active",
+
+  //     registeredVia: "auth-form",
+  //     emailVerifiedAt: new Date(),
+  //     createAt: new Date(),
+  //     updateAt: new Date(),
+  //   });
+  //   expect(response.status).toBe(201);
+  //   expect(response.body).toEqual({
+  //     status: true,
+  //     message: "User has been created!",
+  //     data: expect.any(Object),
+  //   });
+  // });
 
   // register seller test
   it("should return 201 Created", async () => {
@@ -48,6 +53,10 @@ describe("POST /register", () => {
       email: emailSeller,
       password: passwordSeller,
       status: "active",
+      city: citySeller,
+      address: addressSeller,
+      phone: phoneSeller,
+      image: imageSeller,
       registeredVia: "auth-form",
       emailVerifiedAt: new Date(),
       createAt: new Date(),
@@ -61,24 +70,24 @@ describe("POST /register", () => {
     });
   });
   // register vaidate email buyer test
-  it("should return 400 Bad Request", async () => {
-    const response = await request(app).post("/api/v1/register").send({
-      role: roleBuyer,
-      name: nameBuyer,
-      email: emailBuyer,
-      password: passwordBuyer,
-      status: "active",
-      registeredVia: "auth-form",
-      emailVerifiedAt: new Date(),
-      createAt: new Date(),
-      updateAt: new Date(),
-    });
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual({
-      status: false,
-      message: "Email is already registered!",
-    });
-  });
+  // it("should return 400 Bad Request", async () => {
+  //   const response = await request(app).post("/api/v1/register").send({
+  //     role: roleBuyer,
+  //     name: nameBuyer,
+  //     email: emailBuyer,
+  //     password: passwordBuyer,
+  //     status: "active",
+  //     registeredVia: "auth-form",
+  //     emailVerifiedAt: new Date(),
+  //     createAt: new Date(),
+  //     updateAt: new Date(),
+  //   });
+  //   expect(response.status).toBe(400);
+  //   expect(response.body).toEqual({
+  //     status: false,
+  //     message: "Email is already registered!",
+  //   });
+  // });
   // register vaidate email seller test
   it("should return 400 Bad Request", async () => {
     const response = await request(app).post("/api/v1/register").send({
@@ -87,6 +96,10 @@ describe("POST /register", () => {
       email: emailSeller,
       password: passwordSeller,
       status: "active",
+      city: citySeller,
+      address: addressSeller,
+      phone: phoneSeller,
+      image: imageSeller,
       registeredVia: "auth-form",
       emailVerifiedAt: new Date(),
       createAt: new Date(),
@@ -113,11 +126,15 @@ describe("POST /register", () => {
 
   beforeEach(async () => {
     return await request(app).post("/api/v1/register").send({
-      role: roleBuyer,
-      name: nameBuyer,
-      email: emailBuyer,
-      password: passwordBuyer,
+      role: roleSeller,
+      name: nameSeller,
+      email: emailSeller,
+      password: passwordSeller,
       status: "active",
+      city: citySeller,
+      address: addressSeller,
+      phone: phoneSeller,
+      image: imageSeller,
       registeredVia: "auth-form",
       emailVerifiedAt: new Date(),
       createAt: new Date(),
@@ -129,8 +146,8 @@ describe("POST /register", () => {
     // test login Buyer success
     it("should return 200 OK", async () => {
       const response = await request(app).post("/api/v1/login").send({
-        email: emailBuyer,
-        password: passwordBuyer,
+        email: emailSeller,
+        password: passwordSeller,
       });
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
@@ -167,8 +184,8 @@ describe("POST /register", () => {
       // });
 
       const token = await request(app).post("/api/v1/login").send({
-        email: emailBuyer,
-        password: passwordBuyer,
+        email: emailSeller,
+        password: passwordSeller,
       });
 
       bearerToken = token.body.accessToken;
