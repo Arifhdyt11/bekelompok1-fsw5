@@ -1,49 +1,50 @@
 const transactionRepository = require("../repositories/transactionRepository");
+const sizeService = require("./sizeService");
 
 module.exports = {
-  async list(req, res) {
-    try {
-      return await transactionRepository.findAll();
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  async get(id) {
-    try {
-      return await transactionRepository.find(id);
-    } catch (err) {
-      throw err;
-    }
-  },
-
   async getAllByBuyer(id) {
+    const data = await transactionRepository.findByBuyer(id);
+    if (!data) {
+      throw new Error("Data not found");
+    }
     try {
-      return await transactionRepository.findByBuyer(id);
+      return data;
     } catch (err) {
       throw err;
     }
   },
 
   async getAllBySeller(id) {
+    const data = await transactionRepository.findBySeller(id);
+    if (!data) {
+      throw new Error("Data not found");
+    }
     try {
-      return await transactionRepository.findBySeller(id);
+      return data;
     } catch (err) {
       throw err;
     }
   },
 
   async getDetailByBuyer(userId, id) {
+    const data = await transactionRepository.findDetailByBuyer(userId, id);
+    if (!data) {
+      throw new Error("Data not found");
+    }
     try {
-      return await transactionRepository.findDetailByBuyer(userId, id);
+      return data;
     } catch (err) {
       throw err;
     }
   },
 
   async getDetailBySeller(userId, id) {
+    const data = await transactionRepository.findDetailBySeller(userId, id);
+    if (!data) {
+      throw new Error("Data not found");
+    }
     try {
-      return await transactionRepository.findDetailBySeller(userId, id);
+      return data;
     } catch (err) {
       throw err;
     }
@@ -58,19 +59,30 @@ module.exports = {
   },
 
   async getProductByUser(userId, productsizeId) {
+    const data = await transactionRepository.findProductByUser(
+      userId,
+      productsizeId
+    );
+    if (data) {
+      throw new Error("Product was already in transaction");
+    }
     try {
-      return await transactionRepository.findProductByUser(
-        userId,
-        productsizeId
-      );
+      return data;
     } catch (err) {
       throw err;
     }
   },
 
-  async create(createArgs) {
+  async create(createArgs, userId) {
     try {
-      return await transactionRepository.create(createArgs);
+      const data = await transactionRepository.create({
+        ...createArgs,
+        userId,
+        status: "pending",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      return await transactionRepository.find(data.id);
     } catch (err) {
       throw err;
     }
@@ -78,17 +90,32 @@ module.exports = {
 
   async update(id, requestBody) {
     try {
-      return await transactionRepository.update(id, requestBody);
-    } catch (err) {
-      throw err;
-    }
-  },
+      await transactionRepository.update(id, {
+        status: requestBody.status,
+      });
+      let updatedStatus = await transactionRepository.find(id);
+      let dataStock = await sizeService.get(updatedStatus.productsizeId);
+      if (
+        !updatedStatus.status === "process" ||
+        !updatedStatus.status === "cancel"
+      ) {
+        return updatedStatus;
+      }
 
-  async delete(id) {
-    try {
-      return await transactionRepository.delete(id);
-    } catch (err) {
-      throw err;
+      // stock
+      let stock = dataStock.stock;
+      let newStock = null;
+      if (updatedStatus.status === "process") {
+        newStock = stock - 1;
+      } else if (updatedStatus.status === "cancel") {
+        newStock = stock + 1;
+      }
+      await sizeService.update(dataStock.id, {
+        stock: newStock,
+      });
+      return updatedStatus;
+    } catch (error) {
+      throw error;
     }
   },
 };

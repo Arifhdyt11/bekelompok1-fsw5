@@ -1,9 +1,9 @@
-const { Product, Category, User, Size } = require("../models");
+const { Product, Category, User } = require("../models");
 
 module.exports = {
-  findAll() {
+  async findAll() {
     try {
-      const data = Product.findAll({
+      return await Product.findAll({
         include: [
           {
             model: Category,
@@ -21,36 +21,26 @@ module.exports = {
           "updatedAt",
         ],
       });
-
-      if (data) {
-        return data;
-      }
-      console.log(data);
     } catch (error) {
       return error;
     }
   },
 
-  findByIdCreate(id) {
+  async findByIdCreate(id) {
     try {
-      const data = Product.findOne({
+      return await Product.findOne({
         where: {
           id: id,
         },
       });
-
-      if (data) {
-        return data;
-      }
-      console.log(data);
     } catch (error) {
       return error;
     }
   },
 
-  findById(id) {
+  async findById(id) {
     try {
-      const data = Product.findOne({
+      return await Product.findOne({
         include: [
           {
             model: Category,
@@ -76,18 +66,14 @@ module.exports = {
         },
         attributes: ["id", "name", "image", "price", "description", "status"],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findBySellerId(id, sellerId) {
+  async findBySellerId(id, sellerId) {
     try {
-      return Product.findOne({
+      return await Product.findOne({
         where: {
           id: id,
           userId: sellerId,
@@ -127,9 +113,9 @@ module.exports = {
     }
   },
 
-  findBySeller(sellerId) {
+  async findBySeller(sellerId) {
     try {
-      return Product.findAll({
+      return await Product.findAll({
         where: {
           userId: sellerId,
         },
@@ -140,71 +126,42 @@ module.exports = {
             attributes: ["name"],
           },
         ],
-        attributes: ["id", "name", "image", "price", "status"],
+        attributes: ["id", "name", "image", "price", "status", "updatedAt"],
       });
     } catch (error) {
       return error;
     }
   },
 
-  find(id) {
+  async create(createArgs) {
     try {
-      const data = Product.findOne({
-        include: [
-          {
-            model: Category,
-            as: "categories",
-            attributes: ["name"],
-          },
-          {
-            model: User,
-            as: "userAsSeller",
-            attributes: [
-              "role",
-              "name",
-              "email",
-              "city",
-              "address",
-              "phone",
-              "status",
-            ],
-          },
-          {
-            model: Size,
-            as: "sizes",
-            attributes: ["size", "stock"],
-          },
-        ],
+      return await Product.create(createArgs);
+    } catch (error) {
+      return error;
+    }
+  },
+
+  async update(id, updateArgs) {
+    try {
+      return await Product.update(updateArgs, {
         where: {
-          id: id,
+          id,
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  create(createArgs) {
-    return Product.create(createArgs);
-  },
-
-  update(id, updateArgs) {
-    return Product.update(updateArgs, {
-      where: {
-        id,
-      },
-    });
-  },
-
-  delete(id) {
-    return Product.destroy({
-      where: {
-        id,
-      },
-    });
+  async delete(id) {
+    try {
+      return await Product.destroy({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 };

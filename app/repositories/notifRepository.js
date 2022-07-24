@@ -7,13 +7,17 @@ const {
 } = require("../models");
 
 module.exports = {
-  findAll() {
-    return Notification.findAll();
+  async findAll() {
+    try {
+      return await Notification.findAll();
+    } catch (error) {
+      return error;
+    }
   },
 
-  findByBuyer(id) {
+  async findByBuyer(id) {
     try {
-      const data = Notification.findAll({
+      return await Notification.findAll({
         include: [
           {
             model: Transaction,
@@ -46,18 +50,14 @@ module.exports = {
           },
         ],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findBySeller(id) {
+  async findBySeller(id) {
     try {
-      const data = Notification.findAll({
+      return await Notification.findAll({
         where: { "$transactions.productSizes.products.userId$": id },
         include: [
           {
@@ -88,60 +88,80 @@ module.exports = {
           },
         ],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  find(id) {
-    return Notification.findOne({
-      where: {
-        id: id,
-      },
-    });
-  },
-
-  create(createArgs) {
-    return Notification.create(createArgs);
-  },
-
-  update(id, updateArgs) {
-    return Notification.update(updateArgs, {
-      where: {
-        id,
-      },
-    });
-  },
-
-  updateAllBuyer() {
-    return Notification.update( 
-      { isReadBuyer: true }, 
-      { 
-        where: { 
-          isReadBuyer: false 
-        }, 
-    });
-  },
-
-  updateAllSeller() {
-    return Notification.update(
-      { isReadSeller: true }, 
-      { 
-        where: { 
-          isReadSeller: false 
+  async find(id) {
+    try {
+      return await Notification.findOne({
+        where: {
+          id: id,
         },
-    });
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
-  delete(id) {
-    return Notification.destroy({
-      where: {
-        id,
-      },
-    });
+  async create(createArgs) {
+    try {
+      return await Notification.create(createArgs);
+    } catch (error) {
+      return error;
+    }
+  },
+
+  async update(id, updateArgs) {
+    try {
+      return await Notification.update(updateArgs, {
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
+  },
+
+  async updateAllBuyer() {
+    try {
+    return await Notification.update(
+      { isReadBuyer: true },
+      {
+        where: {
+          isReadBuyer: false,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
+  },
+
+  async updateAllSeller() {
+    try {
+    return await Notification.update(
+      { isReadSeller: true },
+      {
+        where: {
+          isReadSeller: false,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
+  },
+
+  async delete(id) {
+    try {
+      return await Notification.destroy({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 };

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --collectCoverage",
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "db:seed": "npm run _db -- db:seed:all",
@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
     "cloudinary": "^1.30.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -26,6 +27,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
     "passport": "^0.6.0",
@@ -40,7 +42,8 @@
     "yamljs": "^0.3.0"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "testTimeout": 9000
   },
   "devDependencies": {
     "jest": "^28.1.2",

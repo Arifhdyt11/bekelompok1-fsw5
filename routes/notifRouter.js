@@ -4,35 +4,35 @@ const notifController = require("../app/controllers/api/v1/notifController");
 const notifMiddleware = require("../middlewares/notifMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
-router.get("/", notifController.list);
+// router.get("/", notifController.list);
 router.get(
-  "/buyer", 
+  "/buyer",
   userMiddleware.authorize,
   userMiddleware.isBuyyer,
   notifController.listByBuyer
 );
 router.get(
-  "/seller", 
+  "/seller",
   userMiddleware.authorize,
   userMiddleware.isSeller,
   notifController.listBySeller
 );
-router.put(
-  "/buyer/:id",
-  userMiddleware.authorize,
-  userMiddleware.isBuyyer,
-  notifMiddleware.getById,
-  notifMiddleware.isReadValidate,
-  notifController.updateBuyer
-);
-router.put(
-  "/seller/:id",
-  userMiddleware.authorize,
-  userMiddleware.isSeller,
-  notifMiddleware.getById,
-  notifMiddleware.isReadValidate,
-  notifController.updateSeller
-);
+// router.put(
+//   "/buyer/:id",
+//   userMiddleware.authorize,
+//   userMiddleware.isBuyyer,
+//   notifMiddleware.getById,
+//   notifMiddleware.isReadValidate,
+//   notifController.updateBuyer
+// );
+// router.put(
+//   "/seller/:id",
+//   userMiddleware.authorize,
+//   userMiddleware.isSeller,
+//   notifMiddleware.getById,
+//   notifMiddleware.isReadValidate,
+//   notifController.updateSeller
+// );
 router.put(
   "/buyer",
   userMiddleware.authorize,
@@ -45,10 +45,6 @@ router.put(
   userMiddleware.isSeller,
   notifController.updateAllSeller
 );
-router.delete(
-  "/:id",
-  userMiddleware.authorize, 
-  notifController.destroy
-);
+router.delete("/:id", userMiddleware.authorize, notifController.destroy);
 
 module.exports = router;
