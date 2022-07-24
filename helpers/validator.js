@@ -120,6 +120,26 @@ module.exports = {
     }
   },
 
+  // category validation
+  async nameValidate(req, res, next) {
+    try {
+      const data = await req.body.name;
+      if (data == null || data == "") {
+        res.status(400).json({
+          status: false,
+          message: "Name are required!",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
   // size validation
   async valuesValidate(req, res, next) {
     try {

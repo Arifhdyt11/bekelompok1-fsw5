@@ -1,13 +1,17 @@
 const { Wishlist, User, Product, Category } = require("../models");
 
 module.exports = {
-  findAll() {
-    return Wishlist.findAll();
+  async findAll() {
+    try {
+      return await Wishlist.findAll();
+    } catch (error) {
+      return error;
+    }
   },
 
-  findWishlistBuyerById(id) {
+  async findWishlistBuyerById(id) {
     try {
-      const data = Wishlist.findAll({
+      return await Wishlist.findAll({
         include: [
           {
             model: Product,
@@ -38,18 +42,14 @@ module.exports = {
         ],
         attributes: ["id", "productId"],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findWishlistSellerById(id) {
+  async findWishlistSellerById(id) {
     try {
-      const data = Wishlist.findAll({
+      return await Wishlist.findAll({
         include: [
           {
             model: Product,
@@ -78,41 +78,41 @@ module.exports = {
         ],
         attributes: ["id"],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findProductByUser(userId, productId) {
+  async findProductByUser(userId, productId) {
     try {
-      const data = Wishlist.findOne({
+      return await Wishlist.findOne({
         where: {
           userId: userId,
           productId: productId,
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  create(createArgs) {
-    return Wishlist.create(createArgs);
+  async create(createArgs) {
+    try {
+      return await Wishlist.create(createArgs);
+    } catch (error) {
+      return error;
+    }
   },
 
-  delete(id) {
-    return Wishlist.destroy({
-      where: {
-        id,
-      },
-    });
+  async delete(id) {
+    try {
+      return await Wishlist.destroy({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 };
