@@ -25,10 +25,6 @@ module.exports = {
         sizeId: req.body.sizeId,
         stock: req.body.stock,
       });
-
-      // data parse to jsoon
-      // const dataJson = JSON.parse(JSON.stringify(data));
-
       const dataCreated = await sizeService.get(data.id);
 
       res.status(201).json({

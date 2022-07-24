@@ -134,22 +134,34 @@ module.exports = {
   },
 
   async create(createArgs) {
-    return await Product.create(createArgs);
+    try {
+      return await Product.create(createArgs);
+    } catch (error) {
+      return error;
+    }
   },
 
   async update(id, updateArgs) {
-    return await Product.update(updateArgs, {
-      where: {
-        id,
-      },
-    });
+    try {
+      return await Product.update(updateArgs, {
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
   async delete(id) {
-    return await Product.destroy({
-      where: {
-        id,
-      },
-    });
+    try {
+      return await Product.destroy({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 };

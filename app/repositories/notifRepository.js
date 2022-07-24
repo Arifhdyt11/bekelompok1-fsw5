@@ -8,7 +8,11 @@ const {
 
 module.exports = {
   async findAll() {
-    return await Notification.findAll();
+    try {
+      return await Notification.findAll();
+    } catch (error) {
+      return error;
+    }
   },
 
   async findByBuyer(id) {
@@ -90,52 +94,74 @@ module.exports = {
   },
 
   async find(id) {
-    return await Notification.findOne({
-      where: {
-        id: id,
-      },
-    });
+    try {
+      return await Notification.findOne({
+        where: {
+          id: id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
   async create(createArgs) {
-    return await Notification.create(createArgs);
+    try {
+      return await Notification.create(createArgs);
+    } catch (error) {
+      return error;
+    }
   },
 
   async update(id, updateArgs) {
-    return await Notification.update(updateArgs, {
-      where: {
-        id,
-      },
-    });
+    try {
+      return await Notification.update(updateArgs, {
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
   async updateAllBuyer() {
+    try {
     return await Notification.update(
       { isReadBuyer: true },
       {
         where: {
           isReadBuyer: false,
         },
-      }
-    );
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
   async updateAllSeller() {
+    try {
     return await Notification.update(
       { isReadSeller: true },
       {
         where: {
           isReadSeller: false,
         },
-      }
-    );
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
   async delete(id) {
-    return await Notification.destroy({
-      where: {
-        id,
-      },
-    });
+    try {
+      return await Notification.destroy({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 };

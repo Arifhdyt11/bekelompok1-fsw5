@@ -9,53 +9,57 @@ const {
 
 module.exports = {
   async find(id) {
-    return await Transaction.findOne({
-      where: {
-        id: id,
-      },
-      include: [
-        {
-          model: ProductSize,
-          as: "productSizes",
-          include: [
-            {
-              model: Product,
-              as: "products",
-              include: [
-                {
-                  model: User,
-                  as: "userAsSeller",
-                  attributes: [
-                    "id",
-                    "role",
-                    "name",
-                    "city",
-                    "address",
-                    "phone",
-                    "image",
-                  ],
-                },
-                {
-                  model: Category,
-                  as: "categories",
-                  attributes: ["name"],
-                },
-              ],
-            },
-            {
-              model: Size,
-              as: "sizes",
-              attributes: ["size"],
-            },
-          ],
+    try {
+      return await Transaction.findOne({
+        where: {
+          id: id,
         },
-        {
-          model: User,
-          as: "userAsBuyer",
-          attributes: ["id", "role", "name"],
-        },
-      ],
-    });
+        include: [
+          {
+            model: ProductSize,
+            as: "productSizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    attributes: [
+                      "id",
+                      "role",
+                      "name",
+                      "city",
+                      "address",
+                      "phone",
+                      "image",
+                    ],
+                  },
+                  {
+                    model: Category,
+                    as: "categories",
+                    attributes: ["name"],
+                  },
+                ],
+              },
+              {
+                model: Size,
+                as: "sizes",
+                attributes: ["size"],
+              },
+            ],
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: ["id", "role", "name"],
+          },
+        ],
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
   async findByBuyer(id) {
@@ -274,16 +278,12 @@ module.exports = {
           id: id,
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  async indProductByUser(userId, productsizeId) {
+  async findProductByUser(userId, productsizeId) {
     try {
       return await Transaction.findOne({
         where: {
@@ -292,24 +292,27 @@ module.exports = {
           status: "pending",
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
   async create(createArgs) {
-    return await Transaction.create(createArgs);
+    try {
+      return await Transaction.create(createArgs);
+    } catch (error) {
+      return error;
+    }
   },
 
   async update(id, updateArgs) {
-    return await Transaction.update(updateArgs, {
+    try {
+      return await Transaction.update(updateArgs, {
       where: {
         id,
       },
     });
-  },
+  } catch (error) {
+    return error;
+  }},
 };

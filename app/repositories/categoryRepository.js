@@ -1,35 +1,55 @@
 const { Category } = require("../models");
 
 module.exports = {
-  findAll() {
-    return Category.findAll();
+  async findAll() {
+    try {
+      return await Category.findAll();
+    } catch (error) {
+      return error;
+    }
   },
 
-  find(id) {
-    return Category.findOne({
-      where: {
-        id: id,
-      },
-    });
+  async find(id) {
+    try {
+      return await Category.findOne({
+        where: {
+          id: id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
-  create(createArgs) {
-    return Category.create(createArgs);
+  async create(createArgs) {
+    try {
+      return await Category.create(createArgs);
+    } catch (error) {
+      return error;
+    }
   },
 
-  update(id, updateArgs) {
-    return Category.update(updateArgs, {
-      where: {
-        id,
-      },
-    });
+  async update(id, updateArgs) {
+    try {
+      return await Category.update(updateArgs, {
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
-  delete(id) {
-    return Category.destroy({
-      where: {
-        id,
-      },
-    });
+  async delete(id) {
+    try {
+      return await Category.destroy({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 };

@@ -119,4 +119,66 @@ module.exports = {
       });
     }
   },
+
+  // category validation
+  async nameValidate(req, res, next) {
+    try {
+      const data = await req.body.name;
+      if (data == null || data == "") {
+        res.status(400).json({
+          status: false,
+          message: "Name are required!",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
+  // size validation
+  async valuesValidate(req, res, next) {
+    try {
+      const { sizeId, stock } = req.body;
+      if (sizeId == null || sizeId == "" || stock == null || stock <= 0) {
+        res.status(400).json({
+          status: false,
+          message: "Values size and stock are required!",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
+
+  // notif isRead validation
+  async isReadValidate(req, res, next) {
+    try {
+      const data = req.user
+      const isReadBuyer = await data.isReadBuyer;
+      const isReadSeller = await data.isReadSeller;
+      if (isReadBuyer === true || isReadSeller === true) {
+        res.status(400).json({
+          status: false,
+          message: "Notification has been read!",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(400).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  },
 };

@@ -93,7 +93,7 @@ module.exports = {
       await transactionRepository.update(id, {
         status: requestBody.status,
       });
-      let updatedStatus = await transactionRepository.get(id);
+      let updatedStatus = await transactionRepository.find(id);
       let dataStock = await sizeService.get(updatedStatus.productsizeId);
       if (
         !updatedStatus.status === "process" ||
