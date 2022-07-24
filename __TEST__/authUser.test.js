@@ -1,17 +1,14 @@
 const request = require("supertest");
 const app = require("../server");
-
-// Buyer Account
-const roleBuyer = "buyer";
-const nameBuyer = "Buyer Testing2";
-const emailBuyer = "buyer_testing2@binar.com";
-const passwordBuyer = "password";
+const bcrypt = require("bcrypt");
+const { User } = require("../app/models");
 
 // Seller Account
 const roleSeller = "seller";
 const nameSeller = "Seller Testing2";
 const emailSeller = "seller_testing2@binar.com";
-const passwordSeller = "password";
+const passwordSeller = bcrypt.hashSync("password", 10);
+const googleIdSeller = "3";
 const citySeller = "jakarta";
 const addressSeller = "jl.jakarta";
 const phoneSeller = "0812345678";
@@ -23,71 +20,22 @@ const passwordNotRegister = "randomPassword";
 let bearerToken = "";
 
 describe("POST /register", () => {
-  // test register success
-  // it("should return 201 Created", async () => {
-  //   const response = await request(app).post("/api/v1/register").send({
-  //     role: roleBuyer,
-  //     name: nameBuyer,
-  //     email: emailBuyer,
-  //     password: passwordBuyer,
-  //     status: "active",
-
-  //     registeredVia: "auth-form",
-  //     emailVerifiedAt: new Date(),
-  //     createAt: new Date(),
-  //     updateAt: new Date(),
-  //   });
-  //   expect(response.status).toBe(201);
-  //   expect(response.body).toEqual({
-  //     status: true,
-  //     message: "User has been created!",
-  //     data: expect.any(Object),
-  //   });
-  // });
-
   // register seller test
   it("should return 201 Created", async () => {
     const response = await request(app).post("/api/v1/register").send({
-      role: roleSeller,
-      name: nameSeller,
-      email: emailSeller,
-      password: passwordSeller,
-      status: "active",
-      city: citySeller,
-      address: addressSeller,
-      phone: phoneSeller,
-      image: imageSeller,
-      registeredVia: "auth-form",
-      emailVerifiedAt: new Date(),
-      createAt: new Date(),
-      updateAt: new Date(),
+      role: "SELLER",
+      name: "Seller Testing1",
+      email: "seller_testing1@binar.com",
+      password: "password",
     });
     expect(response.status).toBe(201);
     expect(response.body).toEqual({
-      status: true,
-      message: "User has been created!",
+      status: expect.any(Boolean),
+      message: expect.any(String),
       data: expect.any(Object),
     });
   });
-  // register vaidate email buyer test
-  // it("should return 400 Bad Request", async () => {
-  //   const response = await request(app).post("/api/v1/register").send({
-  //     role: roleBuyer,
-  //     name: nameBuyer,
-  //     email: emailBuyer,
-  //     password: passwordBuyer,
-  //     status: "active",
-  //     registeredVia: "auth-form",
-  //     emailVerifiedAt: new Date(),
-  //     createAt: new Date(),
-  //     updateAt: new Date(),
-  //   });
-  //   expect(response.status).toBe(400);
-  //   expect(response.body).toEqual({
-  //     status: false,
-  //     message: "Email is already registered!",
-  //   });
-  // });
+
   // register vaidate email seller test
   it("should return 400 Bad Request", async () => {
     const response = await request(app).post("/api/v1/register").send({
@@ -113,15 +61,7 @@ describe("POST /register", () => {
   });
 
   afterAll(async () => {
-    const deleteBuyer = await request(app).delete("/api/v1/user").send({
-      email: emailBuyer,
-    });
-
-    const deleteSeller = await request(app).delete("/api/v1/user").send({
-      email: emailSeller,
-    });
-
-    return deleteBuyer && deleteSeller;
+    await User.destroy({ where: { email: "seller_testing1@binar.com" } });
   });
 
   beforeEach(async () => {
@@ -147,7 +87,7 @@ describe("POST /register", () => {
     it("should return 200 OK", async () => {
       const response = await request(app).post("/api/v1/login").send({
         email: emailSeller,
-        password: passwordSeller,
+        password: "password",
       });
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
@@ -171,21 +111,9 @@ describe("POST /register", () => {
     });
 
     beforeAll(async () => {
-      // await request(app).post("/api/v1/register").send({
-      //   role: roleBuyer,
-      //   name: nameBuyer,
-      //   email: emailBuyer,
-      //   password: passwordBuyer,
-      //   status: "active",
-      //   registeredVia: "auth-form",
-      //   emailVerifiedAt: new Date(),
-      //   createAt: new Date(),
-      //   updateAt: new Date(),
-      // });
-
       const token = await request(app).post("/api/v1/login").send({
         email: emailSeller,
-        password: passwordSeller,
+        password: "password",
       });
 
       bearerToken = token.body.accessToken;

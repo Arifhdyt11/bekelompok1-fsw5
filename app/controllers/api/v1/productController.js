@@ -165,6 +165,7 @@ module.exports = {
       updateArgs = { ...updateArgs, image: newImage };
       console.log(updateArgs);
       await productService.update(productId, updateArgs);
+      socket.ioObject.emit("update-products");
       res.status(200).json({
         status: true,
         message: "Product has been updated!",
@@ -187,6 +188,7 @@ module.exports = {
   async destroy(req, res) {
     try {
       await productService.delete(req.params.id);
+      socket.ioObject.emit("delete-products");
       res.status(200).json({
         status: true,
         message: "Product has been deleted!",
