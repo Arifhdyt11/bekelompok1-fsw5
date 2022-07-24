@@ -35,9 +35,8 @@ router.put(
   userMiddleware.authorize,
   userMiddleware.isSeller,
   uploadOnMemory.array("image", 4),
-  productMiddleware.getById,
   productMiddleware.getBySellerId,
-  productMiddleware.postValidate,
+  validator.requestProduct,
   productController.update
 );
 
@@ -45,7 +44,6 @@ router.delete(
   "/:id",
   userMiddleware.authorize,
   userMiddleware.isSeller,
-  productMiddleware.getById,
   productMiddleware.getBySellerId,
   productController.destroy
 );

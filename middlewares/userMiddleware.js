@@ -8,9 +8,6 @@ module.exports = {
       const tokenPayload = await userService.verifyToken(bearerToken);
 
       req.user = await userService.getById(tokenPayload.id);
-
-      console.log(req.body);
-
       if (!req.user) {
         res.status(401).json({
           status: false,

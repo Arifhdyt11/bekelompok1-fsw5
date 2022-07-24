@@ -5,7 +5,6 @@ const transactionMiddleware = require("../middlewares/transactionMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 const validator = require("../helpers/validator");
 
-// router.get("/", userMiddleware.authorize, transactionController.list);
 router.get(
   "/buyer",
   userMiddleware.authorize,
@@ -43,12 +42,6 @@ router.put(
   userMiddleware.authorize,
   userMiddleware.isSeller,
   transactionController.update
-);
-router.delete(
-  "/:id",
-  userMiddleware.authorize,
-  userMiddleware.isSeller,
-  transactionController.destroy
 );
 
 module.exports = router;
