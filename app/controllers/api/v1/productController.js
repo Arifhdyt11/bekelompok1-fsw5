@@ -43,34 +43,16 @@ module.exports = {
 
   async create(req, res) {
     try {
-      const { name, price, categoryId, description, status } = req.body;
-      const userTokenId = req.user.id;
-      const image = [];
-      const fileBase64 = [];
-      const file = [];
+      const requestBody = req.body;
+      const sellerId = req.user.id;
+      const requestFile = req.files;
 
-      for (var i = 0; i < req.files.length; i++) {
-        fileBase64.push(req.files[i].buffer.toString("base64"));
-        file.push(`data:${req.files[i].mimetype};base64,${fileBase64[i]}`);
-        const result = await cloudinaryUpload(file[i]);
-        image.push(result.secure_url);
-      }
+      const data = await productService.handleCreateProduct(
+        requestBody,
+        sellerId,
+        requestFile
+      );
 
-      //kalo image kosong masukin placholder
-      if (image.length === 0) {
-        image.push("https://pricesm.com/uploads/placeholder.png");
-      }
-      const productCreated = await productService.create({
-        userId: userTokenId,
-        name,
-        price,
-        categoryId,
-        description,
-        image,
-        status,
-      });
-      const data = await productService.getCreateData(productCreated.id);
-      socket.ioObject.emit("add-products");
       res.status(200).json({
         status: true,
         message: "Product added",

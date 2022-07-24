@@ -1,10 +1,6 @@
 const { User } = require("../models");
 
 module.exports = {
-  findAll() {
-    return User.findAll();
-  },
-
   findUser(id) {
     return User.findOne({
       where: {
@@ -18,6 +14,14 @@ module.exports = {
     return User.findOne({
       where: {
         email: email,
+      },
+    });
+  },
+
+  findByGoogleId(googleId) {
+    return User.findOne({
+      where: {
+        googleId: googleId,
       },
     });
   },
