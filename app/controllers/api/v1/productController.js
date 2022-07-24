@@ -6,16 +6,16 @@ module.exports = {
   async list(req, res) {
     try {
       const data = await productService.list();
-      socket.ioObject.emit("products", data);
+
       res.status(200).json({
         status: true,
         message: "Show all data product successfully!",
         data: data,
       });
-    } catch (err) {
+    } catch (error) {
       res.status(400).json({
         status: false,
-        message: err.message,
+        message: error.message,
       });
     }
   },
@@ -28,10 +28,10 @@ module.exports = {
         message: "Show all data product successfully!",
         data: data,
       });
-    } catch (err) {
+    } catch (error) {
       res.status(400).json({
         status: false,
-        message: err.message,
+        message: error.message,
       });
     }
   },
@@ -76,22 +76,22 @@ module.exports = {
       const requestBody = req.body;
       const sellerId = req.user.id;
       const requestFile = req.files;
-
       const data = await productService.create(
         requestBody,
         sellerId,
         requestFile
       );
+      socket.ioObject.emit("add-products");
 
       res.status(200).json({
         status: true,
         message: "Product added",
         data: data,
       });
-    } catch (err) {
+    } catch (error) {
       res.status(422).json({
         status: false,
-        message: err.message,
+        message: error.message,
       });
     }
   },
@@ -102,22 +102,23 @@ module.exports = {
       const sellerId = req.user.id;
       const requestBody = req.body;
       const requestFile = req.files;
-
       const data = await productService.update(
         productId,
         sellerId,
         requestBody,
         requestFile
       );
+      socket.ioObject.emit("update-products");
+
       res.status(200).json({
         status: true,
         message: "Product has been updated!",
         data: data,
       });
-    } catch (err) {
+    } catch (error) {
       res.status(422).json({
         status: false,
-        message: err.message,
+        message: error.message,
       });
     }
   },
@@ -125,14 +126,16 @@ module.exports = {
   async destroy(req, res) {
     try {
       await productService.delete(req.params.id);
+      socket.ioObject.emit("delete-products");
+
       res.status(200).json({
         status: true,
         message: "Product has been deleted!",
       });
-    } catch (err) {
+    } catch (error) {
       res.status(422).json({
         status: false,
-        message: err.message,
+        message: error.message,
       });
     }
   },

@@ -33,9 +33,27 @@ module.exports = {
     }
   },
 
-  async create(requestBody) {
+  async create(transactionId) {
     try {
-      return await notifRepository.create(requestBody);
+      return await notifRepository.create({
+        transactionId,
+        isReadBuyer: false,
+        isReadSeller: false,
+        message: "You have new transaction",
+      });
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async updateStatusTransaction(transactionId, status) {
+    try {
+      return await notifRepository.create({
+        transactionId,
+        isReadBuyer: false,
+        isReadSeller: false,
+        message: "Transaction has been " + status,
+      });
     } catch (err) {
       throw err;
     }

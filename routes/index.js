@@ -13,7 +13,6 @@ const wishlistRouter = require("./wishlistRouter");
 const transactionRouter = require("./transactionRouter");
 const sizeRouter = require("./sizeRouter");
 const notifRouter = require("./notifRouter");
-// const google_oauth2 = require("./google_oauth2");
 
 /* ========= Main Routes ========= */
 // definisikan router yang akan anda buat disini
