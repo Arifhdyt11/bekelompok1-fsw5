@@ -112,7 +112,7 @@ module.exports = {
 
       let user = await userRepository.findByGoogleId(sub);
       if (!user)
-        user = await userRepository.create({
+        await userRepository.create({
           email,
           name,
           googleId: sub,
@@ -120,7 +120,6 @@ module.exports = {
           image: picture,
           registeredVia: "google",
         });
-      delete user.password;
 
       const token = await this.generateToken(user);
       return token;
@@ -130,14 +129,21 @@ module.exports = {
   },
 
   async handleUpdateProfile(id, requestBody, requestFile) {
-    const { role, email, password } = requestBody;
+    const { name, province, city, address, phone, role, email, password } =
+      requestBody;
     if (role || email || password) {
       throw new Error("You can't update role, email or password");
     }
     try {
-      const updateArgs = { ...requestBody };
+      // const updateArgs = { ...requestBody };
       if (requestFile == null || requestFile == undefined) {
-        await userRepository.update(id, updateArgs);
+        await userRepository.update(id, {
+          name,
+          province,
+          city,
+          address,
+          phone,
+        });
         return await userRepository.findUser(id);
       }
       // Upload avatar to cloudinary

@@ -13,7 +13,7 @@ module.exports = {
       res.status(201).json({
         status: true,
         message: "User has been created!",
-        token: data.token,
+        token: data,
       });
     } catch (error) {
       res.status(401).json({

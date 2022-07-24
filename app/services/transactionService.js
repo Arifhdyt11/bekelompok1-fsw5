@@ -104,7 +104,7 @@ module.exports = {
 
       // stock
       let stock = dataStock.stock;
-      let newStock = 0;
+      let newStock = null;
       if (updatedStatus.status === "process") {
         newStock = stock - 1;
       } else if (updatedStatus.status === "cancel") {
