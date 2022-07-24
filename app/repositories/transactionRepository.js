@@ -8,12 +8,8 @@ const {
 } = require("../models");
 
 module.exports = {
-  findAll() {
-    return Transaction.findAll();
-  },
-
-  find(id) {
-    return Transaction.findOne({
+  async find(id) {
+    return await Transaction.findOne({
       where: {
         id: id,
       },
@@ -62,9 +58,9 @@ module.exports = {
     });
   },
 
-  findByBuyer(id) {
+  async findByBuyer(id) {
     try {
-      const data = Transaction.findAll({
+      return await Transaction.findAll({
         include: [
           {
             model: ProductSize,
@@ -111,18 +107,14 @@ module.exports = {
           },
         ],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findBySeller(id) {
+  async findBySeller(id) {
     try {
-      const data = Transaction.findAll({
+      return await Transaction.findAll({
         where: { "$productSizes.products.userAsSeller.id$": id },
         include: [
           {
@@ -168,18 +160,14 @@ module.exports = {
         ],
         attributes: ["id", "status", "priceBid", "createdAt", "updatedAt"],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findDetailByBuyer(userId, id) {
+  async findDetailByBuyer(userId, id) {
     try {
-      const data = Transaction.findOne({
+      return await Transaction.findOne({
         include: [
           {
             model: ProductSize,
@@ -229,18 +217,14 @@ module.exports = {
           id: id,
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findDetailBySeller(userId, id) {
+  async findDetailBySeller(userId, id) {
     try {
-      const data = Transaction.findAll({
+      return await Transaction.findAll({
         include: [
           {
             model: ProductSize,
@@ -299,9 +283,9 @@ module.exports = {
     }
   },
 
-  findProductByUser(userId, productsizeId) {
+  async indProductByUser(userId, productsizeId) {
     try {
-      const data = Transaction.findOne({
+      return await Transaction.findOne({
         where: {
           userId: userId,
           productsizeId: productsizeId,
@@ -317,20 +301,12 @@ module.exports = {
     }
   },
 
-  create(createArgs) {
-    return Transaction.create(createArgs);
+  async create(createArgs) {
+    return await Transaction.create(createArgs);
   },
 
-  update(id, updateArgs) {
-    return Transaction.update(updateArgs, {
-      where: {
-        id,
-      },
-    });
-  },
-
-  delete(id) {
-    return Transaction.destroy({
+  async update(id, updateArgs) {
+    return await Transaction.update(updateArgs, {
       where: {
         id,
       },

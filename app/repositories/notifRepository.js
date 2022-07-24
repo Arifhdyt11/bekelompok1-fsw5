@@ -7,13 +7,13 @@ const {
 } = require("../models");
 
 module.exports = {
-  findAll() {
-    return Notification.findAll();
+  async findAll() {
+    return await Notification.findAll();
   },
 
-  findByBuyer(id) {
+  async findByBuyer(id) {
     try {
-      const data = Notification.findAll({
+      return await Notification.findAll({
         include: [
           {
             model: Transaction,
@@ -46,18 +46,14 @@ module.exports = {
           },
         ],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findBySeller(id) {
+  async findBySeller(id) {
     try {
-      const data = Notification.findAll({
+      return await Notification.findAll({
         where: { "$transactions.productSizes.products.userId$": id },
         include: [
           {
@@ -88,57 +84,55 @@ module.exports = {
           },
         ],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  find(id) {
-    return Notification.findOne({
+  async find(id) {
+    return await Notification.findOne({
       where: {
         id: id,
       },
     });
   },
 
-  create(createArgs) {
-    return Notification.create(createArgs);
+  async create(createArgs) {
+    return await Notification.create(createArgs);
   },
 
-  update(id, updateArgs) {
-    return Notification.update(updateArgs, {
+  async update(id, updateArgs) {
+    return await Notification.update(updateArgs, {
       where: {
         id,
       },
     });
   },
 
-  updateAllBuyer() {
-    return Notification.update( 
-      { isReadBuyer: true }, 
-      { 
-        where: { 
-          isReadBuyer: false 
-        }, 
-    });
-  },
-
-  updateAllSeller() {
-    return Notification.update(
-      { isReadSeller: true }, 
-      { 
-        where: { 
-          isReadSeller: false 
+  async updateAllBuyer() {
+    return await Notification.update(
+      { isReadBuyer: true },
+      {
+        where: {
+          isReadBuyer: false,
         },
-    });
+      }
+    );
   },
 
-  delete(id) {
-    return Notification.destroy({
+  async updateAllSeller() {
+    return await Notification.update(
+      { isReadSeller: true },
+      {
+        where: {
+          isReadSeller: false,
+        },
+      }
+    );
+  },
+
+  async delete(id) {
+    return await Notification.destroy({
       where: {
         id,
       },

@@ -81,8 +81,9 @@ module.exports = {
       if (!name || !price || !categoryId) {
         res.status(400).json({
           status: false,
-          message: "Name are required!",
+          message: "Name, price and categoryId are required!",
         });
+        return;
       }
       next();
     } catch (error) {
