@@ -1,57 +1,16 @@
 require("dotenv").config();
 const userService = require("../../../../services/userService");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = process.env;
-const { promisify } = require("util");
-const cloudinary = require("../../../../../config/cloudinary");
-const cloudinaryUpload = promisify(cloudinary.uploader.upload);
-const cloudinaryDestroy = promisify(cloudinary.uploader.destroy);
-
-function verifyToken(token) {
-  try {
-    return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
-    throw new Error("Token expired");
-  }
-}
 
 module.exports = {
   async register(req, res) {
     try {
-      let { role, name, email, password } = req.body;
-      // password required
-      if (!password) {
-        res.status(400).json({
-          status: false,
-          message: "Password is required",
-        });
-        return;
-      }
-
-      // password must be at least 8 characters
-      if (password.length < 8) {
-        res.status(400).json({
-          status: false,
-          message: "Password must be at least 8 characters",
-        });
-        return;
-      }
-
-      const newUser = await userService.create({
-        role: role.toUpperCase(),
-        name,
-        email,
-        password,
-        registeredVia: "auth-form",
-      });
-
-      const postedData = await userService.getById(newUser.id);
+      const requestBody = req.body;
+      const registeredUser = await userService.handleRegister(requestBody);
 
       res.status(201).json({
         status: true,
         message: "User has been created!",
-        data: postedData,
+        data: registeredUser,
       });
     } catch (err) {
       res.status(422).json({
@@ -63,35 +22,9 @@ module.exports = {
 
   async login(req, res) {
     try {
-      const user = await userService.getByEmail(req.body.email);
-      if (user === null) {
-        res.status(400).json({
-          status: false,
-          message: "Email is not registered!",
-        });
-        return;
-      }
+      const requestBody = req.body;
+      const token = await userService.handleLogin(requestBody);
 
-      const isMatch = await bcrypt.compare(req.body.password, user.password);
-      if (!isMatch) {
-        res.status(400).json({
-          status: false,
-          message: "Password is incorrect!",
-        });
-        return;
-      }
-
-      const token = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          role: user.role,
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: process.env.JWT_EXPIRES_TIME,
-        }
-      );
       res.status(200).json({
         status: true,
         message: "Login successfully!",
@@ -109,6 +42,7 @@ module.exports = {
     try {
       const userTokenId = req.user.id;
       const data = await userService.getById(userTokenId);
+
       res.status(200).json({
         status: true,
         message: "Successfully find data user",
@@ -124,54 +58,26 @@ module.exports = {
 
   async updateProfile(req, res) {
     try {
-      console.log("file", req.file);
-      const bearerToken = req.headers.authorization;
-      const token = bearerToken.split("Bearer ")[1];
-      const tokenPayload = verifyToken(token);
-      const user = JSON.parse(
-        JSON.stringify(await userService.getByEmail(tokenPayload.email))
+      const userTokenId = req.user.id;
+      const requestBody = req.body;
+      const requestFile = req.file;
+
+      const userUpdated = await userService.handleUpdateProfile(
+        userTokenId,
+        requestBody,
+        requestFile
       );
-      delete user.password;
-
-      if (req.file === undefined || req.file === null) {
-        user.name = req.body.name;
-        user.email = req.body.email;
-        user.city = req.body.city;
-        user.province = req.body.province;
-        user.address = req.body.address;
-        user.phone = req.body.phone;
-      } else {
-        //hapus foto lama
-        // if (user.image !== null) {
-        //   const oldImage = user.image.substring(65, 85);
-        //   await cloudinaryDestroy(oldImage);
-        // }
-        console.log("user before : ", user.name);
-        // Upload foto baru
-        const fileBase64 = req.file.buffer.toString("base64");
-        const file = `data:${req.file.mimetype};base64,${fileBase64}`;
-        const result = await cloudinaryUpload(file);
-        const url = result.secure_url;
-
-        // Masukan ke object Args
-        user.name = req.body.name;
-        user.email = req.body.email;
-        user.province = req.body.province;
-        user.city = req.body.city;
-        user.address = req.body.address;
-        user.phone = req.body.phone;
-        user.image = url;
-      }
-      await userService.update(user.id, user);
-      delete user.password;
 
       res.status(200).json({
         status: true,
         message: "User Updated",
-        data: user,
+        data: userUpdated,
       });
     } catch (err) {
-      res.status(422).send(err.message);
+      res.status(422).send({
+        status: false,
+        message: err.message,
+      });
     }
   },
 
@@ -179,34 +85,13 @@ module.exports = {
     try {
       const userTokenEmail = req.user.email;
       const userTokenId = req.user.id;
-      const user = await userService.getByEmail(userTokenEmail);
+      const requestBody = req.body;
 
-      const isMatch = await bcrypt.compare(req.body.oldPassword, user.password);
-      if (!isMatch) {
-        res.status(400).json({
-          status: false,
-          message: "Password is incorrect!",
-        });
-        return;
-      }
-      // password required
-      if (req.body.password === "") {
-        res.status(400).json({
-          status: false,
-          message: "New password is required!",
-        });
-        return;
-      }
-      // password must be at least 8 characters
-      if (req.body.newPassword.length < 8) {
-        res.status(400).json({
-          status: false,
-          message: "Password must be at least 8 characters!",
-        });
-        return;
-      }
-
-      await userService.updateCurrentUser(userTokenId, req.body);
+      await userService.handleChangePassword(
+        userTokenEmail,
+        userTokenId,
+        requestBody
+      );
 
       res.status(200).json({
         status: true,

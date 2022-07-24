@@ -1,0 +1,539 @@
+openapi: 3.0.0
+info:
+  title: Shoesnarian API V1
+  version: 1.0.0
+servers:
+  - url: http://shoesnarian.herokuapp.com/api/v1
+  - url: http://localhost:3000/api/v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    noauthAuth:
+      type: http
+      scheme: noauth
+tags:
+  - name: User Auth
+  - name: CRUD Category
+  - name: CRUD Product
+  - name: CRUD Size
+  - name: CRUD Wishlist
+  - name: CRUD Transaction
+  - name: CRUD Notification
+paths:
+  /register:
+    post:
+      tags:
+        - User Auth
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role: BUYER
+                name: Akun Baru
+                email: akunbaru@binar.com
+                password: password
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /login:
+    post:
+      tags:
+        - User Auth
+      summary: Login Buyer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: buyer1@binar.com
+                password: password
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /profile:
+    get:
+      tags:
+        - User Auth
+      summary: Profile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - User Auth
+      summary: Update Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: TEST SELLER
+                province: Jawa Timur
+                city: Surabaya
+                address: jl. Pahlawan no.1
+                phone: "081234567890"
+                image: avatar.jpg
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /change-password:
+    put:
+      tags:
+        - User Auth
+      summary: Change Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                oldPassword: password
+                password: passwordBaru
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /category:
+    get:
+      tags:
+        - CRUD Category
+      summary: Get All Data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /category/1:
+    get:
+      tags:
+        - CRUD Category
+      summary: Get By Id
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /product:
+    get:
+      tags:
+        - CRUD Product
+      summary: Get All Data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - CRUD Product
+      summary: Create Data
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                categoryId:
+                  type: integer
+                  example: "2"
+                name:
+                  type: string
+                  example: Aero Street v2
+                price:
+                  type: integer
+                  example: "119000"
+                description:
+                  type: string
+                  example: Sepatu bagus
+                image:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /product/1:
+    get:
+      tags:
+        - CRUD Product
+      summary: Get by ID
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - CRUD Product
+      summary: Delete Product
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - CRUD Product
+      summary: Update Product
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Aero Street v1  Updated
+                price:
+                  type: integer
+                  example: "249000"
+                categoryId:
+                  type: integer
+                  example: "1"
+                description:
+                  type: string
+                  example: Sepatu bagus updated
+                oldImage:
+                  type: string
+                  example: tp2cktxho8jqowfieymw.png
+                image:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /product/seller:
+    get:
+      tags:
+        - CRUD Product
+      summary: Get All By Seller
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /product/seller/1:
+    get:
+      tags:
+        - CRUD Product
+      summary: Get By ID Seller
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /size:
+    get:
+      tags:
+        - CRUD Size
+      summary: Get All Data
+      security:
+        - noauthAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - CRUD Size
+      summary: Create Data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                productId: "1"
+                sizeId: "1"
+                stock: 10
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /size/1:
+    put:
+      tags:
+        - CRUD Size
+      summary: Update Data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                productId: "1"
+                sizeId: "2"
+                stock: "15"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - CRUD Size
+      summary: Delete Data
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /wishlist/buyer:
+    get:
+      tags:
+        - CRUD Wishlist
+      summary: Get Wishlist Buyer by BuyerId
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /wishlist/seller/:
+    get:
+      tags:
+        - CRUD Wishlist
+      summary: Get Wishlist Seller by SellerId
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /wishlist:
+    post:
+      tags:
+        - CRUD Wishlist
+      summary: Create Wishlist by Buyer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                productId: "1"
+                userId: "4"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /wishlist/1:
+    delete:
+      tags:
+        - CRUD Wishlist
+      summary: Delete Wishlist by Buyer
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /transaction/buyer:
+    get:
+      tags:
+        - CRUD Transaction
+      summary: Get All Transaction by Buyer Id
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /transaction/seller:
+    get:
+      tags:
+        - CRUD Transaction
+      summary: Get All Transaction by Seller Id
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /transaction/buyer/1:
+    get:
+      tags:
+        - CRUD Transaction
+      summary: Get Detail Transaction by Buyer Id
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /transaction/seller/1:
+    get:
+      tags:
+        - CRUD Transaction
+      summary: Get Detail Transaction by Seller Id
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /transaction:
+    post:
+      tags:
+        - CRUD Transaction
+      summary: Create Transaction by Buyer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                productsizeId: "1"
+                priceBid: "100000"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /transaction/1:
+    put:
+      tags:
+        - CRUD Transaction
+      summary: Update Transaction by Seller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: success
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - CRUD Transaction
+      summary: Delete Transaction by Seller
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /notif/buyer:
+    get:
+      tags:
+        - CRUD Notification
+      summary: Get All by Buyer
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - CRUD Notification
+      summary: Update isRead Buyer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                isReadBuyer: true
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /notif/seller:
+    get:
+      tags:
+        - CRUD Notification
+      summary: Get All by Seller
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - CRUD Notification
+      summary: Update isRead Seller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                isReadSeller: true
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}

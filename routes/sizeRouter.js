@@ -5,12 +5,12 @@ const sizeMiddleware = require("../middlewares/sizeMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
 
 router.get("/", sizeController.list);
-router.get(
-  "/",
-  userMiddleware.authorize,
-  userMiddleware.isSeller,
-  sizeController.list
-);
+// router.get(
+//   "/",
+//   userMiddleware.authorize,
+//   userMiddleware.isSeller,
+//   sizeController.list
+// );
 router.post(
   "/",
   userMiddleware.authorize,

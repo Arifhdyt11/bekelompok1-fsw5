@@ -4,6 +4,7 @@ const productController = require("../app/controllers/api/v1/productController")
 const uploadOnMemory = require("../config/uploadOnMemory");
 const productMiddleware = require("../middlewares/productMiddleware");
 const userMiddleware = require("../middlewares/userMiddleware");
+const validator = require("../helpers/validator");
 
 router.get("/", productController.list);
 router.get(
@@ -23,9 +24,9 @@ router.post(
   "/",
   userMiddleware.authorize,
   userMiddleware.isSeller,
-  userMiddleware.validateUserIdentity,
+  validator.userIdentity,
   uploadOnMemory.array("image", 4),
-  productMiddleware.postValidate,
+  validator.requestProduct,
   productController.create
 );
 
