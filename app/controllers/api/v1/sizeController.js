@@ -26,7 +26,7 @@ module.exports = {
         stock: req.body.stock,
       });
       const dataCreated = await sizeService.get(data.id);
-
+      socket.ioObject.emit("create-sizes");
       res.status(201).json({
         status: true,
         message: "Size has been created!",
@@ -68,7 +68,7 @@ module.exports = {
       await sizeService.update(req.params.id, req.body);
 
       const data = await sizeService.get(req.params.id);
-
+      socket.ioObject.emit("update-sizes");
       res.status(200).json({
         status: true,
         message: "Size has been updated!",
@@ -85,6 +85,7 @@ module.exports = {
   async destroy(req, res) {
     try {
       await sizeService.delete(req.params.id);
+      socket.ioObject.emit("delete-sizes");
       res.status(200).json({
         status: true,
         message: "Size has been deleted!",
