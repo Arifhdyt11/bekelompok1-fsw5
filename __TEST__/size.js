@@ -6,47 +6,46 @@ const { response } = require("../server");
 
 let bearerToken;
 
-describe("/api/v1/wishlist/seller/", () => {
+describe("/api/v1/size", () => {
   beforeAll(async () => {
+    //buyer
     loginUser = await request(app).post("/api/v1/login").send({
       email: "seller1@binar.com",
       password: "password",
     });
     bearerToken = loginUser.body.accessToken;
     console.log(bearerToken);
-    // console.log(loginUser);
     decoded = jwt_decode(bearerToken);
-
     console.log(decoded);
-    // const { id } = login.body.accessToken;
-    // console.log(id);
   });
 
-  //Get ALL Data wishlist
-  it("Get wishlist with status code 200", async () =>
-    request(app)
-      .get("/api/v1/wishlist")
-      .set("Accept", "application/json")
-      .set("Authorization", `Bearer ${bearerToken}`)
-      .then((response) => {
-        expect(response.statusCode).toBe(200);
-        console.log(response.body);
-        expect(response.body).toEqual({
-          status: expect.any(Boolean),
-          message: expect.any(String),
-          data: expect.any(Array),
+  describe("CREATE /api/v1/size", () => {
+    it("should return 201 status code and create data ", async () => {
+      const res = await request(app)
+        .post("/api/v1/size")
+        .set("Authorization", `Bearer ${bearerToken}`)
+        .send({
+          productId: "1",
+          sizeId: "3",
+          stock: "3",
         });
-      }));
+      expect(res.statusCode).toBe(201);
+      expect(res.body.status).toBe(true);
+      expect(res.body.message).toBe("Size has been created!");
+      expect(res.body.data).toBeDefined();
+    });
+  });
+});
 
-  //Get wishlist by SellerId
-  it("Get wishlist with status code 200", async () =>
+describe("/api/v1/size/", () => {
+  //Get ALL Size
+  it("Get Size with status code 200", async () =>
     request(app)
-      .get("/api/v1/wishlist/seller/")
+      .get("/api/v1/size")
       .set("Accept", "application/json")
-      .set("Authorization", `Bearer ${bearerToken}`)
       .then((response) => {
         expect(response.statusCode).toBe(200);
-        console.log(response.body);
+        // console.log(response.body);
         expect(response.body).toEqual({
           status: expect.any(Boolean),
           message: expect.any(String),
