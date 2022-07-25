@@ -27,7 +27,7 @@ module.exports = {
         stock: req.body.stock,
       });
       const dataCreated = await sizeService.get(data.id);
-      socket.ioObject.emit("create-sizes");
+      socket.ioObject.emit("add-sizes");
       res.status(201).json({
         status: true,
         message: "Size has been created!",
