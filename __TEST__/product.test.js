@@ -26,21 +26,23 @@ describe("/api/v1/product", () => {
   });
 
   //Create Product
-  it("Create Product should return 201 created ", async () => {
+  it("Create Product should return 200 created ", async () => {
+    const image = `${__dirname}./image/sepatuputih.jpg`;
     return request(app)
       .post("/api/v1/product")
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${bearerToken}`)
-      .send({
-        categoryId: 1,
-        name: "canvass",
-        price: 5000,
+      .field({
+        categoryId: "2",
+        name: "sepatu lapangan",
+        price: "200000",
         description: "sonice",
-        image: "canvass.png",
+        status: "published",
+        image: image,
       })
-
+      
       .then((response) => {
-        expect(response.status).toBe(201);
+        expect(response.status).toBe(200);
         expect(response.body.status).toBe(true);
         expect(response.body.message).toBe("Product added");
         expect(response.body.data).toBeDefined();
@@ -54,7 +56,7 @@ describe("/api/v1/product", () => {
       .set("Accept", "application/json")
       .then((response) => {
         expect(response.statusCode).toBe(200);
-        console.log(response.body);
+        // console.log(response.body);
         expect(response.body).toEqual({
           status: expect.any(Boolean),
           message: expect.any(String),
@@ -64,14 +66,17 @@ describe("/api/v1/product", () => {
 
   //Update Product
   it("Update product by id status code 200", async () => {
+    const image = `${__dirname}./image/sepatuputih.jpg`;
     request(app)
-      .put(`/api/v1/product/2`)
+      .put(`/api/v1/product/17`)
       .set("Authorization", `Bearer ${bearerToken}`)
       .field({
-        name: "sepatu test",
+        name: "sepatu ",
         price: "200000",
-        categoryId: "convers",
+        categoryId: "4",
         description: "Hitam",
+        status: "published",
+        image: image,
       })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -84,6 +89,6 @@ describe("/api/v1/product", () => {
   });
 
   afterAll(async () => {
-    await Product.destroy({ where: { name: "sepatu test" } });
+    await Product.destroy({ where: { name: "sepatu lapangan" } });
   });
 });
