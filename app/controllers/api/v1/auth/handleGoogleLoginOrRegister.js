@@ -1,45 +1,25 @@
 const axios = require("axios");
-const jwt = require("jsonwebtoken");
-const { User } = require("../../../../models");
-const { JWT_SECRET } = process.env;
+const userService = require("../../../../services/userService");
 
-function createToken(user) {
-  const payload = {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-  };
+module.exports = {
+  async handleGoogleLoginOrRegister(req, res) {
+    try {
+      const { access_token } = req.body;
+      const response = await axios.get(
+        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+      );
+      const data = await userService.handleGoogle(response.data);
 
-  return jwt.sign(payload, JWT_SECRET);
-}
-
-async function handleGoogleLoginOrRegister(req, res) {
-  const { access_token } = req.body;
-
-  try {
-    const response = await axios.get(
-      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
-    );
-    const { sub, email, name, picture } = response.data;
-
-    let user = await User.findOne({ where: { googleId: sub } });
-    if (!user)
-      user = await User.create({
-        email,
-        name,
-        googleId: sub,
-        role: "BUYER",
-        image: picture,
-        registeredVia: "google",
+      res.status(201).json({
+        status: true,
+        message: "User has been created!",
+        token: data,
       });
-    delete user.password;
-
-    const token = createToken(user);
-    res.status(201).json({ token });
-  } catch (err) {
-    console.log(err.message);
-    res.status(401).json({ error: { name: err.name, message: err.message } });
-  }
-}
-
-module.exports = handleGoogleLoginOrRegister;
+    } catch (error) {
+      res.status(401).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  },
+};

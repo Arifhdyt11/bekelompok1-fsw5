@@ -10,8 +10,12 @@ module.exports = {
   },
 
   async get(id) {
+    const category = await categoryRepository.find(id);
+    if (category == null) {
+      throw new Error("Category not found");
+    }
     try {
-      return await categoryRepository.find(id);
+      return category;
     } catch (err) {
       throw err;
     }

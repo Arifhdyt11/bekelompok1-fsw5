@@ -3,21 +3,21 @@ const router = express.Router();
 const wishlistController = require("../app/controllers/api/v1/wishlistController");
 const userMiddleware = require("../middlewares/userMiddleware");
 
-router.get(
-  "/", 
-  userMiddleware.authorize, 
-  wishlistController.list
-);
+// router.get(
+//   "/",
+//   userMiddleware.authorize,
+//   wishlistController.list
+// );
 router.get(
   "/buyer",
-  userMiddleware.authorize, 
-  userMiddleware.isBuyyer, 
+  userMiddleware.authorize,
+  userMiddleware.isBuyyer,
   wishlistController.showAllByBuyer
 );
 router.get(
-  "/seller", 
-  userMiddleware.authorize, 
-  userMiddleware.isSeller, 
+  "/seller",
+  userMiddleware.authorize,
+  userMiddleware.isSeller,
   wishlistController.showAllBySeller
 );
 router.post(

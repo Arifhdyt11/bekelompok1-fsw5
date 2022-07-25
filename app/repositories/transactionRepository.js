@@ -8,63 +8,63 @@ const {
 } = require("../models");
 
 module.exports = {
-  findAll() {
-    return Transaction.findAll();
-  },
-
-  find(id) {
-    return Transaction.findOne({
-      where: {
-        id: id,
-      },
-      include: [
-        {
-          model: ProductSize,
-          as: "productSizes",
-          include: [
-            {
-              model: Product,
-              as: "products",
-              include: [
-                {
-                  model: User,
-                  as: "userAsSeller",
-                  attributes: [
-                    "id",
-                    "role",
-                    "name",
-                    "city",
-                    "address",
-                    "phone",
-                    "image",
-                  ],
-                },
-                {
-                  model: Category,
-                  as: "categories",
-                  attributes: ["name"],
-                },
-              ],
-            },
-            {
-              model: Size,
-              as: "sizes",
-              attributes: ["size"],
-            },
-          ],
-        },
-        {
-          model: User,
-          as: "userAsBuyer",
-          attributes: ["id", "role", "name"],
-        },
-      ],
-    });
-  },
-
-  findByBuyer(id) {
+  async find(id) {
     try {
-      const data = Transaction.findAll({
+      return await Transaction.findOne({
+        where: {
+          id: id,
+        },
+        include: [
+          {
+            model: ProductSize,
+            as: "productSizes",
+            include: [
+              {
+                model: Product,
+                as: "products",
+                include: [
+                  {
+                    model: User,
+                    as: "userAsSeller",
+                    attributes: [
+                      "id",
+                      "role",
+                      "name",
+                      "city",
+                      "address",
+                      "phone",
+                      "image",
+                    ],
+                  },
+                  {
+                    model: Category,
+                    as: "categories",
+                    attributes: ["name"],
+                  },
+                ],
+              },
+              {
+                model: Size,
+                as: "sizes",
+                attributes: ["size"],
+              },
+            ],
+          },
+          {
+            model: User,
+            as: "userAsBuyer",
+            attributes: ["id", "role", "name"],
+          },
+        ],
+      });
+    } catch (error) {
+      return error;
+    }
+  },
+
+  async findByBuyer(id) {
+    try {
+      return await Transaction.findAll({
         include: [
           {
             model: ProductSize,
@@ -111,18 +111,14 @@ module.exports = {
           },
         ],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findBySeller(id) {
+  async findBySeller(id) {
     try {
-      const data = Transaction.findAll({
+      return await Transaction.findAll({
         where: { "$productSizes.products.userAsSeller.id$": id },
         include: [
           {
@@ -168,18 +164,14 @@ module.exports = {
         ],
         attributes: ["id", "status", "priceBid", "createdAt", "updatedAt"],
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findDetailByBuyer(userId, id) {
+  async findDetailByBuyer(userId, id) {
     try {
-      const data = Transaction.findOne({
+      return await Transaction.findOne({
         include: [
           {
             model: ProductSize,
@@ -229,18 +221,14 @@ module.exports = {
           id: id,
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findDetailBySeller(userId, id) {
+  async findDetailBySeller(userId, id) {
     try {
-      const data = Transaction.findAll({
+      return await Transaction.findAll({
         include: [
           {
             model: ProductSize,
@@ -290,50 +278,41 @@ module.exports = {
           id: id,
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  findProductByUser(userId, productsizeId) {
+  async findProductByUser(userId, productsizeId) {
     try {
-      const data = Transaction.findOne({
+      return await Transaction.findOne({
         where: {
           userId: userId,
           productsizeId: productsizeId,
           status: "pending",
         },
       });
-
-      if (data) {
-        return data;
-      }
     } catch (error) {
       return error;
     }
   },
 
-  create(createArgs) {
-    return Transaction.create(createArgs);
+  async create(createArgs) {
+    try {
+      return await Transaction.create(createArgs);
+    } catch (error) {
+      return error;
+    }
   },
 
-  update(id, updateArgs) {
-    return Transaction.update(updateArgs, {
+  async update(id, updateArgs) {
+    try {
+      return await Transaction.update(updateArgs, {
       where: {
         id,
       },
     });
-  },
-
-  delete(id) {
-    return Transaction.destroy({
-      where: {
-        id,
-      },
-    });
-  },
+  } catch (error) {
+    return error;
+  }},
 };

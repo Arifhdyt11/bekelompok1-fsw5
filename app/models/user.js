@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
           if (!user.image) {
             // default avatar
             let name = user.name.replaceAll(" ", "+");
-            user.image = `https://ui-avatars.com/api/?name=${name}&background=4e73df&color=ffffff&size=100`;
+            user.image = `https://ui-avatars.com/api/?name=${name}&background=023e7d&color=ffffff&size=100`;
           }
         },
         beforeUpdate: async (user) => {

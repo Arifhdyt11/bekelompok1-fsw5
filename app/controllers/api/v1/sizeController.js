@@ -1,4 +1,5 @@
 const sizeService = require("../../../services/sizeService");
+const socket = require("../../../../bin/www"); //import socket  from www
 
 module.exports = {
   async list(req, res) {
@@ -25,12 +26,8 @@ module.exports = {
         sizeId: req.body.sizeId,
         stock: req.body.stock,
       });
-
-      // data parse to jsoon
-      // const dataJson = JSON.parse(JSON.stringify(data));
-
       const dataCreated = await sizeService.get(data.id);
-
+      socket.ioObject.emit("add-sizes");
       res.status(201).json({
         status: true,
         message: "Size has been created!",
@@ -72,7 +69,7 @@ module.exports = {
       await sizeService.update(req.params.id, req.body);
 
       const data = await sizeService.get(req.params.id);
-
+      socket.ioObject.emit("update-sizes");
       res.status(200).json({
         status: true,
         message: "Size has been updated!",
@@ -89,6 +86,7 @@ module.exports = {
   async destroy(req, res) {
     try {
       await sizeService.delete(req.params.id);
+      socket.ioObject.emit("delete-sizes");
       res.status(200).json({
         status: true,
         message: "Size has been deleted!",

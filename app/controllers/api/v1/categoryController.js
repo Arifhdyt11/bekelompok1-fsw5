@@ -17,37 +17,30 @@ module.exports = {
     }
   },
 
-  async create(req, res) {
-    try {
-      const data = await categoryService.create(req.body);
-      res.status(201).json({
-        status: true,
-        message: "Category has been created!",
-        data: data,
-      });
-    } catch (err) {
-      res.status(422).json({
-        status: false,
-        message: err.message,
-      });
-    }
-  },
+  // async create(req, res) {
+  //   try {
+  //     const data = await categoryService.create(req.body);
+  //     res.status(201).json({
+  //       status: true,
+  //       message: "Category has been created!",
+  //       data: data,
+  //     });
+  //   } catch (err) {
+  //     res.status(422).json({
+  //       status: false,
+  //       message: err.message,
+  //     });
+  //   }
+  // },
 
   async show(req, res) {
     try {
       const data = await categoryService.get(req.params.id);
-      if (data !== null) {
-        res.status(200).json({
-          status: true,
-          message: "Successfully find data",
-          data: data,
-        });
-      } else {
-        res.status(404).json({
-          status: false,
-          message: "Data not found",
-        });
-      }
+      res.status(200).json({
+        status: true,
+        message: "Successfully find data",
+        data: data,
+      });
     } catch (error) {
       res.status(422).json({
         status: false,
@@ -56,37 +49,37 @@ module.exports = {
     }
   },
 
-  async update(req, res) {
-    try {
-      await categoryService.update(req.params.id, req.body);
+  // async update(req, res) {
+  //   try {
+  //     await categoryService.update(req.params.id, req.body);
 
-      const data = await categoryService.get(req.params.id);
+  //     const data = await categoryService.get(req.params.id);
 
-      res.status(200).json({
-        status: true,
-        message: "Category has been updated!",
-        data: data,
-      });
-    } catch (err) {
-      res.status(422).json({
-        status: false,
-        message: err.message,
-      });
-    }
-  },
+  //     res.status(200).json({
+  //       status: true,
+  //       message: "Category has been updated!",
+  //       data: data,
+  //     });
+  //   } catch (err) {
+  //     res.status(422).json({
+  //       status: false,
+  //       message: err.message,
+  //     });
+  //   }
+  // },
 
-  async destroy(req, res) {
-    try {
-      await categoryService.delete(req.params.id);
-      res.status(200).json({
-        status: true,
-        message: "Category has been deleted!",
-      });
-    } catch (err) {
-      res.status(422).json({
-        status: false,
-        message: err.message,
-      });
-    }
-  },
+  // async destroy(req, res) {
+  //   try {
+  //     await categoryService.delete(req.params.id);
+  //     res.status(200).json({
+  //       status: true,
+  //       message: "Category has been deleted!",
+  //     });
+  //   } catch (err) {
+  //     res.status(422).json({
+  //       status: false,
+  //       message: err.message,
+  //     });
+  //   }
+  // },
 };

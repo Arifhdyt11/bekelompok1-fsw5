@@ -1,45 +1,73 @@
 const { User } = require("../models");
 
 module.exports = {
-  findAll() {
-    return User.findAll();
+  async findUser(id) {
+    try {
+      return await User.findOne({
+        where: {
+          id: id,
+        },
+        attributes: { exclude: ["password", "createdAt", "updatedAt"] },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
-  findUser(id) {
-    return User.findOne({
-      where: {
-        id: id,
-      },
-      attributes: { exclude: ["password", "createdAt", "updatedAt"] },
-    });
+  async findByEmail(email) {
+    try {
+      return await User.findOne({
+        where: {
+          email: email,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
-  findByEmail(email) {
-    return User.findOne({
-      where: {
-        email: email,
-      },
-    });
+  async findByGoogleId(googleId) {
+    try {
+      return await User.findOne({
+        where: {
+          googleId: googleId,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
-  create(createArgs) {
-    return User.create(createArgs);
+  async create(createArgs) {
+    try {
+      return await User.create(createArgs);
+    } catch (error) {
+      return error;
+    }
   },
 
-  update(id, updateArgs) {
-    return User.update(updateArgs, {
-      where: {
-        id,
-      },
-      individualHooks: true,
-    });
+  async update(id, updateArgs) {
+    try {
+      return await User.update(updateArgs, {
+        where: {
+          id,
+        },
+        individualHooks: true,
+      });
+    } catch (error) {
+      return error;
+    }
   },
 
-  delete(email) {
-    return User.destroy({
-      where: {
-        email,
-      },
-    });
+  async delete(email) {
+    try {
+      return await User.destroy({
+        where: {
+          email,
+        },
+      });
+    } catch (error) {
+      return error;
+    }
   },
 };
