@@ -1,4 +1,5 @@
 const sizeService = require("../../../services/sizeService");
+const socket = require("../../../../bin/www"); //import socket  from www
 
 module.exports = {
   async list(req, res) {
